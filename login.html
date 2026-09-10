@@ -6,30 +6,79 @@
   <title>Login - MarketSale</title>
   <link rel="icon" href="logo.png">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#0a0a0a;color:white;font-family:Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-   .login-box{background:#151515;padding:25px;border-radius:15px;border:1px solid #333;width:100%;max-width:400px;}
-   .logo{text-align:center;margin-bottom:20px;}
-   .logo img{width:60px;height:60px;border-radius:15px;margin-bottom:10px;}
-   .logo h1{color:#00ff88;font-size:22px;}
-   .form-group{margin-bottom:15px;}
-    label{display:block;margin-bottom:6px;color:#aaa;font-size:12px;}
-    input{width:100%;padding:12px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:14px;}
-    input:focus{outline:none;border-color:#00ff88;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    body{
+      background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 50%,#0a0a0a 100%);
+      color:white;display:flex;align-items:center;justify-content:center;
+      min-height:100vh;padding:20px;overflow:hidden;
+    }
+   .bg-blob{position:absolute;width:400px;height:400px;background:radial-gradient(circle,#00ff88 0%,transparent 70%);opacity:0.1;filter:blur(80px);z-index:0;}
+   .blob1{top:-100px;left:-100px;}
+   .blob2{bottom:-100px;right:-100px;background:radial-gradient(circle,#0088ff 0%,transparent 70%);}
+
+   .login-box{
+      background:rgba(20,20,20,0.6);backdrop-filter:blur(20px);
+      padding:30px;border-radius:20px;border:1px solid rgba(0,255,136,0.2);
+      width:100%;max-width:420px;position:relative;z-index:1;
+      box-shadow:0 0 40px rgba(0,255,136,0.1);
+      animation:fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+   .logo{text-align:center;margin-bottom:25px;}
+   .logo img{width:70px;height:70px;border-radius:20px;margin-bottom:12px;border:2px solid #00ff88;box-shadow:0 0 20px rgba(0,255,136,0.3);}
+   .logo h1{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:24px;font-weight:800;}
+
+   .form-group{margin-bottom:18px;}
+    label{display:block;margin-bottom:8px;color:#aaa;font-size:12px;font-weight:600;letter-spacing:0.5px;}
+    input{
+      width:100%;padding:14px;background:rgba(30,30,30,0.8);border:1px solid #333;
+      border-radius:12px;color:white;font-size:14px;transition:all 0.3s;
+    }
+    input:focus{outline:none;border-color:#00ff88;box-shadow:0 0 15px rgba(0,255,136,0.2);background:rgba(40,40,40,0.8);}
+
    .password-box{position:relative;}
-   .show-pass{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#00ff88;font-size:11px;cursor:pointer;}
-   .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;margin-top:10px;}
-   .btn:hover{background:#00cc6a;}
-   .btn-secondary{background:#333;color:white;margin-top:8px;}
-   .btn-secondary:hover{background:#444;}
-   .link{text-align:center;margin-top:15px;font-size:12px;color:#aaa;}
-   .link a{color:#00ff88;text-decoration:none;font-weight:bold;cursor:pointer;}
-   .error{background:#2a0000;color:#ff4444;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;border:1px solid #ff4444;}
-   .success{background:#002a00;color:#00ff88;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;border:1px solid #00ff88;}
+   .show-pass{
+      position:absolute;right:12px;top:50%;transform:translateY(-50%);
+      background:rgba(0,255,136,0.1);border:1px solid #00ff88;color:#00ff88;
+      font-size:10px;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:bold;
+    }
+   .show-pass:hover{background:#00ff88;color:#000;}
+
+   .btn{
+      background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;
+      padding:14px;border-radius:12px;border:none;font-weight:800;width:100%;
+      font-size:15px;cursor:pointer;margin-top:12px;transition:all 0.3s;
+      box-shadow:0 4px 15px rgba(0,255,136,0.3);
+    }
+   .btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(0,255,136,0.4);}
+   .btn-secondary{
+      background:rgba(50,50,50,0.8);color:white;border:1px solid #444;
+      box-shadow:none;
+    }
+   .btn-secondary:hover{background:rgba(70,70,70,0.8);transform:translateY(-2px);}
+
+   .link{text-align:center;margin-top:18px;font-size:13px;color:#888;}
+   .link a{color:#00ff88;text-decoration:none;font-weight:700;cursor:pointer;transition:0.3s;}
+   .link a:hover{text-shadow:0 0 10px #00ff88;}
+
+   .error{
+      background:rgba(255,68,68,0.1);color:#ff4444;padding:12px;border-radius:12px;
+      margin-bottom:18px;font-size:13px;text-align:center;display:none;
+      border:1px solid rgba(255,68,68,0.3);backdrop-filter:blur(10px);
+    }
+   .success{
+      background:rgba(0,255,136,0.1);color:#00ff88;padding:12px;border-radius:12px;
+      margin-bottom:18px;font-size:13px;text-align:center;display:none;
+      border:1px solid rgba(0,255,136,0.3);backdrop-filter:blur(10px);
+    }
    .hidden{display:none;}
   </style>
 </head>
 <body>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+
 <div class="login-box">
   <div class="logo">
     <img src="logo.png" alt="Logo">
@@ -42,40 +91,40 @@
   <!-- LOGIN FORM -->
   <form id="loginForm">
     <div class="form-group">
-      <label>Email *</label>
-      <input type="email" id="email" placeholder="your@email.com" required>
+      <label>EMAIL</label>
+      <input type="email" id="email" placeholder="you@email.com" required>
     </div>
     <div class="form-group">
-      <label>Password *</label>
+      <label>PASSWORD</label>
       <div class="password-box">
         <input type="password" id="password" placeholder="Enter password" required>
-        <button type="button" class="show-pass" onclick="togglePass('password')">Show</button>
+        <button type="button" class="show-pass" onclick="togglePass('password')">SHOW</button>
       </div>
     </div>
-    <button class="btn">Login</button>
+    <button class="btn">LOGIN</button>
     <div class="link">
       <a onclick="showForgot()">Forgot Password?</a>
     </div>
     <div class="link">
-      No account? <a href="signup.html">Sign Up</a>
+      No account? <a href="signup.html">Create Account</a>
     </div>
   </form>
 
   <!-- FORGOT PASSWORD FORM -->
   <form id="forgotForm" class="hidden">
     <div class="form-group">
-      <label>Email *</label>
+      <label>EMAIL</label>
       <input type="email" id="forgotEmail" placeholder="Enter your email" required>
     </div>
     <div class="form-group">
-      <label>New Password *</label>
+      <label>NEW PASSWORD</label>
       <div class="password-box">
         <input type="password" id="newPassword" placeholder="Min 6 characters" required minlength="6">
-        <button type="button" class="show-pass" onclick="togglePass('newPassword')">Show</button>
+        <button type="button" class="show-pass" onclick="togglePass('newPassword')">SHOW</button>
       </div>
     </div>
-    <button class="btn">Reset Password</button>
-    <button type="button" class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
+    <button class="btn">RESET PASSWORD</button>
+    <button type="button" class="btn btn-secondary" onclick="showLogin()">BACK TO LOGIN</button>
   </form>
 </div>
 
@@ -85,10 +134,10 @@ function togglePass(id){
   let btn = pass.nextElementSibling;
   if(pass.type === "password"){
     pass.type = "text";
-    btn.innerText = "Hide";
+    btn.innerText = "HIDE";
   } else {
     pass.type = "password";
-    btn.innerText = "Show";
+    btn.innerText = "SHOW";
   }
 }
 
@@ -158,16 +207,15 @@ forgotForm.onsubmit = e => {
 
   if(userIndex === -1){
     errorBox.style.display = "block";
-    errorBox.innerText = "❌ This email does not exist. Please Sign Up first.";
+    errorBox.innerText = "❌ This email does not exist.";
     return;
   }
 
-  // Update password
   users[userIndex].password = newPassVal;
   localStorage.setItem("marketSaleUsers", JSON.stringify(users));
 
   successBox.style.display = "block";
-  successBox.innerText = "✅ Password updated! You can login now.";
+  successBox.innerText = "✅ Password updated successfully!";
 
   setTimeout(() => {
     showLogin();
@@ -175,7 +223,6 @@ forgotForm.onsubmit = e => {
   }, 1500);
 }
 
-// Auto redirect if already logged in
 if(localStorage.getItem("marketSaleLoggedIn") === "true"){
   location.href = "index.html";
 }
