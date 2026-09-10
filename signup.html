@@ -7,13 +7,13 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0f0f0f;color:white;font-family:Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-   .box{background:#151515;padding:25px;border-radius:15px;width:100%;max-width:350px;border:1px solid #333;}
+    .box{background:#151515;padding:25px;border-radius:15px;width:100%;max-width:350px;border:1px solid #333;}
     h1{color:#00ff88;text-align:center;margin-bottom:20px;font-size:18px;}
     input{width:100%;padding:12px;background:#222;border:1px solid #333;border-radius:8px;color:white;margin-bottom:12px;font-size:14px;}
-   .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;cursor:pointer;font-size:14px;}
-   .link{text-align:center;margin-top:12px;font-size:12px;color:#aaa;}
-   .link a{color:#00ff88;text-decoration:none;}
-   .note{font-size:10px;color:#666;text-align:center;margin-bottom:12px;}
+    .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;cursor:pointer;font-size:14px;}
+    .link{text-align:center;margin-top:12px;font-size:12px;color:#aaa;}
+    .link a{color:#00ff88;text-decoration:none;}
+    .note{font-size:10px;color:#666;text-align:center;margin-bottom:12px;}
   </style>
 </head>
 <body>
@@ -27,9 +27,9 @@
 </div>
 <script>
 function register(){
-  if(!email.value || !phrase.value) return alert("Fill all fields");
+  if(!email.value ||!phrase.value) return alert("Fill all fields");
   let words = phrase.value.trim().split(" ");
-  if(words.length !== 3) return alert("Phrase must be exactly 3 words");
+  if(words.length!== 3) return alert("Phrase must be exactly 3 words");
   let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
   if(users.find(x => x.email == email.value)) return alert("Email exists");
   users.push({email: email.value, phrase: phrase.value.toLowerCase()});
