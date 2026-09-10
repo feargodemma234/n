@@ -3,68 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MarketSale - Marketplace</title>
+  <title>MarketSale</title>
   <link rel="icon" href="logo.png">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
     body{
       background:#05050a;color:white;
-      background-image: radial-gradient(circle at 20% 50%, rgba(0,255,136,0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(0,204,255,0.08) 0%, transparent 50%);
+      background-image: radial-gradient(circle at 20% 50%, rgba(0,255,136,0.05) 0%, transparent 50%);
       min-height:100vh;
     }
 
-    /* HEADER */
+    /* COMPACT HEADER */
     header{
       position:sticky;top:0;z-index:100;
-      background:rgba(10,10,15,0.7);backdrop-filter:blur(20px);
+      background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);
       border-bottom:1px solid rgba(0,255,136,0.1);
-      padding:15px 20px;display:flex;align-items:center;justify-content:space-between;
+      padding:10px 12px;display:flex;align-items:center;justify-content:space-between;
     }
-    .logo{display:flex;align-items:center;gap:10px;}
-    .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #00ff88;}
-    .logo h1{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
+    .logo{display:flex;align-items:center;gap:8px;}
+    .logo img{width:32px;height:32px;border-radius:8px;border:1.5px solid #00ff88;}
+    .logo h1{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:15px;font-weight:800;}
     
-    .header-btns{display:flex;gap:10px;align-items:center;}
-    .btn{padding:10px 16px;border-radius:12px;border:none;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.3s;}
-    .btn:hover{transform:translateY(-2px);}
-    .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;box-shadow:0 4px 15px rgba(0,255,136,0.3);}
+    .header-btns{display:flex;gap:6px;align-items:center;}
+    .btn{padding:7px 10px;border-radius:8px;border:none;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;white-space:nowrap;}
+    .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;}
     .btn-red{background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
-    .btn-admin{background:linear-gradient(90deg,#ffaa00,#ff6600);color:#000;display:none;box-shadow:0 4px 15px rgba(255,170,0,0.3);}
-    .user-email{font-size:11px;color:#888;margin-right:10px;}
+    .btn-admin{background:linear-gradient(90deg,#ffaa00,#ff6600);color:#000;display:none;}
+    .user-email{display:none;} /* HIDE EMAIL ON MOBILE TO SAVE SPACE */
 
-    /* CONTAINER */
-    .container{max-width:1400px;margin:0 auto;padding:30px 20px;}
-    .hero{text-align:center;margin-bottom:40px;}
-    .hero h2{font-size:32px;margin-bottom:10px;background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .hero p{color:#888;font-size:14px;}
+    /* COMPACT CONTAINER */
+    .container{max-width:1400px;margin:0 auto;padding:15px 12px;}
+    .hero{text-align:center;margin-bottom:20px;padding:10px 0;}
+    .hero h2{font-size:20px;margin-bottom:6px;background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero p{color:#888;font-size:11px;}
 
-    /* PRODUCT GRID */
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+    /* PRODUCT GRID - 2 COLUMNS ON MOBILE */
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
     .card{
       background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);
-      border:1px solid rgba(0,255,136,0.15);border-radius:20px;
-      overflow:hidden;transition:all 0.4s;cursor:pointer;
+      border:1px solid rgba(0,255,136,0.15);border-radius:14px;
+      overflow:hidden;transition:all 0.3s;cursor:pointer;
     }
-    .card:hover{
-      transform:translateY(-8px);
-      border-color:rgba(0,255,136,0.4);
-      box-shadow:0 10px 40px rgba(0,255,136,0.2);
-    }
-    .card-img{width:100%;height:200px;object-fit:cover;background:#111;}
-    .card-body{padding:15px;}
-    .card-title{font-size:16px;font-weight:700;margin-bottom:8px;}
-    .card-price{font-size:20px;font-weight:800;color:#00ff88;margin-bottom:10px;}
-    .card-desc{font-size:12px;color:#aaa;margin-bottom:12px;height:40px;overflow:hidden;}
-    .card-footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#666;}
-    .badge{padding:4px 8px;background:rgba(0,204,255,0.1);color:#00ccff;border-radius:6px;font-size:10px;}
+    .card:hover{transform:translateY(-4px);border-color:rgba(0,255,136,0.4);}
+    .card-img{width:100%;height:140px;object-fit:cover;background:#111;}
+    .card-body{padding:10px;}
+    .card-title{font-size:13px;font-weight:700;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .card-price{font-size:15px;font-weight:800;color:#00ff88;margin-bottom:6px;}
+    .card-desc{font-size:10px;color:#aaa;margin-bottom:8px;height:28px;overflow:hidden;line-height:1.4;}
+    .card-footer{display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#666;}
+    .badge{padding:3px 6px;background:rgba(0,204,255,0.1);color:#00ccff;border-radius:5px;font-size:9px;}
 
-    .empty{text-align:center;padding:60px 20px;color:#555;}
-    .empty h3{font-size:20px;margin-bottom:10px;}
+    .empty{text-align:center;padding:40px 20px;color:#555;}
+    .empty h3{font-size:16px;margin-bottom:8px;}
+    .empty p{font-size:12px;}
 
-    @media(max-width:768px){
-      .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
-      .hero h2{font-size:24px;}
+    /* DESKTOP */
+    @media(min-width:769px){
+      .user-email{display:block;font-size:11px;color:#888;margin-right:10px;}
+      .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;}
+      .hero h2{font-size:28px;}
+      .card-img{height:180px;}
+      .btn{padding:9px 14px;font-size:12px;}
     }
   </style>
 </head>
@@ -77,22 +76,22 @@
   </div>
   <div class="header-btns">
     <span class="user-email" id="userEmail"></span>
-    <button class="btn btn-admin" id="adminBtn" onclick="location.href='admin.html'">🔒 ADMIN</button>
-    <button class="btn btn-green" onclick="location.href='post.html'">+ SELL ITEM</button>
-    <button class="btn btn-red" onclick="logout()">LOGOUT</button>
+    <button class="btn btn-admin" id="adminBtn" onclick="location.href='admin.html'">ADMIN</button>
+    <button class="btn btn-green" onclick="location.href='post.html'">+SELL</button>
+    <button class="btn btn-red" onclick="logout()">OUT</button>
   </div>
 </header>
 
 <div class="container">
   <div class="hero">
     <h2>Find Your Next Deal</h2>
-    <p>Buy and sell anything, anywhere in Port Harcourt</p>
+    <p>Buy and sell in Port Harcourt</p>
   </div>
 
   <div class="grid" id="productsGrid">
     <div class="empty">
       <h3>No items yet</h3>
-      <p>Be the first to post something!</p>
+      <p>Be the first to post!</p>
     </div>
   </div>
 </div>
@@ -100,7 +99,6 @@
 <script>
 const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
 
-// CHECK LOGIN
 let loggedIn = localStorage.getItem("marketSaleLoggedIn");
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
 
@@ -110,7 +108,6 @@ if(loggedIn !== "true" || !user){
 
 document.getElementById("userEmail").innerText = user.email;
 
-// SHOW ADMIN BUTTON IF ADMIN
 if(user.email.toLowerCase() === ADMIN_EMAIL){
   document.getElementById("adminBtn").style.display = "block";
 }
@@ -121,34 +118,29 @@ function logout(){
   location.href = "login.html";
 }
 
-// LOAD PRODUCTS FROM LOCALSTORAGE
 function loadProducts(){
   let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
   let grid = document.getElementById("productsGrid");
   
   if(products.length === 0){
-    grid.innerHTML = `<div class="empty"><h3>No items yet</h3><p>Be the first to post something!</p></div>`;
+    grid.innerHTML = `<div class="empty"><h3>No items yet</h3><p>Be the first to post!</p></div>`;
     return;
   }
 
   grid.innerHTML = products.map(p => `
-    <div class="card" onclick="viewProduct('${p.id}')">
-      <img src="${p.image || 'https://via.placeholder.com/400x300/111/00ff88?text=MarketSale'}" class="card-img">
+    <div class="card" onclick="location.href='product.html?id=${p.id}'">
+      <img src="${p.image || 'https://via.placeholder.com/400x300/111/00ff88?text=No+Image'}" class="card-img">
       <div class="card-body">
         <div class="card-title">${p.title}</div>
         <div class="card-price">₦${Number(p.price).toLocaleString()}</div>
         <div class="card-desc">${p.description}</div>
         <div class="card-footer">
-          <span>${p.location || 'Port Harcourt'}</span>
-          <span class="badge">${p.category || 'General'}</span>
+          <span>${p.location || 'PH'}</span>
+          <span class="badge">${p.category || 'Gen'}</span>
         </div>
       </div>
     </div>
   `).join('');
-}
-
-function viewProduct(id){
-  location.href = `product.html?id=${id}`;
 }
 
 loadProducts();
