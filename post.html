@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Product</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;}
+  .container{max-width:500px;margin:0 auto;}
+    h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:18px;}
+  .form-box{background:#151515;padding:15px;border-radius:12px;border:1px solid #333;}
+  .form-group{margin-bottom:12px;}
+    label{display:block;margin-bottom:5px;color:#aaa;font-size:12px;}
+    input,textarea{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:13px;}
+    textarea{min-height:70px;}
+  .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;}
+  .image-upload{border:2px dashed #333;border-radius:10px;padding:15px;text-align:center;cursor:pointer;background:#1a1a1a;font-size:12px;}
+  .image-preview{width:100%;max-height:150px;object-fit:cover;border-radius:8px;margin-top:8px;display:none;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Post Product</h1>
+  <div class="form-box">
+    <form id="postForm">
+      <div class="form-group">
+        <label>Product Image *</label>
+        <div class="image-upload" onclick="productImage.click()">
+          <span id="uploadText">📷 Upload</span>
+          <img id="imagePreview" class="image-preview">
+        </div>
+        <input type="file" id="productImage" accept="image/*" style="display:none;" required>
+      </div>
+      <div class="form-group"><label>Product Name *</label><input id="productName" required></div>
+      <div class="form-group"><label>Description *</label><textarea id="productDesc" required></textarea></div>
+      <div class="form-group"><label>Email</label><input type="email" id="productEmail"></div>
+      <div class="form-group"><label>WhatsApp *</label><input type="tel" id="productWhatsapp" placeholder="803 123 4567" required></div>
+      <div class="form-group"><label>Price $ *</label><input type="number" id="productPrice" step="0.01" required></div>
+      <button class="btn">Submit for Approval</button>
+    </form>
+  </div>
+</div>
+<script>
+if(localStorage.getItem("marketSaleLoggedIn")!== "true")location.href="login.html";
+let imgData='';
+productImage.onchange=e=>{let r=new FileReader();r.onload=ev=>{imgData=ev.target.result;imagePreview.src=imgData;imagePreview.style.display='block';uploadText.style.display='none';};r.readAsDataURL(e.target.files[0]);};
+postForm.onsubmit=e=>{e.preventDefault();if(!imgData)return alert("Upload image");
+let data={id:Date.now(),title:productName.value,desc:productDesc.value,email:productEmail.value,whatsapp:productWhatsapp.value,price:productPrice.value,image:imgData};
+let p=JSON.parse(localStorage.getItem("marketSalePending"))||[];p.push(data);localStorage.setItem("marketSalePending",JSON.stringify(p));
+alert("Submitted! Waiting for admin approval.");location.href="admin.html";};
+</script>
+</body>
+</html>
