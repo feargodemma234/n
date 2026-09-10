@@ -7,33 +7,37 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0a0a0a;color:white;font-family:Arial;padding:15px;}
-    .container{max-width:900px;margin:0 auto;}
+   .container{max-width:900px;margin:0 auto;}
     h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:20px;}
-    .tabs{display:flex;gap:8px;margin-bottom:15px;}
-    .tab{flex:1;padding:12px;border-radius:10px;border:none;font-weight:bold;font-size:12px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;gap:5px;}
-    .tab.pending{background:#ffaa00;}
-    .tab.approved{background:#00ff88;color:#000;}
-    .tab.removed{background:#ff4444;}
-    .tab.active{border:2px solid white;}
-    .count-badge{background:#000;color:white;padding:2px 6px;border-radius:10px;font-size:10px;}
-    .search-box{width:100%;padding:12px;background:#151515;border:1px solid #333;border-radius:10px;color:white;margin-bottom:15px;font-size:13px;}
-    .card{background:#151515;border:1px solid #333;border-radius:12px;padding:12px;margin-bottom:12px;}
-    .card.pending{border-left:4px solid #ffaa00;}
-    .card.approved{border-left:4px solid #00ff88;}
-    .card.removed{border-left:4px solid #ff4444;opacity:0.6;}
+   .tabs{display:flex;gap:8px;margin-bottom:15px;}
+   .tab{flex:1;padding:12px;border-radius:10px;border:none;font-weight:bold;font-size:12px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;gap:5px;}
+   .tab.pending{background:#ffaa00;}
+   .tab.approved{background:#00ff88;color:#000;}
+   .tab.removed{background:#ff4444;}
+   .tab.active{border:2px solid white;box-shadow:0 0 10px rgba(255,255,255,0.2);}
+   .count-badge{background:#000;color:white;padding:2px 6px;border-radius:10px;font-size:10px;}
+   .search-box{width:100%;padding:12px;background:#151515;border:1px solid #333;border-radius:10px;color:white;margin-bottom:15px;font-size:13px;}
+   .card{background:#151515;border:1px solid #333;border-radius:12px;padding:12px;margin-bottom:12px;}
+   .card.pending{border-left:4px solid #ffaa00;}
+   .card.approved{border-left:4px solid #00ff88;}
+   .card.removed{border-left:4px solid #ff4444;opacity:0.6;}
     img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px;background:#1a1a1a;}
-    .id{color:#00ff88;font-size:10px;font-weight:bold;margin-bottom:5px;}
-    .badge{background:#ffaa00;color:#000;font-size:9px;padding:3px 6px;border-radius:5px;font-weight:bold;margin-left:5px;}
-    .title{color:white;font-size:15px;font-weight:bold;margin-bottom:5px;}
-    .country{color:#ffaa00;font-size:11px;margin-bottom:5px;}
-    .price{color:#00ff88;font-size:16px;font-weight:bold;margin:8px 0;}
-    .info{color:#aaa;font-size:11px;margin:5px 0;line-height:1.6;}
-    .btns{display:flex;gap:8px;margin-top:10px;}
-    .btn-a{background:#00ff88;color:#000;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}
-    .btn-r{background:#ff4444;color:white;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}
-    .btn-delete{background:#666;color:white;padding:10px;border:none;border-radius:8px;width:100%;font-weight:bold;font-size:12px;cursor:pointer;}
-    .error{text-align:center;padding:60px 20px;color:#ff4444;}
-    .empty{text-align:center;padding:40px 20px;color:#666;font-size:13px;}
+   .id{color:#00ff88;font-size:10px;font-weight:bold;margin-bottom:5px;}
+   .badge{background:#ffaa00;color:#000;font-size:9px;padding:3px 6px;border-radius:5px;font-weight:bold;margin-left:5px;}
+   .title{color:white;font-size:15px;font-weight:bold;margin-bottom:5px;}
+   .country{color:#ffaa00;font-size:11px;margin-bottom:5px;}
+   .price{color:#00ff88;font-size:16px;font-weight:bold;margin:8px 0;}
+   .info{color:#aaa;font-size:11px;margin:5px 0;line-height:1.6;}
+   .btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+   .btn-a{background:#00ff88;color:#000;padding:10px;border:none;border-radius:8px;font-weight:bold;font-size:11px;cursor:pointer;}
+   .btn-e{background:#0088ff;color:white;padding:10px;border:none;border-radius:8px;font-weight:bold;font-size:11px;cursor:pointer;}
+   .btn-r{background:#ff4444;color:white;padding:10px;border:none;border-radius:8px;font-weight:bold;font-size:11px;cursor:pointer;}
+   .btn-delete{background:#666;color:white;padding:10px;border:none;border-radius:8px;width:100%;font-weight:bold;font-size:12px;cursor:pointer;margin-top:8px;}
+   .error{text-align:center;padding:60px 20px;color:#ff4444;}
+   .empty{text-align:center;padding:40px 20px;color:#666;font-size:13px;}
+   .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;padding:20px;overflow-y:auto;}
+   .modal-box{background:#151515;padding:15px;border-radius:12px;max-width:500px;margin:50px auto;border:1px solid #333;}
+   .modal h2{color:#00ff88;margin-bottom:15px;text-align:center;}
   </style>
 </head>
 <body>
@@ -48,12 +52,31 @@
   <div id="list"></div>
 </div>
 <div class="error" id="noAccess" style="display:none;"><h2>⛔ Access Denied</h2><p>Only admin can view this page</p></div>
+
+<div class="modal" id="editModal">
+  <div class="modal-box">
+    <h2>✏️ Edit Item</h2>
+    <form id="editForm">
+      <input type="hidden" id="editId">
+      <div class="form-group"><label>Title</label><input id="editTitle" required></div>
+      <div class="form-group"><label>Description</label><textarea id="editDesc" required></textarea></div>
+      <div class="form-group"><label>Country</label><input id="editCountry" required></div>
+      <div class="form-group"><label>Price $</label><input type="number" id="editPrice" step="0.01" required></div>
+      <div class="form-group" id="editCompanyBox" style="display:none;"><label>Company</label><input id="editCompany"></div>
+      <div class="form-group" id="editSalaryBox" style="display:none;"><label>Salary</label><input id="editSalary"></div>
+      <button class="btn-a" style="width:100%;margin-top:10px;">Save Changes</button>
+      <button type="button" class="btn-r" style="width:100%;margin-top:8px;" onclick="closeEdit()">Cancel</button>
+    </form>
+  </div>
+</div>
+
 <script>
 const ADMIN_EMAIL = "feargodemma56@gmail.com";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-if(!user || user.email !== ADMIN_EMAIL){document.getElementById("noAccess").style.display = "block";} 
+if(!user || user.email!== ADMIN_EMAIL){document.getElementById("noAccess").style.display = "block";}
 else {document.getElementById("adminPanel").style.display = "block";load();}
 
+// KEY FIX: Read from marketSalePending
 let pending = JSON.parse(localStorage.getItem("marketSalePending")) || [];
 let approved = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
 let removed = JSON.parse(localStorage.getItem("marketSaleRemoved")) || [];
@@ -73,8 +96,13 @@ function switchTab(tab){
 }
 
 function load(filter=""){
-  let data = currentTab === 'pending' ? pending : currentTab === 'approved' ? approved : removed;
-  let filtered = data.filter(p => p.id.toLowerCase().includes(filter) || p.title.toLowerCase().includes(filter) || p.email.toLowerCase().includes(filter) || p.country.toLowerCase().includes(filter));
+  let data = currentTab === 'pending'? pending : currentTab === 'approved'? approved : removed;
+  let filtered = data.filter(p =>
+    p.id.toLowerCase().includes(filter) ||
+    p.title.toLowerCase().includes(filter) ||
+    p.email.toLowerCase().includes(filter) ||
+    p.country.toLowerCase().includes(filter)
+  );
   if(filtered.length == 0) { list.innerHTML = `<div class="empty">No ${currentTab} items yet</div>`; return; }
   list.innerHTML = filtered.map(p => `
     <div class="card ${currentTab}">
@@ -85,22 +113,73 @@ function load(filter=""){
       <div class="info">
         <b>Posted By:</b> ${p.email}<br>
         <b>WhatsApp:</b> ${p.whatsapp}<br>
-        ${p.company ? `<b>Company:</b> ${p.company}<br>` : ''}
-        ${p.salary ? `<b>Salary:</b> ${p.salary}<br>` : ''}
+        ${p.company? `<b>Company:</b> ${p.company}<br>` : ''}
+        ${p.salary? `<b>Salary:</b> ${p.salary}<br>` : ''}
         <b>Posted:</b> ${p.date || 'N/A'}
       </div>
       <div class="price">$${p.price}</div>
-      ${currentTab === 'pending' ? `<div class="btns"><button class="btn-a" onclick="approve('${p.id}')">✅ Approve</button><button class="btn-r" onclick="reject('${p.id}')">❌ Reject</button></div>` : currentTab === 'approved' ? `<div class="btns"><button class="btn-r" onclick="remove('${p.id}')">🗑️ Remove</button></div>` : `<button class="btn-delete" onclick="deleteForever('${p.id}')">Delete Forever</button>`}
+      ${currentTab === 'pending'?
+        `<div class="btns">
+          <button class="btn-a" onclick="approve('${p.id}')">✅ Approve</button>
+          <button class="btn-e" onclick="editItem('${p.id}')">✏️ Edit</button>
+          <button class="btn-r" onclick="reject('${p.id}')">❌ Reject</button>
+        </div>`
+        : currentTab === 'approved'?
+        `<div class="btns">
+          <button class="btn-e" onclick="editItem('${p.id}')">✏️ Edit</button>
+          <button class="btn-r" onclick="remove('${p.id}')">🗑️ Remove</button>
+        </div>`
+        : `<button class="btn-delete" onclick="deleteForever('${p.id}')">Delete Forever</button>`
+      }
     </div>
   `).join('')
 }
 
 document.getElementById("searchInput").onkeyup = (e) => load(e.target.value.toLowerCase());
 
-function approve(id){let prod = pending.find(p => p.id == id);approved.push(prod);pending = pending.filter(p => p.id != id);saveAll();updateCounts();load();}
-function reject(id){let prod = pending.find(p => p.id == id);removed.push(prod);pending = pending.filter(p => p.id != id);saveAll();updateCounts();load();}
-function remove(id){let prod = approved.find(p => p.id == id);removed.push(prod);approved = approved.filter(p => p.id != id);saveAll();updateCounts();load();}
-function deleteForever(id){removed = removed.filter(p => p.id != id);saveAll();updateCounts();load();}
+function approve(id){
+  let prod = pending.find(p => p.id == id);
+  approved.push(prod);
+  pending = pending.filter(p => p.id!= id);
+  saveAll();updateCounts();load();
+}
+function reject(id){
+  let prod = pending.find(p => p.id == id);
+  removed.push(prod);
+  pending = pending.filter(p => p.id!= id);
+  saveAll();updateCounts();load();
+}
+function remove(id){
+  let prod = approved.find(p => p.id == id);
+  removed.push(prod);
+  approved = approved.filter(p => p.id!= id);
+  saveAll();updateCounts();load();
+}
+function deleteForever(id){removed = removed.filter(p => p.id!= id);saveAll();updateCounts();load();}
+
+function editItem(id){
+  let data = [...pending,...approved].find(p => p.id == id);
+  editId.value = id;editTitle.value = data.title;editDesc.value = data.desc;
+  editCountry.value = data.country;editPrice.value = data.price;
+  if(data.type === 'job'){
+    editCompanyBox.style.display = "block";editSalaryBox.style.display = "block";
+    editCompany.value = data.company || '';editSalary.value = data.salary || '';
+  } else {editCompanyBox.style.display = "none";editSalaryBox.style.display = "none";}
+  editModal.style.display = "block";
+}
+function closeEdit(){editModal.style.display = "none";}
+
+editForm.onsubmit = e=>{
+  e.preventDefault();
+  let id = editId.value;
+  let updateData = {title: editTitle.value,desc: editDesc.value,country: editCountry.value,price: editPrice.value,company: editCompany.value,salary: editSalary.value};
+  let pIndex = pending.findIndex(p => p.id == id);
+  let aIndex = approved.findIndex(p => p.id == id);
+  if(pIndex > -1) pending[pIndex] = {...pending[pIndex],...updateData};
+  if(aIndex > -1) approved[aIndex] = {...approved[aIndex],...updateData};
+  saveAll(); closeEdit(); load();
+}
+
 function saveAll(){
   localStorage.setItem("marketSaleProducts", JSON.stringify(approved));
   localStorage.setItem("marketSalePending", JSON.stringify(pending));
