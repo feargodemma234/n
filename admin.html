@@ -1,66 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;}
-    .container{max-width:900px;margin:0 auto;}
-    h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:18px;}
-    
-    .tabs{display:flex;gap:8px;margin-bottom:15px;}
-    .tab{flex:1;padding:10px;border-radius:8px;border:none;font-weight:bold;font-size:12px;cursor:pointer;color:white;}
-    .tab.pending{background:#ffaa00;}
-    .tab.approved{background:#00ff88;color:#000;}
-    .tab.removed{background:#ff4444;}
-    .tab.active{border:2px solid white;}
-    
-    .search-box{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;margin-bottom:15px;}
-    
-    .card{background:#151515;border:1px solid #333;border-radius:10px;padding:10px;margin-bottom:10px;}
-    .card.pending{border-left:4px solid #ffaa00;}
-    .card.approved{border-left:4px solid #00ff88;}
-    .card.removed{border-left:4px solid #ff4444;opacity:0.6;}
-    
-    img{width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:8px;}
-    .id{color:#00ff88;font-size:10px;font-weight:bold;}
-    .badge{background:#ffaa00;color:#000;font-size:8px;padding:2px 5px;border-radius:4px;font-weight:bold;margin-left:5px;}
-    .title{color:#00ff88;font-size:14px;font-weight:bold;}
-    .price{font-size:15px;font-weight:bold;}
-    .info{color:#aaa;font-size:10px;margin:5px 0;}
-    .btns{display:flex;gap:8px;margin-top:8px;}
-    .btn-a{background:#00ff88;color:#000;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}
-    .btn-r{background:#ff4444;color:white;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}
-    .btn-delete{background:#666;color:white;padding:10px;border:none;border-radius:8px;width:100%;font-weight:bold;font-size:12px;cursor:pointer;}
-    .error{text-align:center;padding:60px 20px;color:#ff4444;}
-    .empty{text-align:center;padding:40px 20px;color:#666;font-size:12px;}
-  </style>
-</head>
-<body>
-<div class="container" id="adminPanel" style="display:none;">
-  <h1>🔒 Admin Panel</h1>
-  
-  <div class="tabs">
-    <button class="tab pending active" onclick="switchTab('pending')">🟡 Pending</button>
-    <button class="tab approved" onclick="switchTab('approved')">🟢 Approved</button>
-    <button class="tab removed" onclick="switchTab('removed')">🔴 Removed</button>
-  </div>
-  
-  <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search by ID, Name, Email...">
-  <div id="list"></div>
-</div>
-
-<div class="error" id="noAccess" style="display:none;">
-  <h2>⛔ Access Denied</h2>
-  <p>Only admin can view this page</p>
-</div>
-
-<script>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;}.container{max-width:900px;margin:0 auto;}h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:18px;}.tabs{display:flex;gap:8px;margin-bottom:15px;}.tab{flex:1;padding:10px;border-radius:8px;border:none;font-weight:bold;font-size:12px;cursor:pointer;color:white;}.tab.pending{background:#ffaa00;}.tab.approved{background:#00ff88;color:#000;}.tab.removed{background:#ff4444;}.tab.active{border:2px solid white;}.search-box{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;margin-bottom:15px;}.card{background:#151515;border:1px solid #333;border-radius:10px;padding:10px;margin-bottom:10px;}.card.pending{border-left:4px solid #ffaa00;}.card.approved{border-left:4px solid #00ff88;}.card.removed{border-left:4px solid #ff4444;opacity:0.6;}img{width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:8px;}.id{color:#00ff88;font-size:10px;font-weight:bold;}.badge{background:#ffaa00;color:#000;font-size:8px;padding:2px 5px;border-radius:4px;font-weight:bold;margin-left:5px;}.title{color:#00ff88;font-size:14px;font-weight:bold;}.price{font-size:15px;font-weight:bold;}.info{color:#aaa;font-size:10px;margin:5px 0;}.btns{display:flex;gap:8px;margin-top:8px;}.btn-a{background:#00ff88;color:#000;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}.btn-r{background:#ff4444;color:white;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}.btn-delete{background:#666;color:white;padding:10px;border:none;border-radius:8px;width:100%;font-weight:bold;font-size:12px;cursor:pointer;}.error{text-align:center;padding:60px 20px;color:#ff4444;}.empty{text-align:center;padding:40px 20px;color:#666;font-size:12px;}</style></head><body><div class="container" id="adminPanel" style="display:none;"><h1>🔒 Admin Panel</h1><div class="tabs"><button class="tab pending active" onclick="switchTab('pending')">🟡 Pending</button><button class="tab approved" onclick="switchTab('approved')">🟢 Approved</button><button class="tab removed" onclick="switchTab('removed')">🔴 Removed</button></div><input type="text" class="search-box" id="searchInput" placeholder="🔍 Search by ID, Name, Email..."><div id="list"></div></div><div class="error" id="noAccess" style="display:none;"><h2>⛔ Access Denied</h2><p>Only admin can view this page</p></div><script>
 const ADMIN_EMAIL = "feargodemma56@gmail.com";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-let currentTab = 'pending';
 
 if(!user || user.email !== ADMIN_EMAIL){
   document.getElementById("noAccess").style.display = "block";
@@ -69,9 +9,12 @@ if(!user || user.email !== ADMIN_EMAIL){
   load();
 }
 
-let pending = JSON.parse(localStorage.getItem("marketSalePending")) || [];
-let approved = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-let removed = JSON.parse(localStorage.getItem("marketSaleRemoved")) || [];
+// READ FROM BOTH OLD AND NEW KEYS FOR COMPATIBILITY
+let pending = JSON.parse(localStorage.getItem("marketSalePending")) || JSON.parse(localStorage.getItem("pending")) || [];
+let approved = JSON.parse(localStorage.getItem("marketSaleProducts")) || JSON.parse(localStorage.getItem("approved")) || [];
+let removed = JSON.parse(localStorage.getItem("marketSaleRemoved")) || JSON.parse(localStorage.getItem("removed")) || [];
+
+let currentTab = 'pending';
 
 function switchTab(tab){
   currentTab = tab;
@@ -82,10 +25,9 @@ function switchTab(tab){
 
 function load(filter=""){
   let data = currentTab === 'pending' ? pending : currentTab === 'approved' ? approved : removed;
-  
   let filtered = data.filter(p => 
     p.id.toLowerCase().includes(filter) || 
-    p.title.toLowerCase().includes(filter) ||
+    p.title.toLowerCase().includes(filter) || 
     p.email.toLowerCase().includes(filter)
   );
   
@@ -99,20 +41,14 @@ function load(filter=""){
       <div class="id">ID: ${p.id} ${p.type==='job'?'<span class="badge">JOB</span>':''}</div>
       ${p.image?`<img src="${p.image}">`:''}
       <div class="title">${p.title}</div>
+      <div class="info">📍 ${p.country}<br>Email: ${p.email}<br>WA: ${p.whatsapp}</div>
       <div class="price">$${p.price}</div>
-      <div class="info">Email: ${p.email}<br>WA: ${p.whatsapp}</div>
-      ${currentTab === 'pending' ? `
-        <div class="btns">
-          <button class="btn-a" onclick="approve('${p.id}')">✅ Approve</button>
-          <button class="btn-r" onclick="reject('${p.id}')">❌ Reject</button>
-        </div>
-      ` : currentTab === 'approved' ? `
-        <div class="btns">
-          <button class="btn-r" onclick="remove('${p.id}')">🗑️ Remove</button>
-        </div>
-      ` : `
-        <button class="btn-delete" onclick="deleteForever('${p.id}')">Delete Forever</button>
-      `}
+      ${currentTab === 'pending' ? 
+        `<div class="btns"><button class="btn-a" onclick="approve('${p.id}')">✅ Approve</button><button class="btn-r" onclick="reject('${p.id}')">❌ Reject</button></div>` 
+        : currentTab === 'approved' ? 
+        `<div class="btns"><button class="btn-r" onclick="remove('${p.id}')">🗑️ Remove</button></div>` 
+        : `<button class="btn-delete" onclick="deleteForever('${p.id}')">Delete Forever</button>`
+      }
     </div>
   `).join('')
 }
@@ -122,7 +58,7 @@ document.getElementById("searchInput").onkeyup = (e) => load(e.target.value.toLo
 function approve(id){
   let prod = pending.find(p => p.id == id);
   approved.push(prod);
-  pending = pending.filter(p => p.id!= id);
+  pending = pending.filter(p => p.id != id);
   saveAll();
   load();
 }
@@ -130,7 +66,7 @@ function approve(id){
 function reject(id){
   let prod = pending.find(p => p.id == id);
   removed.push(prod);
-  pending = pending.filter(p => p.id!= id);
+  pending = pending.filter(p => p.id != id);
   saveAll();
   load();
 }
@@ -138,13 +74,13 @@ function reject(id){
 function remove(id){
   let prod = approved.find(p => p.id == id);
   removed.push(prod);
-  approved = approved.filter(p => p.id!= id);
+  approved = approved.filter(p => p.id != id);
   saveAll();
   load();
 }
 
 function deleteForever(id){
-  removed = removed.filter(p => p.id!= id);
+  removed = removed.filter(p => p.id != id);
   saveAll();
   load();
 }
@@ -154,6 +90,4 @@ function saveAll(){
   localStorage.setItem("marketSalePending", JSON.stringify(pending));
   localStorage.setItem("marketSaleRemoved", JSON.stringify(removed));
 }
-</script>
-</body>
-</html>
+</script></body></html>
