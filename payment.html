@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - MarketSale</title>
+  <link rel="icon" href="logo.png">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    body{background:#05050a;color:white;min-height:100vh;padding:20px;}
+    .container{max-width:600px;margin:0 auto;}
+    .back-btn{margin-bottom:15px;padding:8px 12px;background:rgba(0,204,255,0.2);color:#00ccff;border:none;border-radius:8px;cursor:pointer;}
+    .crypto-box{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.3);padding:20px;border-radius:12px;}
+    .crypto-box h3{color:#00ff88;font-size:16px;margin-bottom:12px;text-align:center;}
+    .crypto-wallet{background:#111;padding:12px;border-radius:8px;font-size:12px;word-break:break-all;margin:10px 0;border:1px dashed #00ff88;display:flex;justify-content:space-between;align-items:center;}
+    .copy-btn{padding:6px 12px;background:#00ff88;color:#000;border:none;border-radius:6px;font-size:11px;cursor:pointer;font-weight:700;}
+    .btn{padding:12px;border-radius:8px;border:none;font-size:12px;font-weight:700;cursor:pointer;width:100%;}
+    .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;margin-bottom:8px;}
+    input{width:100%;padding:12px;background:#222;border:1px solid #333;border-radius:8px;color:white;margin-bottom:10px;font-size:12px;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <button class="back-btn" onclick="location.href='index.html'">← BACK TO HOME</button>
+  
+  <div class="crypto-box">
+    <h3>₿ PAY $10/MONTH WITH USDT</h3>
+    
+    <div style="background:rgba(255,68,68,0.15);border:1px solid #ff4444;padding:12px;border-radius:8px;margin-bottom:15px;text-align:center;">
+      <p style="color:#ff4444;font-size:12px;font-weight:800;">⚠️ ONLY SEND USDT TRC20 ⚠️</p>
+      <p style="color:#aaa;font-size:10px;">Other coins/networks will be LOST FOREVER</p>
+    </div>
+
+    <div style="text-align:center;margin:15px 0;">
+      <img src="/mnt/data/wa_image_7145460899758548480" alt="USDT Wallet QR" style="width:200px;height:200px;border-radius:12px;border:2px solid #00ff88;background:white;padding:10px;">
+      <p style="font-size:10px;color:#888;margin-top:5px;">Scan to pay 10 USDT</p>
+    </div>
+
+    <b style="font-size:12px;">USDT TRC20 Wallet Address:</b>
+    <div class="crypto-wallet">
+      <span>TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</span>
+      <button class="copy-btn" onclick="copyWallet()">COPY</button>
+    </div>
+
+    <div style="background:rgba(0,204,255,0.1);padding:10px;border-radius:6px;font-size:11px;margin:10px 0;text-align:center;">
+      <b>Amount:</b> 10 USDT | <b>Network:</b> TRC20
+    </div>
+
+    <input type="text" id="txHash" placeholder="Paste your Transaction Hash after sending">
+
+    <button class="btn btn-green" onclick="submitTX()">SEND PROOF TO ADMIN</button>
+    
+    <button class="btn" onclick="emailProof()" style="background:rgba(0,204,255,0.2);color:#00ccff;border:1px solid #00ccff;">📧 EMAIL PROOF TO marketsaleofficial@gmail.com</button>
+
+    <p style="font-size:10px;color:#666;margin-top:10px;text-align:center;">Access granted in 5-10 mins after verification</p>
+  </div>
+</div>
+
+<script>
+const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
+const YOUR_USDT_WALLET = "TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T";
+
+let user = JSON.parse(localStorage.getItem("marketSaleUser"));
+if(!user) location.href = "login.html";
+
+function copyWallet(){
+  navigator.clipboard.writeText(YOUR_USDT_WALLET);
+  alert("✅ Wallet copied");
+}
+
+function submitTX(){
+  let tx = document.getElementById("txHash").value.trim();
+  if(tx.length < 10) return alert("❌ Enter valid TX Hash");
+
+  let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
+  pending.push({
+    email: user.email,
+    tx: tx,
+    amount: 10,
+    currency: "USDT",
+    date: new Date().toLocaleString(),
+    status: "pending"
+  });
+  localStorage.setItem("pendingPayments", JSON.stringify(pending));
+  emailProof(tx);
+  alert("✅ Proof submitted! Check your email app");
+}
+
+function emailProof(tx){
+  tx = tx || document.getElementById("txHash").value.trim();
+  let subject = `MarketSale Payment Proof - ${user.email}`;
+  let body = `Email: ${user.email}%0D%0ATX Hash: ${tx}%0D%0AAmount: 10 USDT`;
+  window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
