@@ -3,88 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketplace</title>
+  <title>MarketSale - Marketplace</title>
   <link rel="icon" href="logo.png">
   <style>
-    * {margin:0; padding:0; box-sizing:border-box;}
-    body {background:#0f0f0f; color:white; font-family:Arial;}
-   .navbar {background:#151515; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; position:sticky; top:0; z-index:100;}
-   .logo {width:35px; height:35px; border-radius:10px;}
-   .nav-btns {display:flex; gap:6px;}
-   .btn {background:#00ff88; color:#000; padding:8px 12px; border-radius:8px; border:none; font-weight:bold; font-size:11px; cursor:pointer; text-decoration:none;}
-   .btn-admin {background:#444;color:white;display:none;}
-   .btn-job {background:#ffaa00;color:#000;}
-    .header {padding:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;}
-    h1{color:#00ff88; font-size:20px;}
-   .filter-box{padding:0 15px 10px;}
-   .filter-input{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:12px;}
-   .user-profile{display:flex;align-items:center;gap:8px;background:#151515;padding:6px 10px;border-radius:20px;border:1px solid #333;}
-   .user-avatar{width:28px;height:28px;border-radius:50%;background:#00ff88;display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;font-size:12px;}
-   .user-email{font-size:10px;color:#aaa;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-   .logout-btn{background:#ff4444;color:white;padding:4px 8px;border-radius:15px;border:none;font-size:9px;cursor:pointer;}
-    .container {padding:0 12px 30px; max-width:1200px; margin:0 auto;}
-    .products {display:grid; grid-template-columns:repeat(auto-fill, minmax(155px, 1fr)); gap:10px;}
-   .product-card {background:#151515; border-radius:10px; border:1px solid #333; overflow:hidden; position:relative;}
-   .product-card:active {border-color:#00ff88; transform:scale(0.96);}
-   .product-img {width:100%; height:110px; background:#1a1a1a; object-fit:cover; cursor:pointer;}
-   .product-info {padding:8px;}
-   .product-title {font-size:12px; font-weight:600; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;}
-   .product-country {font-size:9px;color:#ffaa00;margin-top:1px;}
-   .product-price {color:#00ff88; font-size:13px; font-weight:bold; margin-top:2px;}
-   .product-seller {font-size:9px; color:#aaa; margin-top:2px;}
-   .badge-job {background:#ffaa00; color:#000; font-size:8px; padding:2px 5px; border-radius:4px; font-weight:bold;margin-bottom:3px;display:inline-block;}
-   .owner-btns{display:flex;gap:5px;margin-top:6px;}
-   .btn-edit{background:#0088ff;color:white;padding:4px;border:none;border-radius:5px;font-size:9px;cursor:pointer;width:50%;}
-   .btn-delete{background:#ff4444;color:white;padding:4px;border:none;border-radius:5px;font-size:9px;cursor:pointer;width:50%;}
-   .empty {text-align:center; padding:60px 20px; color:#666;}
-    @media(min-width:768px){.products {grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));} }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    body{
+      background:#05050a;color:white;
+      background-image: radial-gradient(circle at 20% 50%, rgba(0,255,136,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0,204,255,0.08) 0%, transparent 50%);
+      min-height:100vh;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;top:0;z-index:100;
+      background:rgba(10,10,15,0.7);backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(0,255,136,0.1);
+      padding:15px 20px;display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #00ff88;}
+    .logo h1{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
+    
+    .header-btns{display:flex;gap:10px;align-items:center;}
+    .btn{padding:10px 16px;border-radius:12px;border:none;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.3s;}
+    .btn:hover{transform:translateY(-2px);}
+    .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;box-shadow:0 4px 15px rgba(0,255,136,0.3);}
+    .btn-red{background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
+    .btn-admin{background:linear-gradient(90deg,#ffaa00,#ff6600);color:#000;display:none;box-shadow:0 4px 15px rgba(255,170,0,0.3);}
+    .user-email{font-size:11px;color:#888;margin-right:10px;}
+
+    /* CONTAINER */
+    .container{max-width:1400px;margin:0 auto;padding:30px 20px;}
+    .hero{text-align:center;margin-bottom:40px;}
+    .hero h2{font-size:32px;margin-bottom:10px;background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero p{color:#888;font-size:14px;}
+
+    /* PRODUCT GRID */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+    .card{
+      background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);
+      border:1px solid rgba(0,255,136,0.15);border-radius:20px;
+      overflow:hidden;transition:all 0.4s;cursor:pointer;
+    }
+    .card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(0,255,136,0.4);
+      box-shadow:0 10px 40px rgba(0,255,136,0.2);
+    }
+    .card-img{width:100%;height:200px;object-fit:cover;background:#111;}
+    .card-body{padding:15px;}
+    .card-title{font-size:16px;font-weight:700;margin-bottom:8px;}
+    .card-price{font-size:20px;font-weight:800;color:#00ff88;margin-bottom:10px;}
+    .card-desc{font-size:12px;color:#aaa;margin-bottom:12px;height:40px;overflow:hidden;}
+    .card-footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#666;}
+    .badge{padding:4px 8px;background:rgba(0,204,255,0.1);color:#00ccff;border-radius:6px;font-size:10px;}
+
+    .empty{text-align:center;padding:60px 20px;color:#555;}
+    .empty h3{font-size:20px;margin-bottom:10px;}
+
+    @media(max-width:768px){
+      .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+      .hero h2{font-size:24px;}
+    }
   </style>
 </head>
 <body>
-<div class="navbar">
-  <img src="logo.png" class="logo">
-  <div class="nav-btns">
-    <a href="admin.html" class="btn btn-admin" id="adminBtn">Admin</a>
-    <a href="post-job.html" class="btn btn-job">+ Job $10</a>
-    <a href="post.html" class="btn">+ Post $2</a>
-  </div>
-</div>
 
-<div class="header">
-  <h1>Marketplace</h1>
-  <div class="user-profile" id="userProfile" style="display:none;">
-    <div class="user-avatar" id="userAvatar"></div>
-    <div class="user-email" id="userEmail"></div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <h1>MarketSale</h1>
   </div>
-</div>
-
-<div class="filter-box">
-  <input type="text" class="filter-input" id="countrySearch" placeholder="🔍 Search country... e.g Nigeria, USA, Remote" onkeyup="loadProducts()">
-</div>
+  <div class="header-btns">
+    <span class="user-email" id="userEmail"></span>
+    <button class="btn btn-admin" id="adminBtn" onclick="location.href='admin.html'">🔒 ADMIN</button>
+    <button class="btn btn-green" onclick="location.href='post.html'">+ SELL ITEM</button>
+    <button class="btn btn-red" onclick="logout()">LOGOUT</button>
+  </div>
+</header>
 
 <div class="container">
-  <div id="productsGrid" class="products"></div>
-  <div id="emptyMsg" class="empty" style="display:none;">
-    <h2>No products found</h2>
-    <p style="margin-top:10px;font-size:12px;">Try a different country or post the first one!</p>
+  <div class="hero">
+    <h2>Find Your Next Deal</h2>
+    <p>Buy and sell anything, anywhere in Port Harcourt</p>
+  </div>
+
+  <div class="grid" id="productsGrid">
+    <div class="empty">
+      <h3>No items yet</h3>
+      <p>Be the first to post something!</p>
+    </div>
   </div>
 </div>
+
 <script>
 const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
+
+// CHECK LOGIN
+let loggedIn = localStorage.getItem("marketSaleLoggedIn");
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
 
-if(!localStorage.getItem("marketSaleLoggedIn")){
+if(loggedIn !== "true" || !user){
   location.href = "login.html";
 }
 
-if(user){
-  document.getElementById("userProfile").style.display = "flex";
-  document.getElementById("userEmail").innerText = user.email;
-  document.getElementById("userAvatar").innerText = user.email.charAt(0).toUpperCase();
-}
+document.getElementById("userEmail").innerText = user.email;
 
-if(user && user.email === ADMIN_EMAIL){
+// SHOW ADMIN BUTTON IF ADMIN
+if(user.email.toLowerCase() === ADMIN_EMAIL){
   document.getElementById("adminBtn").style.display = "block";
 }
 
@@ -94,52 +121,38 @@ function logout(){
   location.href = "login.html";
 }
 
-loadProducts();
+// LOAD PRODUCTS FROM LOCALSTORAGE
 function loadProducts(){
   let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-  let search = document.getElementById("countrySearch").value.toLowerCase();
-
-  if(search){
-    products = products.filter(p => p.country && p.country.toLowerCase().includes(search));
+  let grid = document.getElementById("productsGrid");
+  
+  if(products.length === 0){
+    grid.innerHTML = `<div class="empty"><h3>No items yet</h3><p>Be the first to post something!</p></div>`;
+    return;
   }
 
-  let grid = document.getElementById("productsGrid");
-  if(products.length === 0){ document.getElementById("emptyMsg").style.display = "block"; return; }
-  document.getElementById("emptyMsg").style.display = "none";
-
-  grid.innerHTML = products.map(p => {
-    let isOwner = user && p.email === user.email;
-    return `
-    <div class="product-card">
-      ${p.image? `<img src="${p.image}" class="product-img" onclick="location.href='details.html?id=${p.id}'">` : `<div class="product-img" onclick="location.href='details.html?id=${p.id}'"></div>`}
-      <div class="product-info" onclick="location.href='details.html?id=${p.id}'">
-        ${p.type === 'job'? '<div class="badge-job">JOB</div>' : ''}
-        <div class="product-title">${p.title}</div>
-        <div class="product-country">📍 ${p.country || 'N/A'}</div>
-        <div class="product-price">$${p.price}</div>
-        <div class="product-seller">Seller: ${p.email}</div>
-      </div>
-      ${isOwner ? `
-        <div class="product-info owner-btns">
-          <button class="btn-edit" onclick="event.stopPropagation(); editProduct('${p.id}')">✏️ Edit</button>
-          <button class="btn-delete" onclick="event.stopPropagation(); deleteProduct('${p.id}')">🗑️ Delete</button>
+  grid.innerHTML = products.map(p => `
+    <div class="card" onclick="viewProduct('${p.id}')">
+      <img src="${p.image || 'https://via.placeholder.com/400x300/111/00ff88?text=MarketSale'}" class="card-img">
+      <div class="card-body">
+        <div class="card-title">${p.title}</div>
+        <div class="card-price">₦${Number(p.price).toLocaleString()}</div>
+        <div class="card-desc">${p.description}</div>
+        <div class="card-footer">
+          <span>${p.location || 'Port Harcourt'}</span>
+          <span class="badge">${p.category || 'General'}</span>
         </div>
-      ` : ''}
+      </div>
     </div>
-  `}).join('');
+  `).join('');
 }
 
-function deleteProduct(id){
-  if(!confirm("Delete this product?")) return;
-  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-  products = products.filter(p => p.id != id);
-  localStorage.setItem("marketSaleProducts", JSON.stringify(products));
-  loadProducts();
+function viewProduct(id){
+  location.href = `product.html?id=${id}`;
 }
 
-function editProduct(id){
-  location.href = `edit.html?id=${id}`;
-}
+loadProducts();
 </script>
+
 </body>
 </html>
