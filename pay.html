@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pay $2</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;display:flex;align-items:center;justify-content:center;min-height:100vh;}
+  .box{background:#151515;padding:20px;border-radius:15px;width:100%;max-width:400px;border:1px solid #333;text-align:center;}
+    h1{color:#00ff88;margin-bottom:15px;font-size:18px;}
+  .warning{background:#2a1f00;color:#ffaa00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;}
+  .qr-box{background:white;padding:15px;border-radius:10px;display:inline-block;margin:15px 0;}
+  .wallet{background:#1a1a1a;padding:12px;border-radius:8px;margin:15px 0;}
+  .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;cursor:pointer;font-size:14px;}
+  </style>
+</head>
+<body>
+<div class="box">
+  <h1>Pay $2 USDT</h1>
+  <div class="warning">⚠️ Send USDT TRC20 Only</div>
+  <div class="qr-box"><img id="qrCode" width="200"></div>
+  <div class="wallet">
+    <div style="font-size:11px;color:#aaa;">USDT TRC20 Address</div>
+    <div style="color:#00ff88;font-family:monospace;font-size:11px;">TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</div>
+  </div>
+  <button class="btn" onclick="navigator.clipboard.writeText('TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T')">📋 Copy Address</button>
+  <button class="btn" style="background:#25D366;margin-top:10px;" onclick="location.href='post.html'">I Have Paid</button>
+</div>
+<script>qrCode.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T`;</script>
+</body>
+</html>
