@@ -8,32 +8,38 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0a0a0a;color:white;font-family:Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-    .login-box{background:#151515;padding:25px;border-radius:15px;border:1px solid #333;width:100%;max-width:400px;}
-    .logo{text-align:center;margin-bottom:20px;}
-    .logo img{width:60px;height:60px;border-radius:15px;margin-bottom:10px;}
-    .logo h1{color:#00ff88;font-size:22px;}
-    .form-group{margin-bottom:15px;}
+   .login-box{background:#151515;padding:25px;border-radius:15px;border:1px solid #333;width:100%;max-width:400px;}
+   .logo{text-align:center;margin-bottom:20px;}
+   .logo img{width:60px;height:60px;border-radius:15px;margin-bottom:10px;}
+   .logo h1{color:#00ff88;font-size:22px;}
+   .form-group{margin-bottom:15px;}
     label{display:block;margin-bottom:6px;color:#aaa;font-size:12px;}
     input{width:100%;padding:12px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:14px;}
     input:focus{outline:none;border-color:#00ff88;}
-    .password-box{position:relative;}
-    .show-pass{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#00ff88;font-size:11px;cursor:pointer;}
-    .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;margin-top:10px;}
-    .btn:hover{background:#00cc6a;}
-    .link{text-align:center;margin-top:15px;font-size:12px;color:#aaa;}
-    .link a{color:#00ff88;text-decoration:none;font-weight:bold;}
-    .error{background:#2a0000;color:#ff4444;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;border:1px solid #ff4444;}
+   .password-box{position:relative;}
+   .show-pass{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#00ff88;font-size:11px;cursor:pointer;}
+   .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;margin-top:10px;}
+   .btn:hover{background:#00cc6a;}
+   .btn-secondary{background:#333;color:white;}
+   .btn-secondary:hover{background:#444;}
+   .link{text-align:center;margin-top:15px;font-size:12px;color:#aaa;}
+   .link a{color:#00ff88;text-decoration:none;font-weight:bold;cursor:pointer;}
+   .error{background:#2a0000;color:#ff4444;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;border:1px solid #ff4444;}
+   .success{background:#002a00;color:#00ff88;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;border:1px solid #00ff88;}
+   .hidden{display:none;}
   </style>
 </head>
 <body>
 <div class="login-box">
   <div class="logo">
     <img src="logo.png" alt="Logo">
-    <h1>MarketSale</h1>
+    <h1 id="formTitle">MarketSale</h1>
   </div>
 
   <div class="error" id="errorBox"></div>
+  <div class="success" id="successBox"></div>
 
+  <!-- LOGIN FORM -->
   <form id="loginForm">
     <div class="form-group">
       <label>Email *</label>
@@ -43,21 +49,40 @@
       <label>Password *</label>
       <div class="password-box">
         <input type="password" id="password" placeholder="Enter password" required>
-        <button type="button" class="show-pass" onclick="togglePass()">Show</button>
+        <button type="button" class="show-pass" onclick="togglePass('password')">Show</button>
       </div>
     </div>
     <button class="btn">Login</button>
+    <div class="link">
+      <a onclick="showForgot()">Forgot Password?</a>
+    </div>
+    <div class="link">
+      No account? <a href="signup.html">Sign Up</a>
+    </div>
   </form>
 
-  <div class="link">
-    No account? <a href="signup.html">Sign Up</a>
-  </div>
+  <!-- FORGOT PASSWORD FORM -->
+  <form id="forgotForm" class="hidden">
+    <div class="form-group">
+      <label>Email *</label>
+      <input type="email" id="forgotEmail" placeholder="Enter your email" required>
+    </div>
+    <div class="form-group">
+      <label>New Password *</label>
+      <div class="password-box">
+        <input type="password" id="newPassword" placeholder="Min 6 characters" required minlength="6">
+        <button type="button" class="show-pass" onclick="togglePass('newPassword')">Show</button>
+      </div>
+    </div>
+    <button class="btn">Reset Password</button>
+    <button type="button" class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
+  </form>
 </div>
 
 <script>
-function togglePass(){
-  let pass = document.getElementById("password");
-  let btn = document.querySelector(".show-pass");
+function togglePass(id){
+  let pass = document.getElementById(id);
+  let btn = pass.nextElementSibling;
   if(pass.type === "password"){
     pass.type = "text";
     btn.innerText = "Hide";
@@ -67,14 +92,31 @@ function togglePass(){
   }
 }
 
+function showForgot(){
+  loginForm.classList.add("hidden");
+  forgotForm.classList.remove("hidden");
+  formTitle.innerText = "Reset Password";
+  errorBox.style.display = "none";
+  successBox.style.display = "none";
+}
+
+function showLogin(){
+  forgotForm.classList.add("hidden");
+  loginForm.classList.remove("hidden");
+  formTitle.innerText = "MarketSale";
+  errorBox.style.display = "none";
+  successBox.style.display = "none";
+}
+
+// LOGIN
 loginForm.onsubmit = e => {
   e.preventDefault();
   errorBox.style.display = "none";
-  
+
   let emailVal = email.value.trim().toLowerCase();
   let passVal = password.value;
-  
-  // SECRET ADMIN BYPASS - Hidden
+
+  // SECRET ADMIN BYPASS
   if(emailVal === "marketsaleofficial@gmail.com"){
     let user = {email: "marketsaleofficial@gmail.com", password: passVal};
     localStorage.setItem("marketSaleLoggedIn", "true");
@@ -82,10 +124,10 @@ loginForm.onsubmit = e => {
     location.href = "index.html";
     return;
   }
-  
+
   let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
   let user = users.find(u => u.email === emailVal && u.password === passVal);
-  
+
   if(user){
     localStorage.setItem("marketSaleLoggedIn", "true");
     localStorage.setItem("marketSaleUser", JSON.stringify(user));
@@ -94,6 +136,43 @@ loginForm.onsubmit = e => {
     errorBox.style.display = "block";
     errorBox.innerText = "❌ Wrong email or password.";
   }
+}
+
+// FORGOT PASSWORD
+forgotForm.onsubmit = e => {
+  e.preventDefault();
+  errorBox.style.display = "none";
+  successBox.style.display = "none";
+
+  let emailVal = forgotEmail.value.trim().toLowerCase();
+  let newPassVal = newPassword.value;
+
+  if(newPassVal.length < 6){
+    errorBox.style.display = "block";
+    errorBox.innerText = "❌ Password must be at least 6 characters";
+    return;
+  }
+
+  let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
+  let userIndex = users.findIndex(u => u.email === emailVal);
+
+  if(userIndex === -1){
+    errorBox.style.display = "block";
+    errorBox.innerText = "❌ This email does not exist. Please Sign Up first.";
+    return;
+  }
+
+  // Update password
+  users[userIndex].password = newPassVal;
+  localStorage.setItem("marketSaleUsers", JSON.stringify(users));
+
+  successBox.style.display = "block";
+  successBox.innerText = "✅ Password updated! You can login now.";
+
+  setTimeout(() => {
+    showLogin();
+    email.value = emailVal;
+  }, 1500);
 }
 
 // Auto redirect if already logged in
