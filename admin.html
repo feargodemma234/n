@@ -9,24 +9,18 @@
     body{background:#0a0a0a;color:white;font-family:Arial;padding:15px;}
     .container{max-width:900px;margin:0 auto;}
     h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:20px;}
-    
     .tabs{display:flex;gap:8px;margin-bottom:15px;}
     .tab{flex:1;padding:12px;border-radius:10px;border:none;font-weight:bold;font-size:12px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;gap:5px;}
     .tab.pending{background:#ffaa00;}
     .tab.approved{background:#00ff88;color:#000;}
     .tab.removed{background:#ff4444;}
-    .tab.active{border:2px solid white;box-shadow:0 0 10px rgba(255,255,255,0.3);}
+    .tab.active{border:2px solid white;}
     .count-badge{background:#000;color:white;padding:2px 6px;border-radius:10px;font-size:10px;}
-    
     .search-box{width:100%;padding:12px;background:#151515;border:1px solid #333;border-radius:10px;color:white;margin-bottom:15px;font-size:13px;}
-    .search-box:focus{outline:none;border-color:#00ff88;}
-    
-    .card{background:#151515;border:1px solid #333;border-radius:12px;padding:12px;margin-bottom:12px;transition:0.2s;}
-    .card:hover{border-color:#00ff88;}
+    .card{background:#151515;border:1px solid #333;border-radius:12px;padding:12px;margin-bottom:12px;}
     .card.pending{border-left:4px solid #ffaa00;}
     .card.approved{border-left:4px solid #00ff88;}
     .card.removed{border-left:4px solid #ff4444;opacity:0.6;}
-    
     img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px;background:#1a1a1a;}
     .id{color:#00ff88;font-size:10px;font-weight:bold;margin-bottom:5px;}
     .badge{background:#ffaa00;color:#000;font-size:9px;padding:3px 6px;border-radius:5px;font-weight:bold;margin-left:5px;}
@@ -34,12 +28,10 @@
     .country{color:#ffaa00;font-size:11px;margin-bottom:5px;}
     .price{color:#00ff88;font-size:16px;font-weight:bold;margin:8px 0;}
     .info{color:#aaa;font-size:11px;margin:5px 0;line-height:1.6;}
-    
     .btns{display:flex;gap:8px;margin-top:10px;}
     .btn-a{background:#00ff88;color:#000;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}
     .btn-r{background:#ff4444;color:white;padding:10px;border:none;border-radius:8px;width:50%;font-weight:bold;font-size:12px;cursor:pointer;}
     .btn-delete{background:#666;color:white;padding:10px;border:none;border-radius:8px;width:100%;font-weight:bold;font-size:12px;cursor:pointer;}
-    
     .error{text-align:center;padding:60px 20px;color:#ff4444;}
     .empty{text-align:center;padding:40px 20px;color:#666;font-size:13px;}
   </style>
@@ -55,30 +47,17 @@
   <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search by ID, Name, Email, Country...">
   <div id="list"></div>
 </div>
-
-<div class="error" id="noAccess" style="display:none;">
-  <h2>⛔ Access Denied</h2>
-  <p>Only admin can view this page</p>
-</div>
-
+<div class="error" id="noAccess" style="display:none;"><h2>⛔ Access Denied</h2><p>Only admin can view this page</p></div>
 <script>
 const ADMIN_EMAIL = "feargodemma56@gmail.com";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
+if(!user || user.email !== ADMIN_EMAIL){document.getElementById("noAccess").style.display = "block";} 
+else {document.getElementById("adminPanel").style.display = "block";load();}
 
-if(!user || user.email !== ADMIN_EMAIL){
-  document.getElementById("noAccess").style.display = "block";
-} else {
-  document.getElementById("adminPanel").style.display = "block";
-  load();
-}
-
-// READ FROM BOTH KEYS FOR BACKWARD COMPATIBILITY
 let pending = JSON.parse(localStorage.getItem("marketSalePending")) || [];
 let approved = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
 let removed = JSON.parse(localStorage.getItem("marketSaleRemoved")) || [];
-
-let currentTab = 'pending';
-updateCounts();
+let currentTab = 'pending';updateCounts();
 
 function updateCounts(){
   document.getElementById("pendingCount").innerText = pending.length;
@@ -95,18 +74,8 @@ function switchTab(tab){
 
 function load(filter=""){
   let data = currentTab === 'pending' ? pending : currentTab === 'approved' ? approved : removed;
-  let filtered = data.filter(p => 
-    p.id.toLowerCase().includes(filter) || 
-    p.title.toLowerCase().includes(filter) || 
-    p.email.toLowerCase().includes(filter) ||
-    p.country.toLowerCase().includes(filter)
-  );
-  
-  if(filtered.length == 0) { 
-    list.innerHTML = `<div class="empty">No ${currentTab} items yet</div>`; 
-    return; 
-  }
-  
+  let filtered = data.filter(p => p.id.toLowerCase().includes(filter) || p.title.toLowerCase().includes(filter) || p.email.toLowerCase().includes(filter) || p.country.toLowerCase().includes(filter));
+  if(filtered.length == 0) { list.innerHTML = `<div class="empty">No ${currentTab} items yet</div>`; return; }
   list.innerHTML = filtered.map(p => `
     <div class="card ${currentTab}">
       <div class="id">ID: ${p.id} ${p.type==='job'?'<span class="badge">JOB</span>':''}</div>
@@ -114,59 +83,24 @@ function load(filter=""){
       <div class="title">${p.title}</div>
       <div class="country">📍 ${p.country || 'N/A'}</div>
       <div class="info">
-        Email: ${p.email}<br>
-        WhatsApp: ${p.whatsapp}<br>
-        ${p.company ? `Company: ${p.company}<br>` : ''}
-        ${p.salary ? `Salary: ${p.salary}<br>` : ''}
-        Posted: ${p.date || 'N/A'}
+        <b>Posted By:</b> ${p.email}<br>
+        <b>WhatsApp:</b> ${p.whatsapp}<br>
+        ${p.company ? `<b>Company:</b> ${p.company}<br>` : ''}
+        ${p.salary ? `<b>Salary:</b> ${p.salary}<br>` : ''}
+        <b>Posted:</b> ${p.date || 'N/A'}
       </div>
       <div class="price">$${p.price}</div>
-      ${currentTab === 'pending' ? 
-        `<div class="btns"><button class="btn-a" onclick="approve('${p.id}')">✅ Approve</button><button class="btn-r" onclick="reject('${p.id}')">❌ Reject</button></div>` 
-        : currentTab === 'approved' ? 
-        `<div class="btns"><button class="btn-r" onclick="remove('${p.id}')">🗑️ Remove</button></div>` 
-        : `<button class="btn-delete" onclick="deleteForever('${p.id}')">Delete Forever</button>`
-      }
+      ${currentTab === 'pending' ? `<div class="btns"><button class="btn-a" onclick="approve('${p.id}')">✅ Approve</button><button class="btn-r" onclick="reject('${p.id}')">❌ Reject</button></div>` : currentTab === 'approved' ? `<div class="btns"><button class="btn-r" onclick="remove('${p.id}')">🗑️ Remove</button></div>` : `<button class="btn-delete" onclick="deleteForever('${p.id}')">Delete Forever</button>`}
     </div>
   `).join('')
 }
 
 document.getElementById("searchInput").onkeyup = (e) => load(e.target.value.toLowerCase());
 
-function approve(id){
-  let prod = pending.find(p => p.id == id);
-  approved.push(prod);
-  pending = pending.filter(p => p.id != id);
-  saveAll();
-  updateCounts();
-  load();
-}
-
-function reject(id){
-  let prod = pending.find(p => p.id == id);
-  removed.push(prod);
-  pending = pending.filter(p => p.id != id);
-  saveAll();
-  updateCounts();
-  load();
-}
-
-function remove(id){
-  let prod = approved.find(p => p.id == id);
-  removed.push(prod);
-  approved = approved.filter(p => p.id != id);
-  saveAll();
-  updateCounts();
-  load();
-}
-
-function deleteForever(id){
-  removed = removed.filter(p => p.id != id);
-  saveAll();
-  updateCounts();
-  load();
-}
-
+function approve(id){let prod = pending.find(p => p.id == id);approved.push(prod);pending = pending.filter(p => p.id != id);saveAll();updateCounts();load();}
+function reject(id){let prod = pending.find(p => p.id == id);removed.push(prod);pending = pending.filter(p => p.id != id);saveAll();updateCounts();load();}
+function remove(id){let prod = approved.find(p => p.id == id);removed.push(prod);approved = approved.filter(p => p.id != id);saveAll();updateCounts();load();}
+function deleteForever(id){removed = removed.filter(p => p.id != id);saveAll();updateCounts();load();}
 function saveAll(){
   localStorage.setItem("marketSaleProducts", JSON.stringify(approved));
   localStorage.setItem("marketSalePending", JSON.stringify(pending));
