@@ -10,7 +10,10 @@
     body {background:#0f0f0f; color:white; font-family:Arial;}
    .navbar {background:#151515; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; position:sticky; top:0; z-index:100;}
    .logo {width:35px; height:35px; border-radius:10px;}
-   .btn {background:#00ff88; color:#000; padding:8px 14px; border-radius:8px; border:none; font-weight:bold; font-size:12px; cursor:pointer; text-decoration:none;}
+   .nav-btns {display:flex; gap:6px;}
+   .btn {background:#00ff88; color:#000; padding:8px 12px; border-radius:8px; border:none; font-weight:bold; font-size:11px; cursor:pointer; text-decoration:none;}
+   .btn-admin {background:#444;color:white;}
+   .btn-job {background:#ffaa00;color:#000;}
    .header {padding:15px; display:flex; justify-content:space-between; align-items:center;}
     h1{color:#00ff88; font-size:20px;}
    .container {padding:0 12px 30px; max-width:1200px; margin:0 auto;}
@@ -22,6 +25,7 @@
    .product-title {font-size:12px; font-weight:600; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
    .product-price {color:#00ff88; font-size:13px; font-weight:bold;}
    .product-seller {font-size:9px; color:#aaa; margin-top:2px;}
+   .badge-job {background:#ffaa00; color:#000; font-size:8px; padding:2px 5px; border-radius:4px; font-weight:bold;}
    .empty {text-align:center; padding:60px 20px; color:#666;}
     @media(min-width:768px){.products {grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));} }
   </style>
@@ -29,9 +33,10 @@
 <body>
 <div class="navbar">
   <img src="logo.png" class="logo">
-  <div>
-    <a href="admin.html" class="btn" style="background:#444;color:white;margin-right:5px;">Admin</a>
-    <a href="post.html" class="btn">+ Post</a>
+  <div class="nav-btns">
+    <a href="admin.html" class="btn btn-admin">Admin</a>
+    <a href="post-job.html" class="btn btn-job">+ Job $10</a>
+    <a href="post.html" class="btn">+ Post $2</a>
   </div>
 </div>
 <div class="header">
@@ -57,6 +62,7 @@ function loadProducts(){
     <div class="product-card" onclick="contactSeller('${p.whatsapp}', '${p.title}')">
       ${p.image? `<img src="${p.image}" class="product-img">` : `<div class="product-img"></div>`}
       <div class="product-info">
+        ${p.type === 'job' ? '<div class="badge-job">JOB</div>' : ''}
         <div class="product-title">${p.title}</div>
         <div class="product-price">$${p.price}</div>
         <div class="product-seller">Seller: ${p.email}</div>
@@ -66,7 +72,6 @@ function loadProducts(){
 }
 function contactSeller(wa, title){
   let num = wa.replace(/[^0-9]/g,'');
-  if(!num.startsWith('234')) num = '234' + num;
   window.open(`https://wa.me/${num}?text=Hi, I'm interested in ${title}`);
 }
 </script>
