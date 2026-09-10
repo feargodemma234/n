@@ -3,85 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Post Job</title>
+  <title>Post Job - MarketSale</title>
+  <link rel="icon" href="logo.png">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;}
-    .container{max-width:500px;margin:0 auto;}
-    h1{color:#ffaa00;text-align:center;margin-bottom:15px;font-size:18px;}
-    .form-box{background:#151515;padding:15px;border-radius:12px;border:1px solid #333;}
-    .form-group{margin-bottom:12px;}
-    label{display:block;margin-bottom:5px;color:#aaa;font-size:12px;}
-    input,textarea{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:13px;}
-    textarea{min-height:70px;}
-    .btn{background:#ffaa00;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;}
-    .phone-group{display:flex;gap:8px;}
-    .country-code{width:90px;background:#222;border:1px solid #333;border-radius:8px;color:white;padding:10px;text-align:center;}
-    .payment-box{display:none;}
-    .warning{background:#2a2000;color:#ffaa00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;}
-    .qr-box{background:white;padding:15px;border-radius:10px;text-align:center;margin:15px 0;}
-    .wallet{background:#1a1a1a;padding:12px;border-radius:8px;margin:15px 0;text-align:center;}
-    .id-box{background:#151515;border:1px solid #ffaa00;padding:12px;border-radius:8px;margin:15px 0;color:#ffaa00;font-weight:bold;text-align:center;}
-    .note{font-size:11px;color:#aaa;margin:10px 0;text-align:center;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    body{background:#05050a;color:white;padding:20px;background-image: radial-gradient(circle at 80% 80%, rgba(0,204,255,0.08) 0%, transparent 50%);}
+    header{max-width:800px;margin:0 auto 30px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #00ccff;}
+    .logo h1{background:linear-gradient(90deg,#00ccff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
+    .btn-back{padding:10px 16px;background:rgba(50,50,50,0.8);color:white;border:1px solid #444;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;}
+    
+    .post-box{max-width:800px;margin:0 auto;background:rgba(20,20,25,0.6);backdrop-filter:blur(20px);padding:30px;border-radius:20px;border:1px solid rgba(0,204,255,0.2);}
+    .post-box h2{text-align:center;margin-bottom:25px;font-size:24px;background:linear-gradient(90deg,#00ccff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .form-group{margin-bottom:18px;}
+    label{display:block;margin-bottom:8px;color:#aaa;font-size:12px;font-weight:600;}
+    input,textarea,select{width:100%;padding:14px;background:rgba(30,30,30,0.8);border:1px solid #333;border-radius:12px;color:white;font-size:14px;}
+    input:focus,textarea:focus{outline:none;border-color:#00ccff;}
+    .btn{background:linear-gradient(90deg,#00ccff,#00ff88);color:#000;padding:16px;border-radius:12px;border:none;font-weight:800;width:100%;font-size:15px;cursor:pointer;margin-top:10px;}
+    .success{background:rgba(0,255,136,0.1);color:#00ff88;padding:12px;border-radius:12px;margin-bottom:18px;font-size:13px;text-align:center;display:none;}
   </style>
 </head>
 <body>
-<div class="container">
-  <h1 id="pageTitle">Post Job - $10/Month</h1>
-  <div class="form-box" id="formSection">
-    <form id="jobForm">
-      <div class="form-group"><label>Job Title *</label><input id="jobTitle" placeholder="Frontend Developer" required></div>
-      <div class="form-group"><label>Job Description *</label><textarea id="jobDesc" placeholder="Remote job, 2 years experience required" required></textarea></div>
-      <div class="form-group">
-        <label>Country / Region *</label>
-        <input id="jobCountry" placeholder="🔍 Type country... e.g Nigeria, USA, Remote" list="countryList" required>
-        <datalist id="countryList">
-          <option value="Nigeria"><option value="Ghana"><option value="Kenya"><option value="South Africa">
-          <option value="USA"><option value="UK"><option value="Canada"><option value="Remote"><option value="Other">
-        </datalist>
-      </div>
-      <div class="form-group"><label>Company</label><input id="jobCompany" placeholder="Google Inc"></div>
-      <div class="form-group"><label>Salary</label><input id="jobSalary" placeholder="$500/month"></div>
-      <div class="form-group">
-        <label>WhatsApp *</label>
-        <div class="phone-group">
-          <input type="text" class="country-code" id="countryCode" value="+234" required>
-          <input type="tel" id="jobWhatsapp" placeholder="803 123 4567" required>
-        </div>
-      </div>
-      <button class="btn">Submit Request</button>
-    </form>
-  </div>
 
-  <div class="form-box payment-box" id="paymentSection">
-    <div class="warning">⚠️ $10 Fee Required For Approval</div>
-    <div class="id-box">Your Job ID: <span id="jobId"></span></div>
-    <div class="qr-box"><img id="qrCode" width="200"></div>
-    <div class="wallet">
-      <div style="font-size:11px;color:#aaa;">USDT TRC20 Address</div>
-      <div style="color:#ffaa00;font-family:monospace;font-size:12px;word-break:break-all;">TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</div>
-    </div>
-    <button class="btn" onclick="navigator.clipboard.writeText('TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T')">📋 Copy Address</button>
-    <div class="note">Send payment proof to <b>feargodemma56@gmail.com</b> with your ID<br>Approval in 24 hrs</div>
-    <button class="btn" style="background:#25D366;margin-top:10px;" onclick="location.href='index.html'">Go to Marketplace</button>
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <h1>MarketSale Jobs</h1>
   </div>
+  <a href="index.html" class="btn-back">← HOME</a>
+</header>
+
+<div class="post-box">
+  <h2>Post A Job</h2>
+  <div class="success" id="successBox"></div>
+
+  <form id="jobForm">
+    <div class="form-group">
+      <label>JOB TITLE *</label>
+      <input type="text" id="title" placeholder="Delivery Driver Needed" required>
+    </div>
+    <div class="form-group">
+      <label>SALARY ₦</label>
+      <input type="text" id="salary" placeholder="50,000 - 80,000 / month">
+    </div>
+    <div class="form-group">
+      <label>JOB TYPE</label>
+      <select id="type">
+        <option>Full Time</option>
+        <option>Part Time</option>
+        <option>Contract</option>
+        <option>Internship</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>LOCATION</label>
+      <input type="text" id="location" placeholder="Port Harcourt, Rivers" value="Port Harcourt, Rivers">
+    </div>
+    <div class="form-group">
+      <label>JOB DESCRIPTION *</label>
+      <textarea id="description" placeholder="Duties, requirements, experience needed..." required></textarea>
+    </div>
+    <div class="form-group">
+      <label>CONTACT</label>
+      <input type="text" id="contact" placeholder="WhatsApp or Phone">
+    </div>
+    <button class="btn">POST JOB</button>
+  </form>
 </div>
+
 <script>
-if(localStorage.getItem("marketSaleLoggedIn")!== "true")location.href="login.html";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-let currentJobId='';
-jobForm.onsubmit=e=>{
+if(!user) location.href = "login.html";
+
+jobForm.onsubmit = e => {
   e.preventDefault();
-  currentJobId = 'JOB-' + Date.now();
-  let fullWhatsApp = countryCode.value + jobWhatsapp.value.replace(/\s/g,'');
-  let data={id:currentJobId,title:jobTitle.value,desc:jobDesc.value,country:jobCountry.value,company:jobCompany.value,salary:jobSalary.value,email:user.email,whatsapp:fullWhatsApp,price:'10',type:'job',status:'pending',date: new Date().toLocaleDateString()};
-  let p=JSON.parse(localStorage.getItem("marketSalePending"))||[];p.push(data);localStorage.setItem("marketSalePending",JSON.stringify(p));
-  document.getElementById("formSection").style.display="none";
-  document.getElementById("pageTitle").innerText="Complete Payment";
-  document.getElementById("paymentSection").style.display="block";
-  document.getElementById("jobId").innerText=currentJobId;
-  qrCode.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T`;
-};
+  let jobs = JSON.parse(localStorage.getItem("marketSaleJobs")) || [];
+
+  let newJob = {
+    id: Date.now(),
+    title: title.value,
+    salary: salary.value,
+    type: type.value,
+    location: location.value,
+    description: description.value,
+    contact: contact.value,
+    seller: user.email,
+    date: new Date().toLocaleDateString()
+  };
+
+  jobs.push(newJob);
+  localStorage.setItem("marketSaleJobs", JSON.stringify(jobs));
+
+  successBox.style.display = "block";
+  successBox.innerText = "✅ Job posted successfully!";
+  setTimeout(() => location.href = "index.html", 1500);
+}
 </script>
 </body>
 </html>
