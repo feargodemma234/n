@@ -6,181 +6,26 @@
   <title>Payment - MarketSale</title>
   <link rel="icon" href="logo.png">
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Segoe UI',Arial, sans-serif;
-    }
-    body{
-      background:#05050a;
-      color:white;
-      min-height:100vh;
-      padding:20px;
-      background-image: radial-gradient(circle at 50% 20%, rgba(0,255,136,0.08) 0%, transparent 50%);
-    }
-    .container{
-      max-width:600px;
-      margin:0 auto;
-    }
-    .back-btn{
-      margin-bottom:15px;
-      padding:10px 14px;
-      background:rgba(0,204,255,0.15);
-      color:#00ccff;
-      border:1px solid rgba(0,204,255,0.3);
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:700;
-      font-size:12px;
-      transition:0.3s;
-    }
-    .back-btn:hover{
-      background:rgba(0,204,255,0.25);
-    }
-    .crypto-box{
-      background:rgba(20,20,25,0.7);
-      backdrop-filter:blur(15px);
-      border:1px solid rgba(0,255,136,0.3);
-      padding:25px;
-      border-radius:16px;
-      box-shadow:0 0 30px rgba(0,255,136,0.1);
-    }
-    .crypto-box h3{
-      color:#00ff88;
-      font-size:18px;
-      margin-bottom:15px;
-      text-align:center;
-      font-weight:800;
-    }
-    .warning-box{
-      background:rgba(255,68,68,0.15);
-      border:1px solid #ff4444;
-      padding:14px;
-      border-radius:10px;
-      margin-bottom:20px;
-      text-align:center;
-    }
-    .warning-box p:first-child{
-      color:#ff4444;
-      font-size:13px;
-      font-weight:800;
-      margin-bottom:4px;
-    }
-    .warning-box p:last-child{
-      color:#aaa;
-      font-size:10px;
-    }
-    .qr-wrap{
-      text-align:center;
-      margin:20px 0;
-    }
-    .qr-wrap img{
-      width:220px;
-      height:220px;
-      border-radius:16px;
-      border:3px solid #00ff88;
-      background:white;
-      padding:12px;
-      box-shadow:0 0 20px rgba(0,255,136,0.3);
-    }
-    .qr-wrap p{
-      font-size:11px;
-      color:#888;
-      margin-top:8px;
-    }
-    .label{
-      font-size:12px;
-      font-weight:700;
-      margin-bottom:6px;
-      display:block;
-      color:#00ff88;
-    }
-    .crypto-wallet{
-      background:#0a0a0f;
-      padding:14px;
-      border-radius:10px;
-      font-size:12px;
-      word-break:break-all;
-      margin:10px 0 15px 0;
-      border:1px dashed #00ff88;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-    }
-    .copy-btn{
-      padding:7px 14px;
-      background:#00ff88;
-      color:#000;
-      border:none;
-      border-radius:7px;
-      font-size:11px;
-      cursor:pointer;
-      font-weight:800;
-      flex-shrink:0;
-    }
-    .copy-btn:active{
-      transform:scale(0.95);
-    }
-    .info-box{
-      background:rgba(0,204,255,0.1);
-      border:1px solid rgba(0,204,255,0.2);
-      padding:12px;
-      border-radius:8px;
-      font-size:11px;
-      margin:15px 0;
-      text-align:center;
-      color:#00ccff;
-    }
-    input{
-      width:100%;
-      padding:14px;
-      background:#111;
-      border:1px solid #333;
-      border-radius:10px;
-      color:white;
-      margin-bottom:12px;
-      font-size:12px;
-      outline:none;
-    }
-    input:focus{
-      border-color:#00ff88;
-    }
-    .btn{
-      padding:14px;
-      border-radius:10px;
-      border:none;
-      font-size:13px;
-      font-weight:800;
-      cursor:pointer;
-      width:100%;
-      transition:0.3s;
-    }
-    .btn-green{
-      background:linear-gradient(90deg,#00ff88,#00ccff);
-      color:#000;
-      margin-bottom:10px;
-    }
-    .btn-green:hover{
-      transform:translateY(-2px);
-      box-shadow:0 5px 15px rgba(0,255,136,0.3);
-    }
-    .btn-email{
-      background:rgba(0,204,255,0.2);
-      color:#00ccff;
-      border:1px solid #00ccff;
-    }
-    .btn-email:hover{
-      background:rgba(0,204,255,0.3);
-    }
-    .footer-note{
-      font-size:10px;
-      color:#666;
-      margin-top:15px;
-      text-align:center;
-      line-height:1.5;
-    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    body{background:#05050a;color:white;min-height:100vh;padding:20px;}
+    .container{max-width:600px;margin:0 auto;}
+    .back-btn{margin-bottom:15px;padding:10px 14px;background:rgba(0,204,255,0.15);color:#00ccff;border:1px solid rgba(0,204,255,0.3);border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;}
+    .crypto-box{background:rgba(20,20,25,0.7);border:1px solid rgba(0,255,136,0.3);padding:25px;border-radius:16px;}
+    .crypto-box h3{color:#00ff88;font-size:18px;margin-bottom:15px;text-align:center;font-weight:800;}
+    .warning-box{background:rgba(255,68,68,0.15);border:1px solid #ff4444;padding:14px;border-radius:10px;margin-bottom:20px;text-align:center;}
+    .warning-box p:first-child{color:#ff4444;font-size:13px;font-weight:800;margin-bottom:4px;}
+    .warning-box p:last-child{color:#aaa;font-size:10px;}
+    .qr-wrap{text-align:center;margin:20px 0;}
+    .qr-wrap img{width:220px;height:220px;border-radius:16px;border:3px solid #00ff88;background:white;padding:12px;}
+    .qr-wrap p{font-size:11px;color:#888;margin-top:8px;}
+    .crypto-wallet{background:#0a0a0f;padding:14px;border-radius:10px;font-size:12px;word-break:break-all;margin:10px 0 15px 0;border:1px dashed #00ff88;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+    .copy-btn{padding:7px 14px;background:#00ff88;color:#000;border:none;border-radius:7px;font-size:11px;cursor:pointer;font-weight:800;flex-shrink:0;}
+    .info-box{background:rgba(0,204,255,0.1);border:1px solid rgba(0,204,255,0.2);padding:12px;border-radius:8px;font-size:11px;margin:15px 0;text-align:center;color:#00ccff;}
+    input{width:100%;padding:14px;background:#111;border:1px solid #333;border-radius:10px;color:white;margin-bottom:12px;font-size:12px;}
+    .btn{padding:14px;border-radius:10px;border:none;font-size:13px;font-weight:800;cursor:pointer;width:100%;}
+    .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;margin-bottom:10px;}
+    .btn-email{background:rgba(0,204,255,0.2);color:#00ccff;border:1px solid #00ccff;}
+    .footer-note{font-size:10px;color:#666;margin-top:15px;text-align:center;}
   </style>
 </head>
 <body>
@@ -196,5 +41,71 @@
     </div>
 
     <div class="qr-wrap">
-      <!-- EMBEDDED QR CODE - NO FILE NEEDED -->
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAAsTAAALEwEAmpwYAAABF0lEQVR4nO3dQY7CMAwF0P3/T5LQZpJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYwZJmYw
+      <img src="qr.png" alt="USDT Wallet QR">
+      <p>Scan to pay 10 USDT</p>
+    </div>
+
+    <span class="label">USDT TRC20 Wallet Address:</span>
+    <div class="crypto-wallet">
+      <span>TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</span>
+      <button class="copy-btn" onclick="copyWallet()">COPY</button>
+    </div>
+
+    <div class="info-box">
+      <b>Amount:</b> 10 USDT | <b>Network:</b> TRC20
+    </div>
+
+    <input type="text" id="txHash" placeholder="Paste your Transaction Hash after sending">
+
+    <button class="btn btn-green" onclick="submitTX()">SEND PROOF TO ADMIN</button>
+    
+    <button class="btn btn-email" onclick="emailProof()">📧 EMAIL PROOF TO marketsaleofficial@gmail.com</button>
+
+    <p class="footer-note">Access granted in 5-10 mins after verification</p>
+  </div>
+</div>
+
+<script>
+const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
+const YOUR_USDT_WALLET = "TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T";
+
+let user = JSON.parse(localStorage.getItem("marketSaleUser"));
+if(!user) location.href = "login.html";
+
+function copyWallet(){
+  navigator.clipboard.writeText(YOUR_USDT_WALLET);
+  alert("✅ Wallet copied");
+}
+
+function submitTX(){
+  let tx = document.getElementById("txHash").value.trim();
+  if(tx.length < 10) return alert("❌ Enter valid TX Hash");
+
+  let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
+  if(pending.find(p => p.email === user.email && p.status === "pending")){
+    return alert("❌ You already have a pending payment");
+  }
+  
+  pending.push({
+    email: user.email,
+    tx: tx,
+    amount: 10,
+    currency: "USDT",
+    date: new Date().toLocaleString(),
+    status: "pending"
+  });
+  localStorage.setItem("pendingPayments", JSON.stringify(pending));
+  emailProof(tx);
+  alert("✅ Proof submitted! Check your email app");
+}
+
+function emailProof(tx){
+  tx = tx || document.getElementById("txHash").value.trim();
+  if(!tx) return alert("❌ Enter TX Hash first");
+  let subject = `MarketSale Payment Proof - ${user.email}`;
+  let body = `Hello Admin,%0D%0A%0D%0AI have paid $10 USDT for MarketSale access.%0D%0A%0D%0AEmail: ${user.email}%0D%0ATX Hash: ${tx}%0D%0AAmount: 10 USDT`;
+  window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
