@@ -3,176 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
+  <title>Admin - MarketSale</title>
+  <link rel="icon" href="logo.png">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#0a0a0a;color:white;font-family:Arial;padding:15px;}
-  .container{max-width:900px;margin:0 auto;}
-    h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:20px;}
-  .tabs{display:flex;gap:8px;margin-bottom:15px;}
-  .tab{flex:1;padding:12px;border-radius:10px;border:none;font-weight:bold;font-size:12px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;gap:5px;}
-  .tab.pending{background:#ffaa00;}
-  .tab.approved{background:#00ff88;color:#000;}
-  .tab.removed{background:#ff4444;}
-  .tab.active{border:2px solid white;box-shadow:0 0 10px rgba(255,255,255,0.2);}
-  .count-badge{background:#000;color:white;padding:2px 6px;border-radius:10px;font-size:10px;}
-  .search-box{width:100%;padding:12px;background:#151515;border:1px solid #333;border-radius:10px;color:white;margin-bottom:15px;font-size:13px;}
-  .card{background:#151515;border:1px solid #333;border-radius:12px;padding:12px;margin-bottom:12px;}
-  .card.pending{border-left:4px solid #ffaa00;}
-  .card.approved{border-left:4px solid #00ff88;}
-  .card.removed{border-left:4px solid #ff4444;opacity:0.6;}
-    img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px;background:#1a1a1a;}
-  .id{color:#00ff88;font-size:10px;font-weight:bold;margin-bottom:5px;}
-  .badge{background:#ffaa00;color:#000;font-size:9px;padding:3px 6px;border-radius:5px;font-weight:bold;margin-left:5px;}
-  .title{color:white;font-size:15px;font-weight:bold;margin-bottom:5px;}
-  .country{color:#ffaa00;font-size:11px;margin-bottom:5px;}
-  .price{color:#00ff88;font-size:16px;font-weight:bold;margin:8px 0;}
-  .info{color:#aaa;font-size:11px;margin:5px 0;line-height:1.6;}
-  .btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
-  .btn-a{background:#00ff88;color:#000;padding:10px;border:none;border-radius:8px;font-weight:bold;font-size:11px;cursor:pointer;}
-  .btn-e{background:#0088ff;color:white;padding:10px;border:none;border-radius:8px;font-weight:bold;font-size:11px;cursor:pointer;}
-  .btn-r{background:#ff4444;color:white;padding:10px;border:none;border-radius:8px;font-weight:bold;font-size:11px;cursor:pointer;}
-  .btn-delete{background:#666;color:white;padding:10px;border:none;border-radius:8px;width:100%;font-weight:bold;font-size:12px;cursor:pointer;margin-top:8px;}
-  .error{text-align:center;padding:60px 20px;color:#ff4444;}
-  .empty{text-align:center;padding:40px 20px;color:#666;font-size:13px;}
-  .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;padding:20px;overflow-y:auto;}
-  .modal-box{background:#151515;padding:15px;border-radius:12px;max-width:500px;margin:50px auto;border:1px solid #333;}
-  .modal h2{color:#00ff88;margin-bottom:15px;text-align:center;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    body{background:#05050a;color:white;padding:20px;background-image: radial-gradient(circle at 20% 50%, rgba(255,170,0,0.08) 0%, transparent 50%);}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px;}
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #ffaa00;}
+    .logo h1{background:linear-gradient(90deg,#ffaa00,#ff6600);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
+    .btn-back{padding:10px 16px;background:rgba(50,50,50,0.8);color:white;border:1px solid #444;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;}
+    
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:25px;}
+    .stat-box{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);padding:20px;border-radius:15px;border:1px solid rgba(255,170,0,0.2);}
+    .stat-box h3{font-size:12px;color:#aaa;margin-bottom:8px;}
+    .stat-box p{font-size:24px;font-weight:800;color:#ffaa00;}
+
+    .section{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);padding:20px;border-radius:15px;border:1px solid rgba(255,170,0,0.2);margin-bottom:20px;}
+    .section h2{font-size:16px;margin-bottom:15px;color:#ffaa00;}
+    .item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(30,30,30,0.5);border-radius:10px;margin-bottom:10px;}
+    .item-info{font-size:12px;}
+    .item-info b{color:#00ff88;}
+    .btn-del{padding:6px 10px;background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;font-size:10px;cursor:pointer;}
+    .empty{color:#555;text-align:center;padding:20px;}
+    @media(min-width:769px){.stats{grid-template-columns:repeat(4,1fr);}}
   </style>
 </head>
 <body>
-<div class="container" id="adminPanel" style="display:none;">
-  <h1>🔒 Admin Panel</h1>
-  <div class="tabs">
-    <button class="tab pending active" onclick="switchTab('pending')">🟡 Pending <span class="count-badge" id="pendingCount">0</span></button>
-    <button class="tab approved" onclick="switchTab('approved')">🟢 Approved <span class="count-badge" id="approvedCount">0</span></button>
-    <button class="tab removed" onclick="switchTab('removed')">🔴 Removed <span class="count-badge" id="removedCount">0</span></button>
-  </div>
-  <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search by ID, Name, Email, Country...">
-  <div id="list"></div>
-</div>
-<div class="error" id="noAccess" style="display:none;"><h2>⛔ Access Denied</h2><p>Only admin can view this page</p><p style="font-size:12px;margin-top:10px;">Admin Email: marketsaleofficial@gmail.com</p></div>
 
-<div class="modal" id="editModal">
-  <div class="modal-box">
-    <h2>✏️ Edit Item</h2>
-    <form id="editForm">
-      <input type="hidden" id="editId">
-      <div class="form-group"><label>Title</label><input id="editTitle" required></div>
-      <div class="form-group"><label>Description</label><textarea id="editDesc" required></textarea></div>
-      <div class="form-group"><label>Country</label><input id="editCountry" required></div>
-      <div class="form-group"><label>Price $</label><input type="number" id="editPrice" step="0.01" required></div>
-      <div class="form-group" id="editCompanyBox" style="display:none;"><label>Company</label><input id="editCompany"></div>
-      <div class="form-group" id="editSalaryBox" style="display:none;"><label>Salary</label><input id="editSalary"></div>
-      <button class="btn-a" style="width:100%;margin-top:10px;">Save Changes</button>
-      <button type="button" class="btn-r" style="width:100%;margin-top:8px;" onclick="closeEdit()">Cancel</button>
-    </form>
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <h1>ADMIN PANEL</h1>
   </div>
+  <a href="index.html" class="btn-back">← HOME</a>
+</header>
+
+<div class="stats">
+  <div class="stat-box"><h3>TOTAL USERS</h3><p id="totalUsers">0</p></div>
+  <div class="stat-box"><h3>TOTAL ITEMS</h3><p id="totalItems">0</p></div>
+</div>
+
+<div class="section">
+  <h2>ALL USERS</h2>
+  <div id="usersList"></div>
+</div>
+
+<div class="section">
+  <h2>ALL PRODUCTS</h2>
+  <div id="productsList"></div>
 </div>
 
 <script>
-const ADMIN_EMAIL = "marketsaleofficial@gmail.com"; // CHANGED
+const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-if(!user || user.email.toLowerCase()!== ADMIN_EMAIL){
-  document.getElementById("noAccess").style.display = "block";
-} else {
-  document.getElementById("adminPanel").style.display = "block";
-  load();
+
+// BLOCK NON-ADMIN
+if(!user || user.email.toLowerCase() !== ADMIN_EMAIL){
+  alert("Access Denied");
+  location.href = "index.html";
 }
 
-let pending = JSON.parse(localStorage.getItem("marketSalePending")) || [];
-let approved = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-let removed = JSON.parse(localStorage.getItem("marketSaleRemoved")) || [];
-let currentTab = 'pending';updateCounts();
+function loadData(){
+  let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
+  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
+  
+  document.getElementById("totalUsers").innerText = users.length;
+  document.getElementById("totalItems").innerText = products.length;
 
-function updateCounts(){
-  document.getElementById("pendingCount").innerText = pending.length;
-  document.getElementById("approvedCount").innerText = approved.length;
-  document.getElementById("removedCount").innerText = removed.length;
-}
-
-function switchTab(tab){
-  currentTab = tab;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector(`.tab.${tab}`).classList.add('active');
-  load(document.getElementById("searchInput").value.toLowerCase());
-}
-
-function load(filter=""){
-  let data = currentTab === 'pending'? pending : currentTab === 'approved'? approved : removed;
-  let filtered = data.filter(p =>
-    p.id.toLowerCase().includes(filter) ||
-    p.title.toLowerCase().includes(filter) ||
-    p.email.toLowerCase().includes(filter) ||
-    p.country.toLowerCase().includes(filter)
-  );
-  if(filtered.length == 0) { list.innerHTML = `<div class="empty">No ${currentTab} items yet</div>`; return; }
-  list.innerHTML = filtered.map(p => `
-    <div class="card ${currentTab}">
-      <div class="id">ID: ${p.id} ${p.type==='job'?'<span class="badge">JOB</span>':''}</div>
-      ${p.image?`<img src="${p.image}">`:''}
-      <div class="title">${p.title}</div>
-      <div class="country">📍 ${p.country || 'N/A'}</div>
-      <div class="info">
-        <b>Posted By:</b> ${p.email}<br>
-        <b>WhatsApp:</b> ${p.whatsapp}<br>
-        ${p.company? `<b>Company:</b> ${p.company}<br>` : ''}
-        ${p.salary? `<b>Salary:</b> ${p.salary}<br>` : ''}
-        <b>Posted:</b> ${p.date || 'N/A'}
-      </div>
-      <div class="price">$${p.price}</div>
-      ${currentTab === 'pending'?
-        `<div class="btns">
-          <button class="btn-a" onclick="approve('${p.id}')">✅ Approve</button>
-          <button class="btn-e" onclick="editItem('${p.id}')">✏️ Edit</button>
-          <button class="btn-r" onclick="reject('${p.id}')">❌ Reject</button>
-        </div>`
-        : currentTab === 'approved'?
-        `<div class="btns">
-          <button class="btn-e" onclick="editItem('${p.id}')">✏️ Edit</button>
-          <button class="btn-r" onclick="remove('${p.id}')">🗑️ Remove</button>
-        </div>`
-        : `<button class="btn-delete" onclick="deleteForever('${p.id}')">Delete Forever</button>`
-      }
+  // USERS
+  let usersDiv = document.getElementById("usersList");
+  if(users.length === 0) usersDiv.innerHTML = `<div class="empty">No users yet</div>`;
+  else usersDiv.innerHTML = users.map(u => `
+    <div class="item">
+      <div class="item-info"><b>${u.email}</b></div>
+      <button class="btn-del" onclick="deleteUser('${u.email}')">DELETE</button>
     </div>
-  `).join('')
+  `).join('');
+
+  // PRODUCTS
+  let productsDiv = document.getElementById("productsList");
+  if(products.length === 0) productsDiv.innerHTML = `<div class="empty">No products yet</div>`;
+  else productsDiv.innerHTML = products.map(p => `
+    <div class="item">
+      <div class="item-info"><b>${p.title}</b> - ₦${Number(p.price).toLocaleString()}<br><span style="color:#888;font-size:10px;">by ${p.seller}</span></div>
+      <button class="btn-del" onclick="deleteProduct(${p.id})">DELETE</button>
+    </div>
+  `).join('');
 }
 
-document.getElementById("searchInput").onkeyup = (e) => load(e.target.value.toLowerCase());
-
-function approve(id){let prod = pending.find(p => p.id == id);approved.push(prod);pending = pending.filter(p => p.id!= id);saveAll();updateCounts();load();}
-function reject(id){let prod = pending.find(p => p.id == id);removed.push(prod);pending = pending.filter(p => p.id!= id);saveAll();updateCounts();load();}
-function remove(id){let prod = approved.find(p => p.id == id);removed.push(prod);approved = approved.filter(p => p.id!= id);saveAll();updateCounts();load();}
-function deleteForever(id){removed = removed.filter(p => p.id!= id);saveAll();updateCounts();load();}
-
-function editItem(id){
-  let data = [...pending,...approved].find(p => p.id == id);
-  editId.value = id;editTitle.value = data.title;editDesc.value = data.desc;
-  editCountry.value = data.country;editPrice.value = data.price;
-  if(data.type === 'job'){
-    editCompanyBox.style.display = "block";editSalaryBox.style.display = "block";
-    editCompany.value = data.company || '';editSalary.value = data.salary || '';
-  } else {editCompanyBox.style.display = "none";editSalaryBox.style.display = "none";}
-  editModal.style.display = "block";
-}
-function closeEdit(){editModal.style.display = "none";}
-
-editForm.onsubmit = e=>{
-  e.preventDefault();
-  let id = editId.value;
-  let updateData = {title: editTitle.value,desc: editDesc.value,country: editCountry.value,price: editPrice.value,company: editCompany.value,salary: editSalary.value};
-  let pIndex = pending.findIndex(p => p.id == id);
-  let aIndex = approved.findIndex(p => p.id == id);
-  if(pIndex > -1) pending[pIndex] = {...pending[pIndex],...updateData};
-  if(aIndex > -1) approved[aIndex] = {...approved[aIndex],...updateData};
-  saveAll(); closeEdit(); load();
+function deleteUser(email){
+  if(confirm("Delete this user?")){
+    let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
+    users = users.filter(u => u.email !== email);
+    localStorage.setItem("marketSaleUsers", JSON.stringify(users));
+    loadData();
+  }
 }
 
-function saveAll(){
-  localStorage.setItem("marketSaleProducts", JSON.stringify(approved));
-  localStorage.setItem("marketSalePending", JSON.stringify(pending));
-  localStorage.setItem("marketSaleRemoved", JSON.stringify(removed));
+function deleteProduct(id){
+  if(confirm("Delete this product?")){
+    let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
+    products = products.filter(p => p.id !== id);
+    localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+    loadData();
+  }
 }
+
+loadData();
 </script>
 </body>
 </html>
