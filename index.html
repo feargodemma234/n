@@ -59,12 +59,6 @@
     .msg{padding:12px;border-radius:10px;margin:12px;margin-bottom:0;font-size:12px;text-align:center;display:none;font-weight:600;}
     .msg.success{background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid rgba(0,255,136,0.3);}
 
-    /* CRYPTO PAY BOX */
-    .crypto-box{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.3);padding:15px;border-radius:12px;margin:12px;}
-    .crypto-box h3{color:#00ff88;font-size:14px;margin-bottom:8px;text-align:center;}
-    .crypto-wallet{background:#111;padding:10px;border-radius:8px;font-size:11px;word-break:break-all;margin:8px 0;border:1px dashed #00ff88;display:flex;justify-content:space-between;align-items:center;}
-    .copy-btn{padding:5px 10px;background:#00ff88;color:#000;border:none;border-radius:6px;font-size:10px;cursor:pointer;font-weight:700;}
-
     @media(min-width:769px){
       .user-email,.user-status{display:block;margin-right:8px;}
       .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;}
@@ -89,43 +83,6 @@
 
 <div class="msg success" id="msgBox"></div>
 
-<!-- CRYPTO PAYMENT BOX - SHOWS WHEN NO ACCESS -->
-<div id="cryptoPayBox" style="display:none;" class="crypto-box">
-  <h3>₿ PAY $10/MONTH WITH USDT</h3>
-  
-  <!-- BIG WARNING -->
-  <div style="background:rgba(255,68,68,0.15);border:1px solid #ff4444;padding:10px;border-radius:8px;margin-bottom:12px;text-align:center;">
-    <p style="color:#ff4444;font-size:11px;font-weight:800;">⚠️ ONLY SEND USDT TRC20 ⚠️</p>
-    <p style="color:#aaa;font-size:10px;">Other coins/networks will be LOST FOREVER</p>
-  </div>
-
-  <!-- QR CODE -->
-  <div style="text-align:center;margin:15px 0;">
-    <img src="/mnt/data/wa_image_8937243122148161717" alt="USDT Wallet QR" style="width:180px;height:180px;border-radius:12px;border:2px solid #00ff88;background:white;padding:8px;">
-    <p style="font-size:10px;color:#888;margin-top:5px;">Scan to pay 10 USDT</p>
-  </div>
-
-  <!-- WALLET ADDRESS -->
-  <b style="font-size:11px;">USDT TRC20 Wallet Address:</b>
-  <div class="crypto-wallet">
-    <span>TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</span>
-    <button class="copy-btn" onclick="copyWallet()">COPY</button>
-  </div>
-
-  <div style="background:rgba(0,204,255,0.1);padding:8px;border-radius:6px;font-size:10px;margin:8px 0;text-align:center;">
-    <b>Amount:</b> 10 USDT | <b>Network:</b> TRC20 | <b>No Memo Required</b>
-  </div>
-
-  <!-- PROOF SUBMISSION -->
-  <input type="text" id="txHash" placeholder="Paste your Transaction Hash after sending" style="width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;margin-bottom:8px;font-size:11px;">
-
-  <button class="btn btn-green" onclick="submitTX()" style="width:100%;margin-bottom:8px;">SEND PROOF TO ADMIN</button>
-  
-  <button class="btn" onclick="emailProof()" style="width:100%;background:rgba(0,204,255,0.2);color:#00ccff;border:1px solid #00ccff;">📧 EMAIL PROOF TO marketsaleofficial@gmail.com</button>
-
-  <p style="font-size:9px;color:#666;margin-top:8px;text-align:center;">Send TX Hash + Your Email. Access granted in 5-10 mins</p>
-</div>
-
 <div class="tabs">
   <div class="tab active" id="productsTab" onclick="switchTab('products')">🛍️ PRODUCTS</div>
   <div class="tab" id="jobsTab" onclick="switchTab('jobs')">💼 JOBS</div>
@@ -145,8 +102,6 @@
 
 <script>
 const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
-const CRYPTO_PRICE = 10; // $10 USD
-const YOUR_USDT_WALLET = "TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T"; // YOUR TRC20 WALLET
 
 let currentTab = 'products';
 
@@ -156,7 +111,7 @@ if(loggedIn !== "true" || !user){ location.href = "login.html"; }
 
 document.getElementById("userEmail").innerText = user.email;
 
-// ACCESS STATUS + CRYPTO PAY
+// ACCESS STATUS + REDIRECT TO PAYMENT PAGE
 let accessUntil = user.accessUntil ? new Date(user.accessUntil) : null;
 let accessSpan = document.getElementById("accessStatus");
 let headerBtns = document.querySelector(".header-btns");
@@ -168,13 +123,15 @@ if(accessUntil && accessUntil > new Date()){
 } else {
   accessSpan.innerText = "NO ACCESS";
   accessSpan.style.color = "#ff4444";
-  document.getElementById("cryptoPayBox").style.display = "block";
-
-  // Add $10 button in header
+  
+  // Force to payment page when clicking post
+  document.getElementById("postBtn").onclick = () => location.href = 'payment.html';
+  
+  // Add $10 button in header that goes to payment page
   let payBtn = document.createElement("button");
   payBtn.className = "btn btn-green";
   payBtn.innerText = "PAY $10";
-  payBtn.onclick = () => document.getElementById("cryptoPayBox").scrollIntoView({behavior:'smooth'});
+  payBtn.onclick = () => location.href = 'payment.html';
   headerBtns.insertBefore(payBtn, document.getElementById("postBtn"));
 }
 
@@ -195,49 +152,6 @@ function showMsg(text){
   setTimeout(()=>box.style.display='none',3000); 
 }
 
-function copyWallet(){
-  navigator.clipboard.writeText(YOUR_USDT_WALLET);
-  showMsg("✅ Wallet copied");
-}
-
-function submitTX(){
-  let tx = document.getElementById("txHash").value.trim();
-  if(tx.length < 10) return showMsg("❌ Enter valid TX Hash");
-
-  let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
-  if(pending.find(p => p.email === user.email && p.status === "pending")){
-    return showMsg("❌ You already have a pending payment");
-  }
-
-  let paymentData = {
-    email: user.email,
-    tx: tx,
-    amount: CRYPTO_PRICE,
-    currency: "USDT",
-    date: new Date().toLocaleString(),
-    status: "pending"
-  };
-
-  pending.push(paymentData);
-  localStorage.setItem("pendingPayments", JSON.stringify(pending));
-
-  // AUTO OPEN EMAIL
-  emailProof(tx);
-  
-  document.getElementById("txHash").value = "";
-  showMsg("✅ Proof saved! Email app should open now");
-}
-
-function emailProof(tx){
-  tx = tx || document.getElementById("txHash").value.trim();
-  if(!tx) return showMsg("❌ Enter TX Hash first");
-
-  let subject = `MarketSale Payment Proof - ${user.email}`;
-  let body = `Hello Admin,%0D%0A%0D%0AI have paid $10 USDT for MarketSale access.%0D%0A%0D%0AEmail: ${user.email}%0D%0ATX Hash: ${tx}%0D%0AWallet: ${YOUR_USDT_WALLET}%0D%0AAmount: 10 USDT%0D%0ADate: ${new Date().toLocaleString()}%0D%0A%0D%0APlease verify and grant access.%0D%0A%0D%0AThank you`;
-
-  window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-}
-
 function switchTab(tab){
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -246,14 +160,24 @@ function switchTab(tab){
     document.getElementById('productsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Deal';
     document.getElementById('heroDesc').innerText = 'Buy and sell in Port Harcourt';
-    document.getElementById('postBtn').innerText = '+SELL';
-    document.getElementById('postBtn').onclick = () => location.href='post.html';
+    let postBtn = document.getElementById('postBtn');
+    postBtn.innerText = '+SELL';
+    if(!accessUntil || accessUntil < new Date()){
+      postBtn.onclick = () => location.href = 'payment.html';
+    } else {
+      postBtn.onclick = () => location.href = 'post.html';
+    }
   } else {
     document.getElementById('jobsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Job';
     document.getElementById('heroDesc').innerText = 'Work opportunities in Port Harcourt';
-    document.getElementById('postBtn').innerText = '+JOB';
-    document.getElementById('postBtn').onclick = () => location.href='job.html';
+    let postBtn = document.getElementById('postBtn');
+    postBtn.innerText = '+JOB';
+    if(!accessUntil || accessUntil < new Date()){
+      postBtn.onclick = () => location.href = 'payment.html';
+    } else {
+      postBtn.onclick = () => location.href = 'job.html';
+    }
   }
   loadData();
 }
@@ -286,7 +210,7 @@ function loadData(){
     let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
     let approved = products.filter(p => p.approved);
     if(approved.length === 0){
-      grid.innerHTML = `<div class="empty"><h3>No products yet</h3><p><a href="post.html">Be the first to sell!</a></p></div>`;
+      grid.innerHTML = `<div class="empty"><h3>No products yet</h3><p><a href="${accessUntil && accessUntil > new Date() ? 'post.html' : 'payment.html'}">Be the first to sell!</a></p></div>`;
       return;
     }
     grid.innerHTML = approved.reverse().map(p => {
@@ -315,7 +239,7 @@ function loadData(){
   else {
     let jobs = JSON.parse(localStorage.getItem("marketSaleJobs")) || [];
     if(jobs.length === 0){
-      grid.innerHTML = `<div class="empty"><h3>No jobs yet</h3><p><a href="job.html">Be the first to post a job!</a></p></div>`;
+      grid.innerHTML = `<div class="empty"><h3>No jobs yet</h3><p><a href="${accessUntil && accessUntil > new Date() ? 'job.html' : 'payment.html'}">Be the first to post a job!</a></p></div>`;
       return;
     }
     grid.innerHTML = jobs.reverse().map(j => {
