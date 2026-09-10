@@ -3,96 +3,185 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Post Product</title>
+  <title>Post Item - MarketSale</title>
+  <link rel="icon" href="logo.png">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;}
-   .container{max-width:500px;margin:0 auto;}
-    h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:18px;}
-   .form-box{background:#151515;padding:15px;border-radius:12px;border:1px solid #333;}
-   .form-group{margin-bottom:12px;}
-    label{display:block;margin-bottom:5px;color:#aaa;font-size:12px;}
-    input,textarea{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:13px;}
-    textarea{min-height:70px;}
-   .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;}
-   .image-upload{border:2px dashed #333;border-radius:10px;padding:15px;text-align:center;cursor:pointer;background:#1a1a1a;font-size:12px;}
-   .image-preview{width:100%;max-height:150px;object-fit:cover;border-radius:8px;margin-top:8px;display:none;}
-   .phone-group{display:flex;gap:8px;}
-   .country-code{width:90px;background:#222;border:1px solid #333;border-radius:8px;color:white;padding:10px;text-align:center;}
-   .payment-box{display:none;}
-   .warning{background:#2a1f00;color:#ffaa00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;}
-   .qr-box{background:white;padding:15px;border-radius:10px;text-align:center;margin:15px 0;}
-   .wallet{background:#1a1a1a;padding:12px;border-radius:8px;margin:15px 0;text-align:center;}
-   .id-box{background:#151515;border:1px solid #00ff88;padding:12px;border-radius:8px;margin:15px 0;color:#00ff88;font-weight:bold;text-align:center;}
-   .note{font-size:11px;color:#aaa;margin:10px 0;text-align:center;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    body{
+      background:#05050a;color:white;
+      background-image: radial-gradient(circle at 20% 50%, rgba(0,255,136,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0,204,255,0.08) 0%, transparent 50%);
+      min-height:100vh;padding:20px;
+    }
+
+    header{
+      max-width:800px;margin:0 auto 30px;display:flex;align-items:center;justify-content:space-between;
+    }
+   .logo{display:flex;align-items:center;gap:10px;}
+   .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #00ff88;}
+   .logo h1{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
+   .btn-back{padding:10px 16px;background:rgba(50,50,50,0.8);color:white;border:1px solid #444;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;transition:0.3s;}
+   .btn-back:hover{background:rgba(70,70,70,0.8);transform:translateY(-2px);}
+
+   .post-box{
+      max-width:800px;margin:0 auto;
+      background:rgba(20,20,25,0.6);backdrop-filter:blur(20px);
+      padding:30px;border-radius:20px;border:1px solid rgba(0,255,136,0.2);
+      box-shadow:0 0 40px rgba(0,255,136,0.1);
+      animation:fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+   .post-box h2{text-align:center;margin-bottom:25px;font-size:24px;background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+   .form-group{margin-bottom:18px;}
+   .full{grid-column:1 / -1;}
+    label{display:block;margin-bottom:8px;color:#aaa;font-size:12px;font-weight:600;letter-spacing:0.5px;}
+    input,textarea,select{
+      width:100%;padding:14px;background:rgba(30,30,30,0.8);border:1px solid #333;
+      border-radius:12px;color:white;font-size:14px;transition:all 0.3s;font-family:inherit;
+    }
+    input:focus,textarea:focus,select:focus{outline:none;border-color:#00ff88;box-shadow:0 0 15px rgba(0,255,136,0.2);background:rgba(40,40,40,0.8);}
+    textarea{min-height:120px;resize:vertical;}
+
+   .upload-box{
+      border:2px dashed rgba(0,255,136,0.3);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:0.3s;
+    }
+   .upload-box:hover{border-color:#00ff88;background:rgba(0,255,136,0.05);}
+   .upload-box img{max-width:100%;max-height:200px;border-radius:10px;margin-top:10px;display:none;}
+
+   .btn{
+      background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;
+      padding:16px;border-radius:12px;border:none;font-weight:800;width:100%;
+      font-size:15px;cursor:pointer;margin-top:10px;transition:all 0.3s;
+      box-shadow:0 4px 15px rgba(0,255,136,0.3);
+    }
+   .btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(0,255,136,0.4);}
+
+   .error{
+      background:rgba(255,68,68,0.1);color:#ff4444;padding:12px;border-radius:12px;
+      margin-bottom:18px;font-size:13px;text-align:center;display:none;
+      border:1px solid rgba(255,68,68,0.3);backdrop-filter:blur(10px);
+    }
+   .success{
+      background:rgba(0,255,136,0.1);color:#00ff88;padding:12px;border-radius:12px;
+      margin-bottom:18px;font-size:13px;text-align:center;display:none;
+      border:1px solid rgba(0,255,136,0.3);backdrop-filter:blur(10px);
+    }
+
+    @media(max-width:768px){.form-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
-<div class="container">
-  <h1 id="pageTitle">Post Product - $2</h1>
-  <div class="form-box" id="formSection">
-    <form id="postForm">
-      <div class="form-group">
-        <label>Product Image *</label>
-        <div class="image-upload" onclick="productImage.click()">
-          <span id="uploadText">📷 Tap to Upload Image</span>
-          <img id="imagePreview" class="image-preview">
-        </div>
-        <input type="file" id="productImage" accept="image/*" style="display:none;" required>
-      </div>
-      <div class="form-group"><label>Product Name *</label><input id="productName" placeholder="iPhone 14 Pro" required></div>
-      <div class="form-group"><label>Description *</label><textarea id="productDesc" placeholder="Brand new, 256GB, 1 year warranty" required></textarea></div>
-      <div class="form-group">
-        <label>Country / Region *</label>
-        <input id="productCountry" placeholder="🔍 Type country... e.g Nigeria, USA" list="countryList" required>
-        <datalist id="countryList">
-          <option value="Nigeria"><option value="Ghana"><option value="Kenya"><option value="South Africa">
-          <option value="USA"><option value="UK"><option value="Canada"><option value="Other">
-        </datalist>
-      </div>
-      <div class="form-group">
-        <label>WhatsApp *</label>
-        <div class="phone-group">
-          <input type="text" class="country-code" id="countryCode" value="+234" required>
-          <input type="tel" id="productWhatsapp" placeholder="803 123 4567" required>
-        </div>
-      </div>
-      <div class="form-group"><label>Price $ *</label><input type="number" id="productPrice" step="0.01" placeholder="250.00" required></div>
-      <button class="btn">Submit Request</button>
-    </form>
-  </div>
 
-  <div class="form-box payment-box" id="paymentSection">
-    <div class="warning">⚠️ $2 Fee Required For Approval</div>
-    <div class="id-box">Your Product ID: <span id="prodId"></span></div>
-    <div class="qr-box"><img id="qrCode" width="200"></div>
-    <div class="wallet">
-      <div style="font-size:11px;color:#aaa;">USDT TRC20 Address</div>
-      <div style="color:#00ff88;font-family:monospace;font-size:12px;word-break:break-all;">TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</div>
-    </div>
-    <button class="btn" onclick="navigator.clipboard.writeText('TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T')">📋 Copy Address</button>
-    <div class="note">Send payment proof to <b>feargodemma56@gmail.com</b> with your ID<br>Approval in 24 hrs</div>
-    <button class="btn" style="background:#25D366;margin-top:10px;" onclick="location.href='index.html'">Go to Marketplace</button>
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <h1>MarketSale</h1>
   </div>
+  <a href="index.html" class="btn-back">← BACK</a>
+</header>
+
+<div class="post-box">
+  <h2>List Your Item</h2>
+
+  <div class="error" id="errorBox"></div>
+  <div class="success" id="successBox"></div>
+
+  <form id="postForm">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>ITEM TITLE *</label>
+        <input type="text" id="title" placeholder="iPhone 13 Pro Max" required>
+      </div>
+      <div class="form-group">
+        <label>PRICE ₦ *</label>
+        <input type="number" id="price" placeholder="450000" required>
+      </div>
+
+      <div class="form-group">
+        <label>CATEGORY</label>
+        <select id="category">
+          <option>Electronics</option>
+          <option>Fashion</option>
+          <option>Vehicles</option>
+          <option>Home & Furniture</option>
+          <option>Phones</option>
+          <option>Others</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>LOCATION</label>
+        <input type="text" id="location" placeholder="Port Harcourt, Rivers" value="Port Harcourt, Rivers">
+      </div>
+
+      <div class="form-group full">
+        <label>DESCRIPTION *</label>
+        <textarea id="description" placeholder="Describe your item, condition, what's included..." required></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>ITEM PHOTO</label>
+        <div class="upload-box" onclick="document.getElementById('image').click()">
+          <span>📸 Click to upload image</span>
+          <img id="preview">
+        </div>
+        <input type="file" id="image" accept="image/*" style="display:none">
+      </div>
+    </div>
+
+    <button class="btn">POST ITEM</button>
+  </form>
 </div>
+
 <script>
-if(localStorage.getItem("marketSaleLoggedIn")!== "true")location.href="login.html";
+// CHECK LOGIN
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-let imgData=''; let currentProductId='';
-productImage.onchange=e=>{let r=new FileReader();r.onload=ev=>{imgData=ev.target.result;imagePreview.src=imgData;imagePreview.style.display='block';uploadText.style.display='none';};r.readAsDataURL(e.target.files[0]);};
-postForm.onsubmit=e=>{
+if(!user) location.href = "login.html";
+
+// IMAGE PREVIEW
+image.onchange = e => {
+  let file = e.target.files[0];
+  if(file){
+    let reader = new FileReader();
+    reader.onload = () => {
+      preview.src = reader.result;
+      preview.style.display = "block";
+    }
+    reader.readAsDataURL(file);
+  }
+}
+
+postForm.onsubmit = e => {
   e.preventDefault();
-  if(!imgData)return alert("Upload image");
-  currentProductId = 'MS-' + Date.now();
-  let fullWhatsApp = countryCode.value + productWhatsapp.value.replace(/\s/g,'');
-  let data={id:currentProductId,title:productName.value,desc:productDesc.value,country:productCountry.value,email:user.email,whatsapp:fullWhatsApp,price:productPrice.value,image:imgData,type:'product',status:'pending',date: new Date().toLocaleDateString()};
-  let p=JSON.parse(localStorage.getItem("marketSalePending"))||[];p.push(data);localStorage.setItem("marketSalePending",JSON.stringify(p));
-  document.getElementById("formSection").style.display="none";
-  document.getElementById("pageTitle").innerText="Complete Payment";
-  document.getElementById("paymentSection").style.display="block";
-  document.getElementById("prodId").innerText=currentProductId;
-  qrCode.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T`;
-};
+  errorBox.style.display = "none";
+  successBox.style.display = "none";
+
+  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
+
+  let newProduct = {
+    id: Date.now(),
+    title: title.value.trim(),
+    price: price.value,
+    category: category.value,
+    location: location.value.trim(),
+    description: description.value.trim(),
+    image: preview.src || '',
+    seller: user.email,
+    date: new Date().toLocaleDateString()
+  };
+
+  products.push(newProduct);
+  localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+
+  successBox.style.display = "block";
+  successBox.innerText = "✅ Item posted successfully!";
+
+  setTimeout(() => {
+    location.href = "index.html";
+  }, 1500);
+}
 </script>
 </body>
 </html>
