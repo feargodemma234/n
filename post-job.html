@@ -32,7 +32,6 @@
     <form id="jobForm">
       <div class="form-group"><label>Job Title *</label><input id="jobTitle" placeholder="Frontend Developer" required></div>
       <div class="form-group"><label>Job Description *</label><textarea id="jobDesc" placeholder="Remote job, 2 years experience required" required></textarea></div>
-      
       <div class="form-group">
         <label>Country / Region *</label>
         <input id="jobCountry" placeholder="🔍 Type country... e.g Nigeria, USA, Remote" list="countryList" required>
@@ -41,10 +40,8 @@
           <option value="USA"><option value="UK"><option value="Canada"><option value="Remote"><option value="Other">
         </datalist>
       </div>
-
       <div class="form-group"><label>Company</label><input id="jobCompany" placeholder="Google Inc"></div>
       <div class="form-group"><label>Salary</label><input id="jobSalary" placeholder="$500/month"></div>
-      <div class="form-group"><label>Email</label><input type="email" id="jobEmail" placeholder="hr@company.com"></div>
       <div class="form-group">
         <label>WhatsApp *</label>
         <div class="phone-group">
@@ -52,12 +49,12 @@
           <input type="tel" id="jobWhatsapp" placeholder="803 123 4567" required>
         </div>
       </div>
-      <button class="btn">Submit Job - Pay $10</button>
+      <button class="btn">Submit Request</button>
     </form>
   </div>
 
   <div class="form-box payment-box" id="paymentSection">
-    <div class="warning">⚠️ $10 Fee For 1 Month Job Posting</div>
+    <div class="warning">⚠️ $10 Fee Required For Approval</div>
     <div class="id-box">Your Job ID: <span id="jobId"></span></div>
     <div class="qr-box"><img id="qrCode" width="200"></div>
     <div class="wallet">
@@ -65,18 +62,19 @@
       <div style="color:#ffaa00;font-family:monospace;font-size:12px;word-break:break-all;">TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</div>
     </div>
     <button class="btn" onclick="navigator.clipboard.writeText('TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T')">📋 Copy Address</button>
-    <div class="note">Once payment is made send proof to <b>feargodemma56@gmail.com</b> with your ID<br>Your job will be approved in 24 hrs</div>
+    <div class="note">Send payment proof to <b>feargodemma56@gmail.com</b> with your ID<br>Approval in 24 hrs</div>
     <button class="btn" style="background:#25D366;margin-top:10px;" onclick="location.href='index.html'">Go to Marketplace</button>
   </div>
 </div>
 <script>
 if(localStorage.getItem("marketSaleLoggedIn")!== "true")location.href="login.html";
+let user = JSON.parse(localStorage.getItem("marketSaleUser"));
 let currentJobId='';
 jobForm.onsubmit=e=>{
   e.preventDefault();
   currentJobId = 'JOB-' + Date.now();
   let fullWhatsApp = countryCode.value + jobWhatsapp.value.replace(/\s/g,'');
-  let data={id:currentJobId,title:jobTitle.value,desc:jobDesc.value,country:jobCountry.value,company:jobCompany.value,salary:jobSalary.value,email:jobEmail.value,whatsapp:fullWhatsApp,price:'10',type:'job',status:'pending',date: new Date().toLocaleDateString()};
+  let data={id:currentJobId,title:jobTitle.value,desc:jobDesc.value,country:jobCountry.value,company:jobCompany.value,salary:jobSalary.value,email:user.email,whatsapp:fullWhatsApp,price:'10',type:'job',status:'pending',date: new Date().toLocaleDateString()};
   let p=JSON.parse(localStorage.getItem("marketSalePending"))||[];p.push(data);localStorage.setItem("marketSalePending",JSON.stringify(p));
   document.getElementById("formSection").style.display="none";
   document.getElementById("pageTitle").innerText="Complete Payment";
