@@ -29,8 +29,7 @@
    .hero p{color:#888;font-size:10px;}
 
    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-   .card{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);border:1px solid rgba(0,255,136,0.15);border-radius:14px;overflow:hidden;position:relative;}
-   .card:hover{transform:translateY(-4px);border-color:rgba(0,255,136,0.4);}
+   .card{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);border:1px solid rgba(0,255,136,0.15);border-radius:14px;overflow:hidden;}
    .card-img{width:100%;height:140px;object-fit:cover;background:#111;}
    .card-body{padding:10px;}
    .card-title{font-size:13px;font-weight:700;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -38,15 +37,17 @@
    .card-desc{font-size:10px;color:#aaa;margin-bottom:8px;height:28px;overflow:hidden;}
    .card-footer{display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#666;margin-bottom:8px;}
    .badge{padding:3px 6px;background:rgba(0,204,255,0.1);color:#00ccff;border-radius:5px;font-size:9px;}
-   .contact-box{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);padding:8px;border-radius:8px;font-size:9px;}
+   .contact-box{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);padding:8px;border-radius:8px;font-size:9px;margin-bottom:8px;}
    .contact-box a{color:#00ff88;text-decoration:none;}
    .my-btns{display:flex;gap:5px;margin-top:8px;}
-   .btn-sm{flex:1;padding:5px;font-size:9px;border-radius:6px;border:none;cursor:pointer;font-weight:700;}
+   .btn-sm{flex:1;padding:6px;font-size:9px;border-radius:6px;border:none;cursor:pointer;font-weight:700;}
    .btn-edit{background:rgba(0,204,255,0.2);color:#00ccff;}
    .btn-delete{background:rgba(255,68,68,0.2);color:#ff4444;}
    .card.job{border-color:rgba(0,204,255,0.15);}
    .card.job .card-price{color:#00ccff;}
    .empty{text-align:center;padding:40px 20px;color:#555;}
+   .msg{padding:12px;border-radius:10px;margin-bottom:15px;font-size:12px;text-align:center;display:none;font-weight:600;}
+   .msg.success{background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid rgba(0,255,136,0.3);}
     @media(min-width:769px){
      .user-email,.user-status{display:block;margin-right:8px;}
      .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;}
@@ -68,6 +69,8 @@
   </div>
 </header>
 
+<div class="msg success" id="msgBox"></div>
+
 <div class="tabs">
   <div class="tab active" id="productsTab" onclick="switchTab('products')">🛍️ PRODUCTS</div>
   <div class="tab" id="jobsTab" onclick="switchTab('jobs')">💼 JOBS</div>
@@ -75,15 +78,14 @@
 
 <div class="container">
   <div class="hero"><h2 id="heroTitle">Find Your Next Deal</h2><p id="heroDesc">Buy and sell in Port Harcourt</p></div>
-  <div class="grid" id="grid"><div class="empty"><h3>Loading...</h3></div></div>
+  <div class="grid" id="grid"></div>
 </div>
 
 <script>
 const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
 let currentTab = 'products';
-let loggedIn = localStorage.getItem("marketSaleLoggedIn");
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-if(loggedIn!== "true" ||!user){ location.href = "login.html"; }
+if(localStorage.getItem("marketSaleLoggedIn")!== "true" ||!user){ location.href = "login.html"; }
 
 document.getElementById("userEmail").innerText = user.email;
 let accessUntil = user.accessUntil? new Date(user.accessUntil) : null;
@@ -93,7 +95,8 @@ if(accessUntil && accessUntil > new Date()){
   accessSpan.innerText = `${daysLeft} days left`; accessSpan.style.color = "#00ff88";
 } else { accessSpan.innerText = "NO ACCESS"; accessSpan.style.color = "#ff4444"; }
 if(user.email.toLowerCase() === ADMIN_EMAIL){ document.getElementById("adminBtn").style.display = "block"; }
-function logout(){ localStorage.removeItem("marketSaleLoggedIn"); localStorage.removeItem("marketSaleUser"); location.href = "login.html"; }
+function logout(){ localStorage.clear(); location.href = "login.html"; }
+function showMsg(text){ let box=document.getElementById('msgBox'); box.innerText=text; box.style.display='block'; setTimeout(()=>box.style.display='none',3000); }
 
 function switchTab(tab){
   currentTab = tab;
@@ -101,13 +104,11 @@ function switchTab(tab){
   if(tab === 'products'){
     document.getElementById('productsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Deal';
-    document.getElementById('heroDesc').innerText = 'Buy and sell in Port Harcourt';
     document.getElementById('postBtn').innerText = '+SELL';
     document.getElementById('postBtn').onclick = () => location.href='post.html';
   } else {
     document.getElementById('jobsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Job';
-    document.getElementById('heroDesc').innerText = 'Work opportunities in Port Harcourt';
     document.getElementById('postBtn').innerText = '+JOB';
     document.getElementById('postBtn').onclick = () => location.href='job.html';
   }
@@ -125,6 +126,7 @@ function deleteItem(id, type){
     jobs = jobs.filter(j => j.id !== id);
     localStorage.setItem("marketSaleJobs", JSON.stringify(jobs));
   }
+  showMsg("✅ Deleted");
   loadData();
 }
 
@@ -139,9 +141,9 @@ function loadData(){
   if(currentTab === 'products'){
     let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
     let approved = products.filter(p => p.approved);
-    if(approved.length === 0){ grid.innerHTML = `<div class="empty"><h3>No products yet</h3><p>Be the first to sell!</p></div>`; return; }
+    if(approved.length === 0){ grid.innerHTML = `<div class="empty"><h3>No products yet</h3></div>`; return; }
     grid.innerHTML = approved.reverse().map(p => {
-      let isMine = p.seller === user.email;
+      let isMine = p.seller === user.email; // ONLY OWNER
       return `
       <div class="card">
         <img src="${p.image || 'https://via.placeholder.com/400x300/111/00ff88?text=No+Image'}" class="card-img">
@@ -149,29 +151,29 @@ function loadData(){
           <div class="card-title">${p.title}</div>
           <div class="card-price">₦${Number(p.price).toLocaleString()}</div>
           <div class="card-desc">${p.description}</div>
-          <div class="card-footer"><span>${p.location || 'PH'}</span><span class="badge">${p.category || 'Gen'}</span></div>
+          <div class="card-footer"><span>${p.location}</span><span class="badge">${p.category}</span></div>
           <div class="contact-box">
-            <b>Contact:</b> ${p.seller}<br>
-            <b>WhatsApp:</b> <a href="https://wa.me/${p.whatsapp || ''}" target="_blank">${p.whatsapp || 'Not provided'}</a>
+            <b>Email:</b> ${p.seller}<br>
+            <b>WhatsApp:</b> <a href="https://wa.me/${p.whatsapp}" target="_blank">${p.whatsapp}</a>
           </div>
           ${isMine ? `<div class="my-btns"><button class="btn-sm btn-edit" onclick="editItem(${p.id},'product')">EDIT</button><button class="btn-sm btn-delete" onclick="deleteItem(${p.id},'product')">DELETE</button></div>` : ''}
         </div>
       </div>`}).join('');
   } else {
     let jobs = JSON.parse(localStorage.getItem("marketSaleJobs")) || [];
-    if(jobs.length === 0){ grid.innerHTML = `<div class="empty"><h3>No jobs yet</h3><p>Be the first to post a job!</p></div>`; return; }
+    if(jobs.length === 0){ grid.innerHTML = `<div class="empty"><h3>No jobs yet</h3></div>`; return; }
     grid.innerHTML = jobs.reverse().map(j => {
-      let isMine = j.seller === user.email;
+      let isMine = j.seller === user.email; // ONLY OWNER
       return `
       <div class="card job">
         <div class="card-body">
           <div class="card-title">${j.title}</div>
           <div class="card-price">${j.salary || 'Negotiable'}</div>
           <div class="card-desc">${j.description}</div>
-          <div class="card-footer"><span>${j.location || 'PH'}</span><span class="badge">${j.type || 'Full Time'}</span></div>
+          <div class="card-footer"><span>${j.location}</span><span class="badge">${j.type}</span></div>
           <div class="contact-box">
-            <b>Contact:</b> ${j.seller}<br>
-            <b>WhatsApp:</b> <a href="https://wa.me/${j.whatsapp || ''}" target="_blank">${j.whatsapp || 'Not provided'}</a>
+            <b>Email:</b> ${j.seller}<br>
+            <b>WhatsApp:</b> <a href="https://wa.me/${j.whatsapp}" target="_blank">${j.whatsapp}</a>
           </div>
           ${isMine ? `<div class="my-btns"><button class="btn-sm btn-edit" onclick="editItem(${j.id},'job')">EDIT</button><button class="btn-sm btn-delete" onclick="deleteItem(${j.id},'job')">DELETE</button></div>` : ''}
         </div>
