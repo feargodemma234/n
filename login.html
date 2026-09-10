@@ -8,7 +8,7 @@
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0f0f0f;color:white;font-family:Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
    .box{background:#151515;padding:25px;border-radius:15px;width:100%;max-width:350px;border:1px solid #333;}
-    h1{color:#00ff88;text-align:center;margin-bottom:20px;}
+    h1{color:#00ff88;text-align:center;margin-bottom:20px;font-size:18px;}
     input{width:100%;padding:12px;background:#222;border:1px solid #333;border-radius:8px;color:white;margin-bottom:12px;font-size:14px;}
    .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;cursor:pointer;font-size:14px;}
    .link{text-align:center;margin-top:12px;font-size:12px;color:#aaa;}
@@ -18,19 +18,19 @@
 <body>
 <div class="box">
   <h1>Login</h1>
-  <input id="email" placeholder="Email">
-  <input id="pass" type="password" placeholder="Password">
+  <input id="email" type="email" placeholder="Email">
+  <input id="phrase" placeholder="3 Word Secret Phrase">
   <button class="btn" onclick="login()">Login</button>
-  <div class="link">No account? <a href="signup.html">Register</a></div>
+  <div class="link">No account? <a href="signup.html">Sign Up</a></div>
 </div>
 <script>
 function login(){
   let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
-  let u = users.find(x => x.email == email.value && x.pass == pass.value);
-  if(!u) return alert("Wrong email or password");
+  let u = users.find(x => x.email == email.value && x.phrase == phrase.value.toLowerCase());
+  if(!u) return alert("Wrong email or phrase");
   localStorage.setItem("marketSaleLoggedIn", "true");
   localStorage.setItem("marketSaleUser", JSON.stringify(u));
-  location.href = "index.html"
+  location.href = "post.html"
 }
 </script>
 </body>
