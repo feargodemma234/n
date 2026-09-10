@@ -7,28 +7,26 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;}
- .container{max-width:500px;margin:0 auto;}
+    .container{max-width:500px;margin:0 auto;}
     h1{color:#ffaa00;text-align:center;margin-bottom:15px;font-size:18px;}
- .form-box{background:#151515;padding:15px;border-radius:12px;border:1px solid #333;}
- .form-group{margin-bottom:12px;}
+    .form-box{background:#151515;padding:15px;border-radius:12px;border:1px solid #333;}
+    .form-group{margin-bottom:12px;}
     label{display:block;margin-bottom:5px;color:#aaa;font-size:12px;}
     input,textarea{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:13px;}
     textarea{min-height:70px;}
- .btn{background:#ffaa00;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;}
- .phone-group{display:flex;gap:8px;}
- .country-code{width:90px;background:#222;border:1px solid #333;border-radius:8px;color:white;padding:10px;text-align:center;}
-
- .payment-box{display:none;text-align:center;}
- .warning{background:#2a2000;color:#ffaa00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;}
- .qr-box{background:white;padding:15px;border-radius:10px;display:inline-block;margin:15px 0;}
- .wallet{background:#1a1a1a;padding:12px;border-radius:8px;margin:15px 0;}
- .id-box{background:#151515;border:1px solid #ffaa00;padding:12px;border-radius:8px;margin:15px 0;color:#ffaa00;font-weight:bold;}
+    .btn{background:#ffaa00;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;}
+    .phone-group{display:flex;gap:8px;}
+    .country-code{width:90px;background:#222;border:1px solid #333;border-radius:8px;color:white;padding:10px;text-align:center;}
+    .payment-box{display:none;text-align:center;}
+    .warning{background:#2a2000;color:#ffaa00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;}
+    .qr-box{background:white;padding:15px;border-radius:10px;display:inline-block;margin:15px 0;}
+    .wallet{background:#1a1a1a;padding:12px;border-radius:8px;margin:15px 0;}
+    .id-box{background:#151515;border:1px solid #ffaa00;padding:12px;border-radius:8px;margin:15px 0;color:#ffaa00;font-weight:bold;}
   </style>
 </head>
 <body>
 <div class="container">
   <h1 id="pageTitle">Post Job - $10/Month</h1>
-
   <div class="form-box" id="formSection">
     <form id="jobForm">
       <div class="form-group"><label>Job Title *</label><input id="jobTitle" required></div>
@@ -56,11 +54,10 @@
       <div style="color:#ffaa00;font-family:monospace;font-size:12px;">TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T</div>
     </div>
     <button class="btn" onclick="navigator.clipboard.writeText('TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T')">📋 Copy Address</button>
-    <div style="font-size:11px;color:#aaa;margin:10px 0;">After payment, send proof + Job ID to WhatsApp: <b>+2348031234567</b></div>
+    <div style="font-size:11px;color:#aaa;margin:10px 0;">Once payment is made send proof to <b>feargodemma56@gmail.com</b> with your ID<br>Your job will be approved in 24 hrs</div>
     <button class="btn" style="background:#25D366;" onclick="location.href='index.html'">Done</button>
   </div>
 </div>
-
 <script>
 if(localStorage.getItem("marketSaleLoggedIn")!== "true")location.href="login.html";
 let currentJobId='';
@@ -68,24 +65,8 @@ jobForm.onsubmit=e=>{
   e.preventDefault();
   currentJobId = 'JOB-' + Date.now();
   let fullWhatsApp = countryCode.value + jobWhatsapp.value.replace(/\s/g,'');
-
-  let data={
-    id:currentJobId,
-    title:jobTitle.value,
-    desc:jobDesc.value,
-    company:jobCompany.value,
-    salary:jobSalary.value,
-    email:jobEmail.value,
-    whatsapp:fullWhatsApp,
-    price:'10',
-    type:'job',
-    status:'pending'
-  };
-
-  let p=JSON.parse(localStorage.getItem("marketSalePending"))||[];
-  p.push(data);
-  localStorage.setItem("marketSalePending",JSON.stringify(p));
-
+  let data={id:currentJobId,title:jobTitle.value,desc:jobDesc.value,company:jobCompany.value,salary:jobSalary.value,email:jobEmail.value,whatsapp:fullWhatsApp,price:'10',type:'job',status:'pending'};
+  let p=JSON.parse(localStorage.getItem("marketSalePending"))||[];p.push(data);localStorage.setItem("marketSalePending",JSON.stringify(p));
   document.getElementById("formSection").style.display="none";
   document.getElementById("pageTitle").innerText="Pay $10";
   document.getElementById("paymentSection").style.display="block";
