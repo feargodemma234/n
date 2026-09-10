@@ -7,24 +7,24 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0f0f0f;color:white;font-family:Arial;padding:15px;}
-   .container{max-width:500px;margin:0 auto;}
+    .container{max-width:500px;margin:0 auto;}
     h1{color:#00ff88;text-align:center;margin-bottom:15px;font-size:18px;}
-   .form-box{background:#151515;padding:15px;border-radius:12px;border:1px solid #333;}
-   .form-group{margin-bottom:12px;}
+    .form-box{background:#151515;padding:15px;border-radius:12px;border:1px solid #333;}
+    .form-group{margin-bottom:12px;}
     label{display:block;margin-bottom:5px;color:#aaa;font-size:12px;}
-    input,textarea,select{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:13px;}
+    input,textarea{width:100%;padding:10px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:13px;}
     textarea{min-height:70px;}
-   .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;}
-   .image-upload{border:2px dashed #333;border-radius:10px;padding:15px;text-align:center;cursor:pointer;background:#1a1a1a;font-size:12px;}
-   .image-preview{width:100%;max-height:150px;object-fit:cover;border-radius:8px;margin-top:8px;display:none;}
-   .phone-group{display:flex;gap:8px;}
-   .country-code{width:90px;background:#222;border:1px solid #333;border-radius:8px;color:white;padding:10px;text-align:center;}
-   .payment-box{display:none;}
-   .warning{background:#2a1f00;color:#ffaa00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;}
-   .qr-box{background:white;padding:15px;border-radius:10px;text-align:center;margin:15px 0;}
-   .wallet{background:#1a1a1a;padding:12px;border-radius:8px;margin:15px 0;text-align:center;}
-   .id-box{background:#151515;border:1px solid #00ff88;padding:12px;border-radius:8px;margin:15px 0;color:#00ff88;font-weight:bold;text-align:center;}
-   .note{font-size:11px;color:#aaa;margin:10px 0;text-align:center;}
+    .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;}
+    .image-upload{border:2px dashed #333;border-radius:10px;padding:15px;text-align:center;cursor:pointer;background:#1a1a1a;font-size:12px;}
+    .image-preview{width:100%;max-height:150px;object-fit:cover;border-radius:8px;margin-top:8px;display:none;}
+    .phone-group{display:flex;gap:8px;}
+    .country-code{width:90px;background:#222;border:1px solid #333;border-radius:8px;color:white;padding:10px;text-align:center;}
+    .payment-box{display:none;}
+    .warning{background:#2a1f00;color:#ffaa00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;}
+    .qr-box{background:white;padding:15px;border-radius:10px;text-align:center;margin:15px 0;}
+    .wallet{background:#1a1a1a;padding:12px;border-radius:8px;margin:15px 0;text-align:center;}
+    .id-box{background:#151515;border:1px solid #00ff88;padding:12px;border-radius:8px;margin:15px 0;color:#00ff88;font-weight:bold;text-align:center;}
+    .note{font-size:11px;color:#aaa;margin:10px 0;text-align:center;}
   </style>
 </head>
 <body>
@@ -42,20 +42,16 @@
       </div>
       <div class="form-group"><label>Product Name *</label><input id="productName" placeholder="iPhone 14 Pro" required></div>
       <div class="form-group"><label>Description *</label><textarea id="productDesc" placeholder="Brand new, 256GB, 1 year warranty" required></textarea></div>
+      
       <div class="form-group">
         <label>Country / Region *</label>
-        <select id="productCountry" required>
-          <option value="">Select Country</option>
-          <option value="Nigeria">🇳🇬 Nigeria</option>
-          <option value="Ghana">🇬🇭 Ghana</option>
-          <option value="Kenya">🇰🇪 Kenya</option>
-          <option value="South Africa">🇿🇦 South Africa</option>
-          <option value="USA">🇺🇸 USA</option>
-          <option value="UK">🇬🇧 UK</option>
-          <option value="Canada">🇨🇦 Canada</option>
-          <option value="Other">🌍 Other</option>
-        </select>
+        <input id="productCountry" placeholder="🔍 Type country... e.g Nigeria, USA, UK" list="countryList" required>
+        <datalist id="countryList">
+          <option value="Nigeria"><option value="Ghana"><option value="Kenya"><option value="South Africa">
+          <option value="USA"><option value="UK"><option value="Canada"><option value="Other">
+        </datalist>
       </div>
+
       <div class="form-group"><label>Email</label><input type="email" id="productEmail" placeholder="your@email.com"></div>
       <div class="form-group">
         <label>WhatsApp *</label>
@@ -91,7 +87,7 @@ postForm.onsubmit=e=>{
   if(!imgData)return alert("Upload image");
   currentProductId = 'MS-' + Date.now();
   let fullWhatsApp = countryCode.value + productWhatsapp.value.replace(/\s/g,'');
-  let data={id:currentProductId,title:productName.value,desc:productDesc.value,country:productCountry.value,email:productEmail.value,whatsapp:fullWhatsApp,price:productPrice.value,image:imgData,type:'product',status: 'pending',date: new Date().toLocaleDateString()};
+  let data={id:currentProductId,title:productName.value,desc:productDesc.value,country:productCountry.value,email:productEmail.value,whatsapp:fullWhatsApp,price:productPrice.value,image:imgData,type:'product',status:'pending',date: new Date().toLocaleDateString()};
   let p=JSON.parse(localStorage.getItem("marketSalePending"))||[];p.push(data);localStorage.setItem("marketSalePending",JSON.stringify(p));
   document.getElementById("formSection").style.display="none";
   document.getElementById("pageTitle").innerText="Complete Payment";
