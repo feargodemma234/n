@@ -9,23 +9,37 @@
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
     body{background:#05050a;color:white;padding:20px;background-image: radial-gradient(circle at 20% 50%, rgba(255,170,0,0.08) 0%, transparent 50%);}
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px;}
-    .logo{display:flex;align-items:center;gap:10px;}
-    .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #ffaa00;}
-    .logo h1{background:linear-gradient(90deg,#ffaa00,#ff6600);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
-    .btn-back{padding:10px 16px;background:rgba(50,50,50,0.8);color:white;border:1px solid #444;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;}
+   .logo{display:flex;align-items:center;gap:10px;}
+   .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #ffaa00;}
+   .logo h1{background:linear-gradient(90deg,#ffaa00,#ff6600);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
+   .btn-back{padding:10px 16px;background:rgba(50,50,50,0.8);color:white;border:1px solid #444;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;}
     
-    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:25px;}
-    .stat-box{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);padding:20px;border-radius:15px;border:1px solid rgba(255,170,0,0.2);}
-    .stat-box h3{font-size:12px;color:#aaa;margin-bottom:8px;}
-    .stat-box p{font-size:24px;font-weight:800;color:#ffaa00;}
+   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:25px;}
+   .stat-box{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);padding:20px;border-radius:15px;border:1px solid rgba(255,170,0,0.2);}
+   .stat-box h3{font-size:12px;color:#aaa;margin-bottom:8px;}
+   .stat-box p{font-size:24px;font-weight:800;color:#ffaa00;}
 
-    .section{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);padding:20px;border-radius:15px;border:1px solid rgba(255,170,0,0.2);margin-bottom:20px;}
-    .section h2{font-size:16px;margin-bottom:15px;color:#ffaa00;}
-    .item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(30,30,30,0.5);border-radius:10px;margin-bottom:10px;}
-    .item-info{font-size:12px;}
-    .item-info b{color:#00ff88;}
-    .btn-del{padding:6px 10px;background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;font-size:10px;cursor:pointer;}
-    .empty{color:#555;text-align:center;padding:20px;}
+   .section{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);padding:20px;border-radius:15px;border:1px solid rgba(255,170,0,0.2);margin-bottom:20px;}
+   .section h2{font-size:16px;margin-bottom:15px;color:#ffaa00;display:flex;justify-content:space-between;align-items:center;}
+    
+   .bulk-bar{display:flex;gap:8px;margin-bottom:12px;}
+   .btn-bulk{padding:8px 12px;background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid rgba(0,255,136,0.3);border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;}
+   .btn-bulk.red{background:rgba(255,68,68,0.1);color:#ff4444;border-color:rgba(255,68,68,0.3);}
+
+   .item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(30,30,30,0.5);border-radius:10px;margin-bottom:10px;gap:10px;}
+   .item-left{display:flex;align-items:center;gap:10px;flex:1;}
+   .item input[type=checkbox]{width:18px;height:18px;accent-color:#ffaa00;cursor:pointer;}
+   .item-info{font-size:12px;}
+   .item-info b{color:#00ff88;}
+   .status{font-size:9px;padding:3px 6px;border-radius:5px;font-weight:700;}
+   .status.pending{background:rgba(255,170,0,0.2);color:#ffaa00;}
+   .status.approved{background:rgba(0,255,136,0.2);color:#00ff88;}
+    
+   .btn-group{display:flex;gap:6px;}
+   .btn-sm{padding:6px 10px;border-radius:8px;font-size:10px;cursor:pointer;font-weight:700;border:none;}
+   .btn-approve{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;}
+   .btn-del{padding:6px 10px;background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;font-size:10px;cursor:pointer;}
+   .empty{color:#555;text-align:center;padding:20px;}
     @media(min-width:769px){.stats{grid-template-columns:repeat(4,1fr);}}
   </style>
 </head>
@@ -41,7 +55,8 @@
 
 <div class="stats">
   <div class="stat-box"><h3>TOTAL USERS</h3><p id="totalUsers">0</p></div>
-  <div class="stat-box"><h3>TOTAL ITEMS</h3><p id="totalItems">0</p></div>
+  <div class="stat-box"><h3>LIVE ITEMS</h3><p id="totalItems">0</p></div>
+  <div class="stat-box"><h3>PENDING</h3><p id="totalPending">0</p></div>
 </div>
 
 <div class="section">
@@ -50,7 +65,19 @@
 </div>
 
 <div class="section">
-  <h2>ALL PRODUCTS</h2>
+  <h2>
+    PENDING APPROVAL
+    <div class="bulk-bar">
+      <button class="btn-bulk" onclick="selectAll(true)">SELECT ALL</button>
+      <button class="btn-bulk" onclick="bulkApprove()">APPROVE</button>
+      <button class="btn-bulk red" onclick="bulkDelete()">DELETE</button>
+    </div>
+  </h2>
+  <div id="pendingList"></div>
+</div>
+
+<div class="section">
+  <h2>LIVE PRODUCTS</h2>
   <div id="productsList"></div>
 </div>
 
@@ -58,8 +85,7 @@
 const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
 
-// BLOCK NON-ADMIN
-if(!user || user.email.toLowerCase() !== ADMIN_EMAIL){
+if(!user || user.email.toLowerCase()!== ADMIN_EMAIL){
   alert("Access Denied");
   location.href = "index.html";
 }
@@ -68,8 +94,12 @@ function loadData(){
   let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
   let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
   
+  let pending = products.filter(p =>!p.approved);
+  let live = products.filter(p => p.approved);
+  
   document.getElementById("totalUsers").innerText = users.length;
-  document.getElementById("totalItems").innerText = products.length;
+  document.getElementById("totalItems").innerText = live.length;
+  document.getElementById("totalPending").innerText = pending.length;
 
   // USERS
   let usersDiv = document.getElementById("usersList");
@@ -81,31 +111,74 @@ function loadData(){
     </div>
   `).join('');
 
-  // PRODUCTS
-  let productsDiv = document.getElementById("productsList");
-  if(products.length === 0) productsDiv.innerHTML = `<div class="empty">No products yet</div>`;
-  else productsDiv.innerHTML = products.map(p => `
+  // PENDING
+  let pendingDiv = document.getElementById("pendingList");
+  if(pending.length === 0) pendingDiv.innerHTML = `<div class="empty">No pending items</div>`;
+  else pendingDiv.innerHTML = pending.map(p => `
     <div class="item">
-      <div class="item-info"><b>${p.title}</b> - ₦${Number(p.price).toLocaleString()}<br><span style="color:#888;font-size:10px;">by ${p.seller}</span></div>
-      <button class="btn-del" onclick="deleteProduct(${p.id})">DELETE</button>
+      <div class="item-left">
+        <input type="checkbox" class="pending-check" data-id="${p.id}">
+        <div class="item-info">
+          <b>${p.title}</b> - ₦${Number(p.price).toLocaleString()} <span class="status pending">PENDING</span><br>
+          <span style="color:#888;font-size:10px;">by ${p.seller}</span>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn-sm btn-approve" onclick="approveOne(${p.id})">APPROVE</button>
+        <button class="btn-del" onclick="deleteOne(${p.id})">DELETE</button>
+      </div>
     </div>
   `).join('');
+
+  // LIVE PRODUCTS
+  let productsDiv = document.getElementById("productsList");
+  if(live.length === 0) productsDiv.innerHTML = `<div class="empty">No live products</div>`;
+  else productsDiv.innerHTML = live.map(p => `
+    <div class="item">
+      <div class="item-info"><b>${p.title}</b> - ₦${Number(p.price).toLocaleString()} <span class="status approved">LIVE</span><br><span style="color:#888;font-size:10px;">by ${p.seller}</span></div>
+      <button class="btn-del" onclick="deleteOne(${p.id})">DELETE</button>
+    </div>
+  `).join('');
+}
+
+function selectAll(checked){
+  document.querySelectorAll('.pending-check').forEach(cb => cb.checked = checked);
+}
+
+function bulkApprove(){
+  let ids = [...document.querySelectorAll('.pending-check:checked')].map(cb => Number(cb.dataset.id));
+  if(ids.length === 0) return alert("Select items first");
+  approveItems(ids);
+}
+
+function bulkDelete(){
+  let ids = [...document.querySelectorAll('.pending-check:checked')].map(cb => Number(cb.dataset.id));
+  if(ids.length === 0) return alert("Select items first");
+  if(confirm(`Delete ${ids.length} items?`)) deleteItems(ids);
+}
+
+function approveOne(id){ approveItems([id]); }
+function deleteOne(id){ if(confirm("Delete this item?")) deleteItems([id]); }
+
+function approveItems(ids){
+  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
+  products = products.map(p => ids.includes(p.id)? {...p, approved: true} : p);
+  localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+  loadData();
+}
+
+function deleteItems(ids){
+  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
+  products = products.filter(p =>!ids.includes(p.id));
+  localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+  loadData();
 }
 
 function deleteUser(email){
   if(confirm("Delete this user?")){
     let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
-    users = users.filter(u => u.email !== email);
+    users = users.filter(u => u.email!== email);
     localStorage.setItem("marketSaleUsers", JSON.stringify(users));
-    loadData();
-  }
-}
-
-function deleteProduct(id){
-  if(confirm("Delete this product?")){
-    let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-    products = products.filter(p => p.id !== id);
-    localStorage.setItem("marketSaleProducts", JSON.stringify(products));
     loadData();
   }
 }
