@@ -17,10 +17,11 @@
     input{width:100%;padding:12px;background:#222;border:1px solid #333;border-radius:8px;color:white;font-size:14px;}
     input:focus{outline:none;border-color:#00ff88;}
     .btn{background:#00ff88;color:#000;padding:12px;border-radius:8px;border:none;font-weight:bold;width:100%;font-size:14px;cursor:pointer;margin-top:10px;}
+    .btn:hover{background:#00cc6a;}
     .link{text-align:center;margin-top:15px;font-size:12px;color:#aaa;}
     .link a{color:#00ff88;text-decoration:none;font-weight:bold;}
-    .error{background:#2a0000;color:#ff4444;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;}
-    .success{background:#002a00;color:#00ff88;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;}
+    .error{background:#2a0000;color:#ff4444;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;border:1px solid #ff4444;}
+    .success{background:#002a00;color:#00ff88;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;text-align:center;display:none;border:1px solid #00ff88;}
   </style>
 </head>
 <body>
@@ -58,6 +59,12 @@ signupForm.onsubmit = e => {
   
   let emailVal = email.value.trim().toLowerCase();
   let passVal = password.value;
+  
+  if(passVal.length < 6){
+    errorBox.style.display = "block";
+    errorBox.innerText = "❌ Password must be at least 6 characters";
+    return;
+  }
   
   let users = JSON.parse(localStorage.getItem("marketSaleUsers")) || [];
   
