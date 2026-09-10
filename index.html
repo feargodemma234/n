@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Market Sale</title>
+  <title>Marketplace</title>
   <link rel="icon" href="logo.png">
   <style>
     * {margin:0; padding:0; box-sizing:border-box;}
     body {background:#0f0f0f; color:white; font-family:Arial;}
    .navbar {background:#151515; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; position:sticky; top:0; z-index:100;}
    .logo {width:35px; height:35px; border-radius:10px;}
-   .welcome {color:#00ff88; font-weight:600; font-size:13px;}
-   .btn-logout {background:#ff4444; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:12px;}
+   .btn {background:#00ff88; color:#000; padding:8px 14px; border-radius:8px; border:none; font-weight:bold; font-size:12px; cursor:pointer; text-decoration:none;}
    .header {padding:15px; display:flex; justify-content:space-between; align-items:center;}
-   .btn-post {background:#00ff88; color:#000; padding:12px 18px; border-radius:10px; border:none; font-weight:bold; font-size:14px; cursor:pointer;}
+    h1{color:#00ff88; font-size:20px;}
    .container {padding:0 12px 30px; max-width:1200px; margin:0 auto;}
    .products {display:grid; grid-template-columns:repeat(auto-fill, minmax(155px, 1fr)); gap:10px;}
    .product-card {background:#151515; border-radius:10px; border:1px solid #333; overflow:hidden; cursor:pointer;}
@@ -30,41 +29,46 @@
 <body>
 <div class="navbar">
   <img src="logo.png" class="logo">
-  <div><span id="welcomeUser" class="welcome"></span> <button id="logoutBtn" class="btn-logout">Logout</button></div>
+  <div>
+    <a href="admin.html" class="btn" style="background:#444;color:white;margin-right:5px;">Admin</a>
+    <a href="post.html" class="btn">+ Post</a>
+  </div>
 </div>
 <div class="header">
-  <h1 style="color:#00ff88; font-size:20px;">Marketplace</h1>
-  <button id="postBtn" class="btn-post">+ Post $2</button>
+  <h1>Marketplace</h1>
 </div>
 <div class="container">
   <div id="productsGrid" class="products"></div>
-  <div id="emptyMsg" class="empty" style="display:none;"><h2>No products yet</h2></div>
+  <div id="emptyMsg" class="empty" style="display:none;">
+    <h2>No products yet</h2>
+    <p style="margin-top:10px;font-size:12px;">Be the first to post!</p>
+  </div>
 </div>
 <script>
-if(localStorage.getItem("marketSaleLoggedIn")!== "true"){ window.location.href = "login.html"; }
-document.addEventListener("DOMContentLoaded", function(){
-  let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-  if(user){ document.getElementById("welcomeUser").innerText = "Hi, " + user.name.toUpperCase(); }
-  loadProducts();
-  document.getElementById("logoutBtn").onclick = ()=>{ localStorage.clear(); window.location.href = "login.html"; }
-  document.getElementById("postBtn").onclick = ()=>{ window.location.href = "post-product.html"; }
-});
+loadProducts();
 function loadProducts(){
   let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
   let grid = document.getElementById("productsGrid");
-  if(products.length === 0){ document.getElementById("emptyMsg").style.display = "block"; return; }
+  if(products.length === 0){ 
+    document.getElementById("emptyMsg").style.display = "block"; 
+    return; 
+  }
   grid.innerHTML = products.map(p => `
-    <div class="product-card" onclick="viewProduct('${p.id}')">
+    <div class="product-card" onclick="contactSeller('${p.whatsapp}', '${p.title}')">
       ${p.image? `<img src="${p.image}" class="product-img">` : `<div class="product-img"></div>`}
       <div class="product-info">
         <div class="product-title">${p.title}</div>
         <div class="product-price">$${p.price}</div>
-        <div class="product-seller">${p.seller}</div>
+        <div class="product-seller">Seller: ${p.email}</div>
       </div>
     </div>
   `).join('');
 }
-function viewProduct(id){ localStorage.setItem("viewProductId", id); window.location.href = "product-detail.html"; }
+function contactSeller(wa, title){
+  let num = wa.replace(/[^0-9]/g,'');
+  if(!num.startsWith('234')) num = '234' + num;
+  window.open(`https://wa.me/${num}?text=Hi, I'm interested in ${title}`);
+}
 </script>
 </body>
 </html>
