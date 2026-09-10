@@ -12,10 +12,17 @@
     .logo {width:35px; height:35px; border-radius:10px;}
     .nav-btns {display:flex; gap:6px;}
     .btn {background:#00ff88; color:#000; padding:8px 12px; border-radius:8px; border:none; font-weight:bold; font-size:11px; cursor:pointer; text-decoration:none;}
-    .btn-admin {background:#444;color:white;display:none;} /* HIDDEN BY DEFAULT */
+    .btn-admin {background:#444;color:white;display:none;}
     .btn-job {background:#ffaa00;color:#000;}
-    .header {padding:15px;}
+    
+    .header {padding:15px; display:flex; justify-content:space-between; align-items:center;}
     h1{color:#00ff88; font-size:20px;}
+    
+    .user-profile{display:flex;align-items:center;gap:8px;background:#151515;padding:6px 10px;border-radius:20px;border:1px solid #333;}
+    .user-avatar{width:28px;height:28px;border-radius:50%;background:#00ff88;display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;font-size:12px;}
+    .user-email{font-size:10px;color:#aaa;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .logout-btn{background:#ff4444;color:white;padding:4px 8px;border-radius:15px;border:none;font-size:9px;cursor:pointer;}
+    
     .container {padding:0 12px 30px; max-width:1200px; margin:0 auto;}
     .products {display:grid; grid-template-columns:repeat(auto-fill, minmax(155px, 1fr)); gap:10px;}
     .product-card {background:#151515; border-radius:10px; border:1px solid #333; overflow:hidden; cursor:pointer;}
@@ -39,7 +46,16 @@
     <a href="post.html" class="btn">+ Post $2</a>
   </div>
 </div>
-<div class="header"><h1>Marketplace</h1></div>
+
+<div class="header">
+  <h1>Marketplace</h1>
+  <div class="user-profile" id="userProfile" style="display:none;">
+    <div class="user-avatar" id="userAvatar"></div>
+    <div class="user-email" id="userEmail"></div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
 <div class="container">
   <div id="productsGrid" class="products"></div>
   <div id="emptyMsg" class="empty" style="display:none;">
@@ -51,9 +67,27 @@
 const ADMIN_EMAIL = "feargodemma56@gmail.com";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
 
+// CHECK LOGIN
+if(!localStorage.getItem("marketSaleLoggedIn")){
+  location.href = "login.html";
+}
+
+// SHOW USER PROFILE
+if(user){
+  document.getElementById("userProfile").style.display = "flex";
+  document.getElementById("userEmail").innerText = user.email;
+  document.getElementById("userAvatar").innerText = user.email.charAt(0).toUpperCase();
+}
+
 // SHOW ADMIN BUTTON ONLY FOR YOU
 if(user && user.email === ADMIN_EMAIL){
   document.getElementById("adminBtn").style.display = "block";
+}
+
+function logout(){
+  localStorage.removeItem("marketSaleLoggedIn");
+  localStorage.removeItem("marketSaleUser");
+  location.href = "login.html";
 }
 
 loadProducts();
