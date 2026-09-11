@@ -76,12 +76,12 @@
 
 <header>
   <div class="logo"><img src="logo.png" alt="Logo"><h1>MarketSale</h1></div>
-  <div class="header-btns">
+  <div class="header-btns" id="headerBtns">
     <span class="user-email" id="userEmail"></span>
     <span class="user-status" id="accessStatus"></span>
     <button class="btn btn-admin" id="adminBtn" onclick="location.href='admin.html'">ADMIN</button>
     <button class="btn btn-green" onclick="location.href='mylistings.html'">MY LISTINGS</button>
-    <button class="btn btn-green" id="postBtn" onclick="location.href='post.html'">+SELL</button>
+    <button class="btn btn-green" id="postBtn">+SELL</button>
   </div>
 </header>
 
@@ -116,13 +116,13 @@ if(loggedIn !== "true" || !user){ location.href = "login.html"; }
 
 document.getElementById("userEmail").innerText = user.email;
 
-// ACCESS CHECK - NOW CHECKS GLOBAL PAID LIST
+// CHECK GLOBAL PAID LIST
 let paidUsers = JSON.parse(localStorage.getItem("marketSalePaidUsers")) || [];
 let paidUser = paidUsers.find(u => u.email === user.email);
 let accessUntil = paidUser ? new Date(paidUser.accessUntil) : null;
 
 let accessSpan = document.getElementById("accessStatus");
-let headerBtns = document.querySelector(".header-btns");
+let headerBtns = document.getElementById("headerBtns");
 let postBtn = document.getElementById("postBtn");
 
 if(accessUntil && accessUntil > new Date()){
@@ -130,18 +130,21 @@ if(accessUntil && accessUntil > new Date()){
   let daysLeft = Math.ceil((accessUntil - new Date()) / (1000*60*60*24));
   accessSpan.innerText = `${daysLeft} days left`;
   accessSpan.style.color = "#00ff88";
+  postBtn.innerText = '+SELL';
+  postBtn.onclick = () => location.href = 'post.html';
 } else {
   hasAccess = false;
   accessSpan.innerText = "NO ACCESS";
   accessSpan.style.color = "#ff4444";
-  
-  postBtn.onclick = () => location.href = 'payment.html';
   
   let payBtn = document.createElement("button");
   payBtn.className = "btn btn-green";
   payBtn.innerText = "PAY $10";
   payBtn.onclick = () => location.href = 'payment.html';
   headerBtns.insertBefore(payBtn, postBtn);
+  
+  postBtn.innerText = 'PAY $10';
+  postBtn.onclick = () => location.href = 'payment.html';
 }
 
 if(user.email.toLowerCase() === ADMIN_EMAIL){ 
@@ -169,13 +172,13 @@ function switchTab(tab){
     document.getElementById('productsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Deal';
     document.getElementById('heroDesc').innerText = 'Buy and sell in Port Harcourt';
-    postBtn.innerText = '+SELL';
+    postBtn.innerText = hasAccess ? '+SELL' : 'PAY $10';
     postBtn.onclick = hasAccess ? () => location.href = 'post.html' : () => location.href = 'payment.html';
   } else {
     document.getElementById('jobsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Job';
     document.getElementById('heroDesc').innerText = 'Work opportunities in Port Harcourt';
-    postBtn.innerText = '+JOB';
+    postBtn.innerText = hasAccess ? '+JOB' : 'PAY $10';
     postBtn.onclick = hasAccess ? () => location.href = 'job.html' : () => location.href = 'payment.html';
   }
   loadData();
