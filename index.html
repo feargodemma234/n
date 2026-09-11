@@ -6,7 +6,7 @@
   <title>MarketSale</title>
   <link rel="icon" href="logo.png">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial, sans-serif;}
     body{background:#05050a;color:white;background-image: radial-gradient(circle at 20% 50%, rgba(0,255,136,0.05) 0%, transparent 50%);min-height:100vh;}
     
     header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,255,136,0.1);padding:10px 12px;display:flex;align-items:center;justify-content:space-between;}
@@ -14,15 +14,16 @@
     .logo img{width:32px;height:32px;border-radius:8px;border:1.5px solid #00ff88;}
     .logo h1{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:15px;font-weight:800;}
     .header-btns{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-    .btn{padding:7px 10px;border-radius:8px;border:none;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;}
+    .btn{padding:7px 10px;border-radius:8px;border:none;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;transition:0.2s;}
+    .btn:hover{transform:translateY(-1px);}
     .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;}
     .btn-red{background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
     .btn-admin{background:linear-gradient(90deg,#ffaa00,#ff6600);color:#000;display:none;}
-    .user-email{display:none;font-size:9px;}
-    .user-status{display:none;font-size:9px;}
+    .user-email{display:none;font-size:9px;color:#888;}
+    .user-status{display:none;font-size:9px;font-weight:700;}
 
     .tabs{display:flex;gap:8px;margin:15px 12px;background:rgba(20,20,25,0.6);padding:6px;border-radius:12px;border:1px solid rgba(0,255,136,0.1);}
-    .tab{flex:1;padding:10px;text-align:center;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#888;}
+    .tab{flex:1;padding:10px;text-align:center;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#888;transition:0.3s;}
     .tab.active{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;}
 
     .logout-bar{display:flex;justify-content:center;padding:0 12px 15px;max-width:1400px;margin:0 auto;}
@@ -35,25 +36,28 @@
 
     .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
     .card{background:rgba(20,20,25,0.6);backdrop-filter:blur(15px);border:1px solid rgba(0,255,136,0.15);border-radius:14px;overflow:hidden;transition:0.3s;}
-    .card:hover{transform:translateY(-4px);border-color:rgba(0,255,136,0.4);}
+    .card:hover{transform:translateY(-4px);border-color:rgba(0,255,136,0.4);box-shadow:0 5px 20px rgba(0,255,136,0.1);}
     .card-img{width:100%;height:140px;object-fit:cover;background:#111;}
     .card-body{padding:10px;}
     .card-title{font-size:13px;font-weight:700;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .card-price{font-size:15px;font-weight:800;color:#00ff88;margin-bottom:6px;}
-    .card-desc{font-size:10px;color:#aaa;margin-bottom:8px;height:28px;overflow:hidden;}
+    .card-desc{font-size:10px;color:#aaa;margin-bottom:8px;height:28px;overflow:hidden;line-height:1.4;}
     .card-footer{display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#666;margin-bottom:8px;}
-    .badge{padding:3px 6px;background:rgba(0,204,255,0.1);color:#00ccff;border-radius:5px;font-size:9px;}
+    .badge{padding:3px 6px;background:rgba(0,204,255,0.1);color:#00ccff;border-radius:5px;font-size:9px;font-weight:600;}
     
-    .contact-box{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);padding:8px;border-radius:8px;font-size:9px;margin-bottom:8px;line-height:1.4;}
+    .contact-box{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);padding:8px;border-radius:8px;font-size:9px;margin-bottom:8px;line-height:1.5;}
     .contact-box a{color:#00ff88;text-decoration:none;}
     .my-btns{display:flex;gap:5px;margin-top:8px;}
-    .btn-sm{flex:1;padding:6px;font-size:9px;border-radius:6px;border:none;cursor:pointer;font-weight:700;}
-    .btn-edit{background:rgba(0,204,255,0.2);color:#00ccff;}
-    .btn-delete{background:rgba(255,68,68,0.2);color:#ff4444;}
+    .btn-sm{flex:1;padding:6px;font-size:9px;border-radius:6px;border:none;cursor:pointer;font-weight:700;transition:0.2s;}
+    .btn-sm:hover{transform:scale(1.05);}
+    .btn-edit{background:rgba(0,204,255,0.2);color:#00ccff;border:1px solid rgba(0,204,255,0.3);}
+    .btn-delete{background:rgba(255,68,68,0.2);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
     
     .card.job{border-color:rgba(0,204,255,0.15);}
+    .card.job:hover{border-color:rgba(0,204,255,0.4);}
     .card.job .card-price{color:#00ccff;}
     .empty{text-align:center;padding:40px 20px;color:#555;}
+    .empty h3{margin-bottom:8px;}
     .empty a{color:#00ff88;text-decoration:none;font-weight:700;}
     
     .msg{padding:12px;border-radius:10px;margin:12px;margin-bottom:0;font-size:12px;text-align:center;display:none;font-weight:600;}
@@ -104,6 +108,7 @@
 const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
 
 let currentTab = 'products';
+let hasAccess = false;
 
 let loggedIn = localStorage.getItem("marketSaleLoggedIn");
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
@@ -111,28 +116,32 @@ if(loggedIn !== "true" || !user){ location.href = "login.html"; }
 
 document.getElementById("userEmail").innerText = user.email;
 
-// ACCESS STATUS + REDIRECT TO PAYMENT PAGE
-let accessUntil = user.accessUntil ? new Date(user.accessUntil) : null;
+// ACCESS CHECK - NOW CHECKS GLOBAL PAID LIST
+let paidUsers = JSON.parse(localStorage.getItem("marketSalePaidUsers")) || [];
+let paidUser = paidUsers.find(u => u.email === user.email);
+let accessUntil = paidUser ? new Date(paidUser.accessUntil) : null;
+
 let accessSpan = document.getElementById("accessStatus");
 let headerBtns = document.querySelector(".header-btns");
+let postBtn = document.getElementById("postBtn");
 
 if(accessUntil && accessUntil > new Date()){
+  hasAccess = true;
   let daysLeft = Math.ceil((accessUntil - new Date()) / (1000*60*60*24));
   accessSpan.innerText = `${daysLeft} days left`;
   accessSpan.style.color = "#00ff88";
 } else {
+  hasAccess = false;
   accessSpan.innerText = "NO ACCESS";
   accessSpan.style.color = "#ff4444";
   
-  // Force to payment page when clicking post
-  document.getElementById("postBtn").onclick = () => location.href = 'payment.html';
+  postBtn.onclick = () => location.href = 'payment.html';
   
-  // Add $10 button in header that goes to payment page
   let payBtn = document.createElement("button");
   payBtn.className = "btn btn-green";
   payBtn.innerText = "PAY $10";
   payBtn.onclick = () => location.href = 'payment.html';
-  headerBtns.insertBefore(payBtn, document.getElementById("postBtn"));
+  headerBtns.insertBefore(payBtn, postBtn);
 }
 
 if(user.email.toLowerCase() === ADMIN_EMAIL){ 
@@ -160,24 +169,14 @@ function switchTab(tab){
     document.getElementById('productsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Deal';
     document.getElementById('heroDesc').innerText = 'Buy and sell in Port Harcourt';
-    let postBtn = document.getElementById('postBtn');
     postBtn.innerText = '+SELL';
-    if(!accessUntil || accessUntil < new Date()){
-      postBtn.onclick = () => location.href = 'payment.html';
-    } else {
-      postBtn.onclick = () => location.href = 'post.html';
-    }
+    postBtn.onclick = hasAccess ? () => location.href = 'post.html' : () => location.href = 'payment.html';
   } else {
     document.getElementById('jobsTab').classList.add('active');
     document.getElementById('heroTitle').innerText = 'Find Your Next Job';
     document.getElementById('heroDesc').innerText = 'Work opportunities in Port Harcourt';
-    let postBtn = document.getElementById('postBtn');
     postBtn.innerText = '+JOB';
-    if(!accessUntil || accessUntil < new Date()){
-      postBtn.onclick = () => location.href = 'payment.html';
-    } else {
-      postBtn.onclick = () => location.href = 'job.html';
-    }
+    postBtn.onclick = hasAccess ? () => location.href = 'job.html' : () => location.href = 'payment.html';
   }
   loadData();
 }
@@ -198,6 +197,7 @@ function deleteItem(id, type){
 }
 
 function editItem(id, type){
+  if(!hasAccess) return location.href = 'payment.html';
   localStorage.setItem("editId", id);
   localStorage.setItem("editType", type);
   location.href = type === 'product' ? 'post.html?edit=1' : 'job.html?edit=1';
@@ -210,21 +210,21 @@ function loadData(){
     let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
     let approved = products.filter(p => p.approved);
     if(approved.length === 0){
-      grid.innerHTML = `<div class="empty"><h3>No products yet</h3><p><a href="${accessUntil && accessUntil > new Date() ? 'post.html' : 'payment.html'}">Be the first to sell!</a></p></div>`;
+      grid.innerHTML = `<div class="empty"><h3>No products yet</h3><p><a href="${hasAccess ? 'post.html' : 'payment.html'}">Be the first to sell!</a></p></div>`;
       return;
     }
     grid.innerHTML = approved.reverse().map(p => {
       let isMine = p.seller === user.email;
       return `
       <div class="card">
-        <img src="${p.image || 'https://via.placeholder.com/400x300/111/00ff88?text=No+Image'}" class="card-img">
+        <img src="${p.image || 'https://via.placeholder.com/400x300/111/00ff88?text=No+Image'}" class="card-img" onerror="this.src='https://via.placeholder.com/400x300/111/00ff88?text=No+Image'">
         <div class="card-body">
           <div class="card-title">${p.title}</div>
           <div class="card-price">₦${Number(p.price).toLocaleString()}</div>
           <div class="card-desc">${p.description}</div>
           <div class="card-footer">
-            <span>${p.location || 'PH'}</span>
-            <span class="badge">${p.category || 'Gen'}</span>
+            <span>${p.location || 'Port Harcourt'}</span>
+            <span class="badge">${p.category || 'General'}</span>
           </div>
           <div class="contact-box">
             <b>Email:</b> ${p.seller}<br>
@@ -239,7 +239,7 @@ function loadData(){
   else {
     let jobs = JSON.parse(localStorage.getItem("marketSaleJobs")) || [];
     if(jobs.length === 0){
-      grid.innerHTML = `<div class="empty"><h3>No jobs yet</h3><p><a href="${accessUntil && accessUntil > new Date() ? 'job.html' : 'payment.html'}">Be the first to post a job!</a></p></div>`;
+      grid.innerHTML = `<div class="empty"><h3>No jobs yet</h3><p><a href="${hasAccess ? 'job.html' : 'payment.html'}">Be the first to post a job!</a></p></div>`;
       return;
     }
     grid.innerHTML = jobs.reverse().map(j => {
@@ -251,7 +251,7 @@ function loadData(){
           <div class="card-price">${j.salary || 'Negotiable'}</div>
           <div class="card-desc">${j.description}</div>
           <div class="card-footer">
-            <span>${j.location || 'PH'}</span>
+            <span>${j.location || 'Port Harcourt'}</span>
             <span class="badge">${j.type || 'Full Time'}</span>
           </div>
           <div class="contact-box">
