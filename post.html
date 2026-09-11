@@ -3,145 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Post Item - MarketSale</title>
+  <title>Post Product - MarketSale</title>
   <link rel="icon" href="logo.png">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;}
-    body{background:#05050a;color:white;background-image: radial-gradient(circle at 20% 50%, rgba(0,255,136,0.08) 0%, transparent 50%);min-height:100vh;padding:20px;}
-    header{max-width:800px;margin:0 auto 30px;display:flex;align-items:center;justify-content:space-between;}
-  .logo{display:flex;align-items:center;gap:10px;}
-  .logo img{width:40px;height:40px;border-radius:12px;border:2px solid #00ff88;}
-  .logo h1{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;font-weight:800;}
-  .btn-back{padding:10px 16px;background:rgba(50,50,50,0.8);color:white;border:1px solid #444;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;}
-
-  .post-box{max-width:800px;margin:0 auto;background:rgba(20,20,25,0.6);backdrop-filter:blur(20px);padding:30px;border-radius:20px;border:1px solid rgba(0,255,136,0.2);}
-  .post-box h2{text-align:center;margin-bottom:10px;font-size:24px;background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .note{color:#ffaa00;text-align:center;font-size:11px;margin-bottom:20px;}
-
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-  .form-group{margin-bottom:18px;}.full{grid-column:1 / -1;}
-    label{display:block;margin-bottom:8px;color:#aaa;font-size:12px;font-weight:600;}
-    input,textarea,select{width:100%;padding:14px;background:rgba(30,30,30,0.8);border:1px solid #333;border-radius:12px;color:white;font-size:14px;}
-    textarea{min-height:120px;resize:vertical;}
-
-  .upload-box{border:2px dashed rgba(0,255,136,0.3);border-radius:12px;padding:20px;text-align:center;cursor:pointer;}
-  .upload-box img{max-width:100%;max-height:200px;border-radius:10px;margin-top:10px;display:none;}
-
-  .btn{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;padding:16px;border-radius:12px;border:none;font-weight:800;width:100%;font-size:15px;cursor:pointer;margin-top:10px;}
-  
-  .msg{padding:12px;border-radius:10px;margin-bottom:18px;font-size:13px;text-align:center;display:none;font-weight:600;}
-  .success{background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid rgba(0,255,136,0.3);}
-  .error{background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
-  .blocked{text-align:center;padding:40px;}
-  .blocked h3{color:#ff4444;margin-bottom:10px;}
-  @media(max-width:768px){.form-grid{grid-template-columns:1fr;}}
+    body{background:#05050a;color:white;min-height:100vh;padding:20px;background-image: radial-gradient(circle at 20% 50%, rgba(0,255,136,0.05) 0%, transparent 50%);}
+   .container{max-width:700px;margin:0 auto;}
+   .back-btn{margin-bottom:15px;padding:10px 14px;background:rgba(0,204,255,0.15);color:#00ccff;border:1px solid rgba(0,204,255,0.3);border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;}
+   .box{background:rgba(20,20,25,0.7);backdrop-filter:blur(15px);border:1px solid rgba(0,255,136,0.2);padding:25px;border-radius:16px;}
+   .box h2{background:linear-gradient(90deg,#00ff88,#00ccff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px;margin-bottom:20px;text-align:center;font-weight:800;}
+   .no-access{text-align:center;padding:40px 20px;}
+   .no-access h3{color:#ff4444;font-size:18px;margin-bottom:10px;}
+   .no-access p{color:#aaa;font-size:12px;margin-bottom:20px;line-height:1.6;}
+    label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#00ff88;}
+    input,textarea,select{width:100%;padding:12px;background:#111;border:1px solid #333;border-radius:10px;color:white;margin-bottom:15px;font-size:12px;}
+    textarea{min-height:100px;resize:vertical;}
+   .btn{padding:14px;border-radius:10px;border:none;font-size:13px;font-weight:800;cursor:pointer;width:100%;}
+   .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;}
+   .btn-red{background:linear-gradient(90deg,#ff4444,#ff6600);color:#fff;}
   </style>
 </head>
 <body>
+<div class="container">
+  <button class="back-btn" onclick="location.href='index.html'">← BACK TO HOME</button>
 
-<header>
-  <div class="logo"><img src="logo.png" alt="Logo"><h1>MarketSale</h1></div>
-  <a href="index.html" class="btn-back">← BACK</a>
-</header>
+  <div class="box">
+    <h2 id="formTitle">POST A PRODUCT</h2>
 
-<div class="post-box">
-  <div class="msg success" id="successBox"></div>
-  <div class="msg error" id="errorBox"></div>
+    <!-- NO ACCESS SCREEN -->
+    <div id="accessBox" class="no-access" style="display:none;">
+      <h3>❌ NO POSTING ACCESS</h3>
+      <p>Your 30-day access has expired.<br>Please pay and contact admin to renew.</p>
+      <button class="btn btn-red" onclick="location.href='payment.html'">PAY $10 TO RENEW</button>
+    </div>
 
-  <div id="mainForm">
-    <h2 id="formTitle">List Your Item</h2>
-    <p class="note">⚠️ Your item will be reviewed before it goes live</p>
+    <!-- FORM -->
+    <div id="formBox" style="display:none;">
+      <label>Product Title *</label>
+      <input type="text" id="title" placeholder="iPhone 14 Pro Max">
 
-    <form id="postForm">
-      <div class="form-grid">
-        <div class="form-group">
-          <label>ITEM TITLE *</label>
-          <input type="text" id="title" placeholder="iPhone 13 Pro Max" required>
-        </div>
-        <div class="form-group">
-          <label>PRICE ₦ *</label>
-          <input type="number" id="price" placeholder="450000" required>
-        </div>
-        <div class="form-group">
-          <label>CATEGORY</label>
-          <select id="category"><option>Electronics</option><option>Fashion</option><option>Vehicles</option><option>Home</option><option>Phones</option><option>Others</option></select>
-        </div>
-        <div class="form-group">
-          <label>LOCATION</label>
-          <input type="text" id="location" placeholder="Port Harcourt, Rivers" value="Port Harcourt, Rivers">
-        </div>
-        <div class="form-group full">
-          <label>DESCRIPTION *</label>
-          <textarea id="description" placeholder="Describe your item..." required></textarea>
-        </div>
-        <div class="form-group full">
-          <label>ITEM PHOTO</label>
-          <div class="upload-box" onclick="document.getElementById('image').click()">
-            <span>📸 Click to upload image</span>
-            <img id="preview">
-          </div>
-          <input type="file" id="image" accept="image/*" style="display:none">
-        </div>
-      </div>
-      <button class="btn">SUBMIT FOR REVIEW</button>
-    </form>
-  </div>
+      <label>Price ₦ *</label>
+      <input type="number" id="price" placeholder="500000">
 
-  <div id="blockedBox" class="blocked" style="display:none;">
-    <h3>❌ NO POSTING ACCESS</h3>
-    <p>Your 30-day access has expired.<br>Please pay and contact admin to renew.</p>
+      <label>Category *</label>
+      <select id="category">
+        <option value="">Select Category</option>
+        <option>Phones</option><option>Laptops</option><option>Cars</option>
+        <option>Furniture</option><option>Clothes</option><option>Other</option>
+      </select>
+
+      <label>Description *</label>
+      <textarea id="description" placeholder="Describe your product..."></textarea>
+
+      <label>WhatsApp Number *</label>
+      <input type="text" id="whatsapp" placeholder="2348012345678">
+
+      <label>Location</label>
+      <input type="text" id="location" placeholder="Port Harcourt">
+
+      <label>Product Image</label>
+      <input type="file" id="image" accept="image/*">
+
+      <button class="btn btn-green" onclick="submitProduct()">SUBMIT FOR APPROVAL</button>
+    </div>
   </div>
 </div>
 
 <script>
-let user = JSON.parse(localStorage.getItem("marketSaleUser"));
-if(!user) location.href = "login.html";
+const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
 
-// CHECK SUBSCRIPTION - NO POPUP
-let accessUntil = user.accessUntil ? new Date(user.accessUntil) : null;
-if(!accessUntil || accessUntil < new Date()){
-  document.getElementById('mainForm').style.display = 'none';
-  document.getElementById('blockedBox').style.display = 'block';
+let loggedIn = localStorage.getItem("marketSaleLoggedIn");
+let user = JSON.parse(localStorage.getItem("marketSaleUser"));
+if(loggedIn!== "true" ||!user){ location.href = "login.html"; }
+
+// CHECK GLOBAL PAID LIST
+let paidUsers = JSON.parse(localStorage.getItem("marketSalePaidUsers")) || [];
+let paidUser = paidUsers.find(u => u.email === user.email);
+let accessUntil = paidUser? new Date(paidUser.accessUntil) : null;
+
+let accessBox = document.getElementById("accessBox");
+let formBox = document.getElementById("formBox");
+
+if(!accessUntil || accessUntil <= new Date()){
+  accessBox.style.display = 'block';
+  formBox.style.display = 'none';
 } else {
-  let daysLeft = Math.ceil((accessUntil - new Date()) / (1000*60*60*24));
-  document.getElementById('formTitle').innerText = `List Your Item - ${daysLeft} days left`;
+  accessBox.style.display = 'none';
+  formBox.style.display = 'block';
 }
 
-image.onchange = e => {
-  let file = e.target.files[0];
-  if(file){
-    let reader = new FileReader();
-    reader.onload = () => { preview.src = reader.result; preview.style.display = "block"; }
-    reader.readAsDataURL(file);
+let editId = localStorage.getItem("editId");
+let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
+
+if(editId){
+  document.getElementById("formTitle").innerText = "EDIT PRODUCT";
+  let p = products.find(x => x.id == editId);
+  if(p){
+    document.getElementById("title").value = p.title;
+    document.getElementById("price").value = p.price;
+    document.getElementById("category").value = p.category;
+    document.getElementById("description").value = p.description;
+    document.getElementById("whatsapp").value = p.whatsapp;
+    document.getElementById("location").value = p.location;
   }
 }
 
-function showMsg(type, text){
-  document.getElementById('successBox').style.display = 'none';
-  document.getElementById('errorBox').style.display = 'none';
-  document.getElementById(type+'Box').innerText = text;
-  document.getElementById(type+'Box').style.display = 'block';
-}
+function submitProduct(){
+  if(!accessUntil || accessUntil <= new Date()){
+    location.href = 'payment.html';
+    return;
+  }
 
-postForm.onsubmit = e => {
-  e.preventDefault();
-  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-  let newProduct = {
-    id: Date.now(),
-    title: title.value.trim(),
-    price: price.value,
-    category: category.value,
-    location: location.value.trim(),
-    description: description.value.trim(),
-    image: preview.src || '',
-    seller: user.email,
-    date: new Date().toLocaleDateString(),
-    approved: false
+  let title = document.getElementById("title").value.trim();
+  let price = document.getElementById("price").value;
+  let category = document.getElementById("category").value;
+  let description = document.getElementById("description").value.trim();
+  let whatsapp = document.getElementById("whatsapp").value.trim();
+  let location = document.getElementById("location").value.trim();
+  let image = document.getElementById("image").files[0];
+
+  if(!title ||!price ||!category ||!description ||!whatsapp) {
+    alert("❌ Fill all required fields");
+    return;
+  }
+
+  let reader = new FileReader();
+  reader.onload = function(e){
+    let imgData = image? e.target.result : null;
+
+    if(editId){
+      let p = products.find(x => x.id == editId);
+      p.title = title; p.price = price; p.category = category;
+      p.description = description; p.whatsapp = whatsapp; p.location = location;
+      if(imgData) p.image = imgData;
+      p.approved = false;
+      localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+      localStorage.removeItem("editId");
+      alert("✅ Product updated! Waiting for admin approval");
+    } else {
+      let newProduct = {
+        id: Date.now(), title, price, category, description, whatsapp, location,
+        image: imgData, seller: user.email, approved: false, date: new Date().toLocaleString()
+      };
+      products.push(newProduct);
+      localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+      alert("✅ Product submitted! Waiting for admin approval");
+    }
+    location.href = "index.html";
   };
-  products.push(newProduct);
-  localStorage.setItem("marketSaleProducts", JSON.stringify(products));
-  showMsg('success', "✅ Item submitted! Waiting for admin approval.");
-  setTimeout(() => location.href = "index.html", 2000);
+
+  if(image) reader.readAsDataURL(image);
+  else reader.onload();
 }
 </script>
 </body>
