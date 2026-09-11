@@ -27,6 +27,11 @@
     .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;margin-bottom:10px;}
     .btn-email{background:rgba(0,204,255,0.2);color:#00ccff;border:1px solid #00ccff;}
     .footer-note{font-size:10px;color:#666;margin-top:15px;text-align:center;}
+    
+    /* NEW MESSAGE BOX */
+    .msg{padding:12px;border-radius:8px;margin-bottom:12px;font-size:11px;font-weight:700;text-align:center;display:none;}
+    .msg.error{background:rgba(255,68,68,0.15);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
+    .msg.success{background:rgba(0,255,136,0.15);color:#00ff88;border:1px solid rgba(0,255,136,0.3);}
   </style>
 </head>
 <body>
@@ -40,6 +45,8 @@
       <p>⚠️ ONLY SEND USDT TRC20 ⚠️</p>
       <p>Other coins/networks will be LOST FOREVER</p>
     </div>
+
+    <div id="msgBox" class="msg"></div>
 
     <div class="qr-wrap">
       <img src="qr.png" alt="USDT Wallet QR">
@@ -73,18 +80,26 @@ const YOUR_USDT_WALLET = "TRzfCcrUmc212VLEYNYVRKtSuYQSnaiU6T";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
 if(!user) location.href = "login.html";
 
+function showMsg(text, type){
+  let box = document.getElementById('msgBox');
+  box.innerText = text;
+  box.className = 'msg ' + type;
+  box.style.display = 'block';
+  setTimeout(()=>box.style.display='none', 4000);
+}
+
 function copyWallet(){
   navigator.clipboard.writeText(YOUR_USDT_WALLET);
-  alert("✅ Wallet copied");
+  showMsg("✅ Wallet address copied", "success");
 }
 
 function submitTX(){
   let tx = document.getElementById("txHash").value.trim();
-  if(tx.length < 10) return alert("❌ Enter valid TX Hash");
+  if(tx.length < 10) return showMsg("❌ Enter valid TX Hash", "error");
 
   let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
   if(pending.find(p => p.email === user.email && p.status === "pending")){
-    return alert("❌ You already have a pending payment");
+    return showMsg("❌ You already have a pending payment", "error");
   }
   
   pending.push({
@@ -97,12 +112,12 @@ function submitTX(){
   });
   localStorage.setItem("pendingPayments", JSON.stringify(pending));
   emailProof(tx);
-  alert("✅ Proof submitted! Check your email app");
+  showMsg("✅ Proof submitted! Check your email app", "success");
 }
 
 function emailProof(tx){
   tx = tx || document.getElementById("txHash").value.trim();
-  if(!tx) return alert("❌ Enter TX Hash first");
+  if(!tx) return showMsg("❌ Enter TX Hash first", "error");
   let subject = `MarketSale Payment Proof - ${user.email}`;
   let body = `Hello Admin,%0D%0A%0D%0AI have paid $10 USDT for MarketSale access.%0D%0A%0D%0AEmail: ${user.email}%0D%0ATX Hash: ${tx}%0D%0AAmount: 10 USDT`;
   window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
