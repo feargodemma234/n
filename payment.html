@@ -27,8 +27,6 @@
     .btn-green{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;margin-bottom:10px;}
     .btn-email{background:rgba(0,204,255,0.2);color:#00ccff;border:1px solid #00ccff;}
     .footer-note{font-size:10px;color:#666;margin-top:15px;text-align:center;}
-    
-    /* NEW MESSAGE BOX */
     .msg{padding:12px;border-radius:8px;margin-bottom:12px;font-size:11px;font-weight:700;text-align:center;display:none;}
     .msg.error{background:rgba(255,68,68,0.15);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
     .msg.success{background:rgba(0,255,136,0.15);color:#00ff88;border:1px solid rgba(0,255,136,0.3);}
@@ -102,14 +100,7 @@ function submitTX(){
     return showMsg("❌ You already have a pending payment", "error");
   }
   
-  pending.push({
-    email: user.email,
-    tx: tx,
-    amount: 10,
-    currency: "USDT",
-    date: new Date().toLocaleString(),
-    status: "pending"
-  });
+  pending.push({email: user.email, tx: tx, amount: 10, currency: "USDT", date: new Date().toLocaleString(), status: "pending"});
   localStorage.setItem("pendingPayments", JSON.stringify(pending));
   emailProof(tx);
   showMsg("✅ Proof submitted! Check your email app", "success");
