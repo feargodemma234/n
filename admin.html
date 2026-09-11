@@ -26,6 +26,7 @@
     .btn-delete{background:rgba(255,68,68,0.2);color:#ff4444;border:1px solid rgba(255,68,68,0.3);}
     .empty{text-align:center;padding:40px;color:#555;}
     .empty h3{margin-bottom:8px;}
+    .loading{text-align:center;padding:40px;color:#00ff88;}
   </style>
 </head>
 <body>
@@ -34,91 +35,96 @@
   <h1>⚡ ADMIN PANEL</h1>
 
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('pending')">PENDING POSTS</div>
-    <div class="tab" onclick="switchTab('payments')">PENDING PAYMENTS</div>
-    <div class="tab" onclick="switchTab('users')">ACTIVE USERS</div>
+    <div class="tab active" onclick="switchTab('pending', this)">PENDING POSTS</div>
+    <div class="tab" onclick="switchTab('payments', this)">PENDING PAYMENTS</div>
+    <div class="tab" onclick="switchTab('users', this)">ACTIVE USERS</div>
   </div>
 
-  <div id="content"></div>
+  <div id="content"><div class="loading">Loading...</div></div>
 </div>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co' // <-- PASTE YOUR URL HERE
+const SUPABASE_KEY = 'YOUR-ANON-KEY' // <-- PASTE YOUR ANON KEY HERE
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
 const ADMIN_EMAIL = "marketsaleofficial@gmail.com";
 let user = JSON.parse(localStorage.getItem("marketSaleUser"));
 if(!user || user.email.toLowerCase() !== ADMIN_EMAIL) location.href = "index.html";
 
 let currentTab = 'pending';
 
-function switchTab(tab){
+function switchTab(tab, el){
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+  el.classList.add('active');
   loadData();
 }
 
-function approvePost(id){
-  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-  let p = products.find(x => x.id === id);
-  if(p) p.approved = true;
-  localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+async function approvePost(id){
+  const { error } = await supabase.from('products').update({approved: true}).eq('id', id);
+  if(error) return alert("Error: " + error.message);
   alert("✅ Post approved");
   loadData();
 }
 
-function deletePost(id){
+async function deletePost(id){
   if(!confirm("Delete this post?")) return;
-  let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-  products = products.filter(x => x.id !== id);
-  localStorage.setItem("marketSaleProducts", JSON.stringify(products));
+  const { error } = await supabase.from('products').delete().eq('id', id);
+  if(error) return alert("Error: " + error.message);
   alert("🗑️ Post deleted");
   loadData();
 }
 
-function grantAccess(email){
-  let paidUsers = JSON.parse(localStorage.getItem("marketSalePaidUsers")) || [];
-  paidUsers = paidUsers.filter(u => u.email !== email);
+async function grantAccess(email){
   let newDate = new Date();
   newDate.setDate(newDate.getDate() + 30);
-  paidUsers.push({email: email, accessUntil: newDate.toISOString(), grantedDate: new Date().toLocaleString()});
-  localStorage.setItem("marketSalePaidUsers", JSON.stringify(paidUsers));
   
-  let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
-  pending = pending.filter(p => p.email !== email);
-  localStorage.setItem("pendingPayments", JSON.stringify(pending));
+  // 1. Add to paid_users table
+  const { error: e1 } = await supabase.from('paid_users').upsert({
+    email: email, 
+    access_until: newDate.toISOString(),
+    granted_date: new Date().toLocaleString()
+  });
+  if(e1) return alert("Error: " + e1.message);
   
-  alert(`✅ Access granted to ${email} for 30 days\nTell them to refresh the page`);
+  // 2. Mark payment as approved
+  await supabase.from('payments').update({status: 'approved'}).eq('email', email);
+  
+  alert(`✅ Access granted to ${email} for 30 days`);
   loadData();
 }
 
-function rejectPayment(email){
+async function rejectPayment(id){
   if(!confirm("Reject this payment?")) return;
-  let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
-  pending = pending.filter(p => p.email !== email);
-  localStorage.setItem("pendingPayments", JSON.stringify(pending));
+  const { error } = await supabase.from('payments').update({status: 'rejected'}).eq('id', id);
+  if(error) return alert("Error: " + error.message);
   alert("❌ Payment rejected");
   loadData();
 }
 
-function revokeAccess(email){
+async function revokeAccess(email){
   if(!confirm(`Revoke access for ${email}?`)) return;
-  let paidUsers = JSON.parse(localStorage.getItem("marketSalePaidUsers")) || [];
-  paidUsers = paidUsers.filter(u => u.email !== email);
-  localStorage.setItem("marketSalePaidUsers", JSON.stringify(paidUsers));
+  const { error } = await supabase.from('paid_users').delete().eq('email', email);
+  if(error) return alert("Error: " + error.message);
   alert("❌ Access revoked");
   loadData();
 }
 
-function loadData(){
+async function loadData(){
   let content = document.getElementById("content");
+  content.innerHTML = `<div class="loading">Loading...</div>`;
   
   if(currentTab === 'pending'){
-    let products = JSON.parse(localStorage.getItem("marketSaleProducts")) || [];
-    let pending = products.filter(p => !p.approved);
-    if(pending.length === 0){
+    let { data: products, error } = await supabase.from('products').select('*').eq('approved', false).order('id', {ascending: false});
+    if(error) return content.innerHTML = `<div class="empty"><h3>Error loading</h3></div>`;
+    if(!products || products.length === 0){
       content.innerHTML = `<div class="empty"><h3>No pending posts</h3><p>All posts are approved</p></div>`;
       return;
     }
-    content.innerHTML = pending.map(p => `
+    content.innerHTML = products.map(p => `
       <div class="card">
         <h3>${p.title} - ₦${Number(p.price).toLocaleString()}</h3>
         <p><b>Seller:</b> ${p.seller}</p>
@@ -132,39 +138,41 @@ function loadData(){
   }
   
   if(currentTab === 'payments'){
-    let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
-    if(pending.length === 0){
+    let { data: payments, error } = await supabase.from('payments').select('*').eq('status', 'pending').order('id', {ascending: false});
+    if(error) return content.innerHTML = `<div class="empty"><h3>Error loading</h3></div>`;
+    if(!payments || payments.length === 0){
       content.innerHTML = `<div class="empty"><h3>No pending payments</h3><p>Waiting for proof submissions</p></div>`;
       return;
     }
-    content.innerHTML = pending.map(p => `
+    content.innerHTML = payments.map(p => `
       <div class="card">
         <h3>PAYMENT FROM: ${p.email}</h3>
         <p><b>Amount:</b> ${p.amount} ${p.currency}</p>
         <p><b>TX Hash:</b> ${p.tx}</p>
-        <p><b>Date:</b> ${p.date}</p>
+        <p><b>Date:</b> ${new Date(p.created_at).toLocaleString()}</p>
         <p><b>Status:</b> ${p.status}</p>
         <button class="btn btn-grant" onclick="grantAccess('${p.email}')">GRANT 30 DAYS</button>
-        <button class="btn btn-reject" onclick="rejectPayment('${p.email}')">REJECT</button>
+        <button class="btn btn-reject" onclick="rejectPayment(${p.id})">REJECT</button>
       </div>
     `).join('');
   }
 
   if(currentTab === 'users'){
-    let paidUsers = JSON.parse(localStorage.getItem("marketSalePaidUsers")) || [];
-    let active = paidUsers.filter(u => new Date(u.accessUntil) > new Date());
-    if(active.length === 0){
+    let { data: paidUsers, error } = await supabase.from('paid_users').select('*').order('access_until', {ascending: false});
+    if(error) return content.innerHTML = `<div class="empty"><h3>Error loading</h3></div>`;
+    let active = paidUsers.filter(u => new Date(u.access_until) > new Date());
+    if(!active || active.length === 0){
       content.innerHTML = `<div class="empty"><h3>No active users</h3><p>Grant access to see users here</p></div>`;
       return;
     }
     content.innerHTML = active.map(u => {
-      let days = Math.ceil((new Date(u.accessUntil) - new Date()) / (1000*60*60*24));
+      let days = Math.ceil((new Date(u.access_until) - new Date()) / (1000*60*60*24));
       return `
       <div class="card">
         <h3>${u.email}</h3>
-        <p><b>Access Expires:</b> ${new Date(u.accessUntil).toLocaleDateString()}</p>
+        <p><b>Access Expires:</b> ${new Date(u.access_until).toLocaleDateString()}</p>
         <p><b>Days Left:</b> ${days} days</p>
-        <p><b>Granted:</b> ${u.grantedDate || 'N/A'}</p>
+        <p><b>Granted:</b> ${u.granted_date || 'N/A'}</p>
         <button class="btn btn-delete" onclick="revokeAccess('${u.email}')">REVOKE ACCESS</button>
       </div>
       `;
