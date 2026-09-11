@@ -75,30 +75,18 @@ function deletePost(id){
 }
 
 function grantAccess(email){
-  // 1. Add to GLOBAL PAID USERS LIST - This makes it work on any phone
   let paidUsers = JSON.parse(localStorage.getItem("marketSalePaidUsers")) || [];
-  
-  // Remove old entry if exists to renew
   paidUsers = paidUsers.filter(u => u.email !== email);
-  
-  // Add new 30 day access
   let newDate = new Date();
   newDate.setDate(newDate.getDate() + 30);
-  
-  paidUsers.push({
-    email: email,
-    accessUntil: newDate.toISOString(),
-    grantedDate: new Date().toLocaleString()
-  });
-  
+  paidUsers.push({email: email, accessUntil: newDate.toISOString(), grantedDate: new Date().toLocaleString()});
   localStorage.setItem("marketSalePaidUsers", JSON.stringify(paidUsers));
   
-  // 2. Remove from pending payments
   let pending = JSON.parse(localStorage.getItem("pendingPayments")) || [];
   pending = pending.filter(p => p.email !== email);
   localStorage.setItem("pendingPayments", JSON.stringify(pending));
   
-  alert(`✅ Access granted to ${email} for 30 days\nWorks on any device now`);
+  alert(`✅ Access granted to ${email} for 30 days\nTell them to refresh the page`);
   loadData();
 }
 
